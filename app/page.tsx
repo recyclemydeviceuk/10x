@@ -79,8 +79,6 @@ const productJsonLd = {
     `${SITE_URL}/product-hero.jpg`,
     `${SITE_URL}/product-side.jpg`,
   ],
-  description:
-    'Zero-sugar, zero-calorie pocket-sized brain nourishment. Revitalizes focus and energy. Available on all major Indian quick commerce platforms.',
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: '4.8',

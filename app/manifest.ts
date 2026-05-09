@@ -47,17 +47,5 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
     categories: ['health', 'shopping'],
-    screenshots: [
-      {
-        src: '/screenshot-192.png',
-        sizes: '192x192',
-        form_factor: 'narrow',
-      },
-      {
-        src: '/screenshot-512.png',
-        sizes: '512x512',
-        form_factor: 'wide',
-      },
-    ],
   };
 }
