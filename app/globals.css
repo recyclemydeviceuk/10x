@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   10X — Design Tokens
+   Fonts: Helvetica → Nimbus Sans → PT Sans (web fallback)
+   ========================================================= */
+
+:root {
+  /* Surfaces */
+  --color-ink: #000204;          /* true ink */
+  --color-ink-900: #0A0C12;
+  --color-ink-800: #2E2E2E;      /* charcoal */
+  --color-charcoal: #2E2E2E;
+  --color-paper: #FFFFFF;
+  --color-paper-50: #FAFAFA;
+  --color-paper-100: #F4F5F7;
+  --color-paper-200: #E5E7EB;
+
+  /* Brand secondary — electric royal blue */
+  --color-brand-blue: #06189E;
+  --color-brand-blue-dark: #040F66;
+  --color-brand-blue-light: #1E34C0;
+  --color-brand-blue-soft: #E5E9F8;
+
+  /* Accent — brand lime */
+  --color-accent: #CDE633;
+  --color-accent-hover: #B8D12A;
+  --color-accent-pressed: #A3BC20;
+  --color-accent-glow: #E0F55A;
+  --color-accent-ink: #000204;
+
+  /* Pastel category cards */
+  --color-pastel-lime: #E8F5C0;
+  --color-pastel-lavender: #E4DDF2;
+  --color-pastel-blush: #F4DDE3;
+
+  /* Text */
+  --color-fg: #000204;
+  --color-fg-muted: #6B7280;
+  --color-fg-subtle: #9CA3AF;
+  --color-fg-inverse: #FFFFFF;
+  --color-fg-inverse-muted: #B0B5C0;
+
+  /* Type */
+  --font-sans: var(--font-helvetica), 'Helvetica', 'PT Sans', Arial, sans-serif;
+  --font-display-stack: var(--font-helvetica-display), var(--font-helvetica), 'Helvetica', sans-serif;
+  --font-condensed-stack: var(--font-helvetica-condensed), 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif;
+  --font-nimbus-stack: var(--font-nimbus-sans), 'Nimbus Sans', 'Helvetica', sans-serif;
+  --font-pt-stack: 'PT Sans', 'Helvetica', Arial, sans-serif;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Layout */
+  --container-max: 1280px;
+  --section-y: 6rem;
+
+  /* Page defaults */
+  --background: var(--color-paper);
+  --foreground: var(--color-fg);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-sans);
+  font-feature-settings: 'kern' 1, 'liga' 1;
+}
+
+/* =========================================================
+   Component primitives
+   ========================================================= */
+
+@layer components {
+  .container-10x {
+    @apply mx-auto w-full px-6 md:px-10;
+    max-width: var(--container-max);
+  }
+
+  /* Primary lime CTA (matches "GET STARTED" / "BUY NOW") */
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5
+           text-sm font-bold uppercase tracking-wider text-accent-ink
+           transition-colors duration-200 ease-out-expo
+           hover:bg-accent-hover active:bg-accent-pressed
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent
+           focus-visible:ring-offset-2 focus-visible:ring-offset-paper;
+  }
+
+  /* Ghost CTA on dark bg */
+  .btn-ghost-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-full
+           border border-fg-inverse-muted/40 px-7 py-3.5 text-sm font-bold
+           uppercase tracking-wider text-fg-inverse
+           transition-colors duration-200 ease-out-expo
+           hover:bg-fg-inverse/10
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg-inverse;
+  }
+
+  .eyebrow {
+    @apply text-overline uppercase text-fg-muted;
+  }
+
+  .section {
+    @apply py-section-sm md:py-section;
+  }
+}
+
+/* =========================================================
+   Selection + scrollbar (small brand touches)
+   ========================================================= */
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
