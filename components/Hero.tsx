@@ -6,6 +6,7 @@ import heroBanner from '../10x-Assets/10X WEBSITE FIRST BANNER.png';
 export default function Hero() {
   return (
     <section
+      id="hero"
       className="relative w-full overflow-hidden bg-ink text-fg-inverse"
       aria-label="The Brain Battery"
     >
@@ -46,8 +47,8 @@ export default function Hero() {
             </p>
 
             <Link
-              href="#"
-              className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-accent bg-transparent px-7 py-3 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-accent transition hover:bg-accent hover:text-ink"
+              href="#collection"
+              className="mt-8 inline-flex cursor-pointer items-center gap-2 border-2 border-accent bg-transparent px-7 py-3 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-accent transition hover:bg-accent hover:text-ink"
             >
               Shop Now
             </Link>

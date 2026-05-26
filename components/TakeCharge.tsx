@@ -6,6 +6,7 @@ import takeChargeBg from '../10x-Assets/TakeChargeBG-mKiw2fP8.png';
 export default function TakeCharge() {
   return (
     <section
+      id="take-charge"
       aria-label="Take Charge. Own The Day."
       className="bg-paper-100"
     >
@@ -26,7 +27,7 @@ export default function TakeCharge() {
             </p>
 
             <Link
-              href="#"
+              href="#collection"
               className="mt-8 inline-flex cursor-pointer items-center gap-2 px-8 py-3 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-white shadow-elevated transition hover:opacity-90"
               style={{
                 background:

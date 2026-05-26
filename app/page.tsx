@@ -10,24 +10,23 @@ import Collection from '../components/Collection';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 
 export const metadata: Metadata = {
-  title: '10X — The Brain Battery | Zero Sugar Energy Drink for Focus & Productivity',
+  title: '10X — The Brain Battery | Brain-First Performance',
   description:
-    'The Brain Battery — India\'s pocket-sized zero-sugar, zero-calorie brain nourishment for peak focus & energy. Available on Blinkit, Zepto, Swiggy Instamart & Flipkart Minutes. Scientifically formulated nootropic energy drink.',
+    'The Brain Battery — pocket-sized brain nourishment from a brain-first performance company. A precise blend of amino acids, nutrients, and nootropics designed for focus, clarity, and control. Available on Blinkit, Zepto, Swiggy Instamart & Flipkart Minutes.',
   keywords: [
     '10X drink',
     'brain battery',
     'brain nourishment',
-    'energy drink India',
-    'zero sugar energy drink',
-    'zero calorie energy',
-    'focus drink',
+    'brain-first performance',
     'nootropic drink',
+    'focus drink',
+    'clarity drink',
     'lime charge',
     'productivity drink',
-    'brain energy supplement',
-    'mental focus supplement',
-    'Indian energy drink online',
-    'buy energy drink India',
+    'amino acids drink',
+    'cognitive support drink',
+    'mental performance drink',
+    'brain support drink India',
   ],
   alternates: {
     canonical: '/',
@@ -37,15 +36,15 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: SITE_URL,
     siteName: '10X',
-    title: '10X — The Brain Battery | Zero Sugar Energy Drink',
+    title: '10X — The Brain Battery | Brain-First Performance',
     description:
-      'Pocket-sized brain nourishment that revitalizes energy and focus. Zero sugar, zero calories, controllable energy. Available on all major quick commerce platforms.',
+      'Pocket-sized brain nourishment. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control. No spikes. No crashes. No override. Available on all major quick commerce platforms.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: '10X — The Brain Battery Energy Drink',
+        alt: '10X — The Brain Battery',
         type: 'image/jpeg',
       },
     ],
@@ -55,7 +54,7 @@ export const metadata: Metadata = {
     site: '@10xdrink',
     title: '10X — The Brain Battery',
     description:
-      'Pocket-sized brain nourishment. Zero sugar, zero calories, controllable energy for peak focus.',
+      'Pocket-sized brain nourishment. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control.',
     images: ['/og-image.jpg'],
   },
 };
@@ -67,13 +66,13 @@ const productJsonLd = {
   name: '10X Lime Charge',
   alternateName: '10X Brain Battery',
   description:
-    'Pocket-sized brain nourishment engineered for peak focus and energy. Zero sugar, zero calories. Pack of 2 (60ml each). Scientifically formulated with nootropic ingredients.',
+    'Pocket-sized brain nourishment — a precise blend of amino acids, nutrients, and nootropics designed for focus, clarity, and control. Pack of 2 (60ml each). No harsh stimulants. No unnecessary additives.',
   brand: {
     '@type': 'Brand',
     name: '10X',
-    description: '10X Formulas - Brain Nourishment',
+    description: '10X Formulas — A Brain-First Performance Company',
   },
-  category: 'Energy Drink',
+  category: 'Nutritional Supplement',
   gtin: process.env.NEXT_PUBLIC_PRODUCT_GTIN || '8906103000000',
   image: [
     `${SITE_URL}/product-hero.jpg`,
@@ -97,7 +96,7 @@ const productJsonLd = {
         '@type': 'Person',
         name: 'Customer',
       },
-      reviewBody: 'Best energy drink for focus and productivity!',
+      reviewBody: 'Real brain nourishment — clean focus and clarity without the spikes and crashes.',
     },
   ],
   aggregateOffer: {
@@ -168,15 +167,15 @@ const faqJsonLd = {
       name: 'What is 10X Brain Battery?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '10X is a pocket-sized, zero-sugar, zero-calorie brain nourishment drink engineered to revitalize focus and energy. It\'s available on Blinkit, Zepto, Swiggy Instamart, and Flipkart Minutes.',
+        text: '10X is The Brain Battery — pocket-sized brain nourishment from a brain-first performance company. A precise blend of amino acids, nutrients, and nootropics designed for focus, clarity, and control. It is not an energy drink; it supports the brain rather than overriding it.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Is 10X suitable for everyone?',
+      name: 'Is 10X an energy drink?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '10X is designed for adults looking to optimize their focus and energy. It contains zero sugar and zero calories, making it a healthier alternative to traditional energy drinks.',
+        text: 'No. 10X is brain nourishment, not an energy drink. Coffee, energy drinks, and nicotine override the brain with stimulants — leading to spikes, crashes, and noise. 10X uses ingredients your body already recognizes from everyday foods, in more effective forms, to support the brain naturally.',
       },
     },
     {
@@ -192,7 +191,7 @@ const faqJsonLd = {
       name: 'What does 10X contain?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '10X is formulated with scientifically-selected nootropic ingredients that cross the blood-brain barrier to optimize brain function. Zero sugar, zero calories.',
+        text: '10X is a precise blend of amino acids, nutrients, and nootropics — ingredients your body already recognizes from everyday foods, used here in more effective, bioavailable forms. No harsh stimulants. No unnecessary additives. Simple, real, and well understood.',
       },
     },
   ],

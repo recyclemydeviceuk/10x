@@ -121,26 +121,28 @@ NEXT_PUBLIC_PRODUCT_GTIN=8906103000000
 
 ## 🎯 Target Keywords
 
+> **Positioning note:** 10X is **not** an energy drink. It is brain nourishment from a brain-first performance company. Keywords avoid "energy drink" framing.
+
 ### Primary (High Volume)
 - 10X drink
 - Brain battery
-- Energy drink India
-- Zero sugar energy drink
+- Brain nourishment
+- Brain-first performance
 - Focus drink
 
 ### Secondary (Medium Volume)
-- Nootropic energy drink
-- Brain energy supplement
+- Nootropic drink
+- Cognitive support drink
 - Productivity drink
-- Zero calorie energy
-- Mental focus drink
+- Clarity drink
+- Mental performance drink
 
 ### Long-tail (Specific Intent)
-- Best zero sugar energy drink India
-- Buy brain energy drink online
-- Lime charge energy drink
-- Energy drink for focus and productivity
-- Nootropic drink India
+- Pocket-sized brain nourishment India
+- Brain support drink India
+- Lime charge brain battery
+- Nootropic drink for focus and clarity
+- Amino acid drink India
 
 ---
 

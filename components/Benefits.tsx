@@ -5,25 +5,26 @@ import benefitsBanner from '../10x-Assets/Section-2-Banner-1.png';
 
 const benefits = [
   {
-    title: 'Powerhouse of Rejuvenation',
+    title: 'Brain Nourishment, Not Override',
     body:
-      "Whether it's invigoration for your busy day or the wind down at night so you can rest and recharge, 10X amplifies nourishment for peak performance. It's rapid nourishment for a starving brain.",
+      "Coffee, energy drinks, and nicotine override the brain. 10X supports it. A precise blend of amino acids, nutrients, and nootropics — ingredients your body already recognizes from everyday foods, used here in more effective forms.",
   },
   {
-    title: "The Winner's Shot",
+    title: 'Focus. Clarity. Control.',
     body:
-      "It's an essential boost in an easy to carry, convenient pack that doesn't need refrigeration and fits in a pocket for high flyers, go-getters, and people outworking the competition.",
+      "Designed for usable output, all day and all night. No harsh stimulants. No unnecessary additives. No spikes. No crashes. No noise — just the inputs your brain needs to perform.",
   },
   {
-    title: 'Energy You Can Control',
+    title: 'Switch On. Switch Off.',
     body:
-      "Forget nervous, jittery, unsteady energy that's explosive and puts you in a briefly heightened state. 10X is collected, expansive energy that your brain can regulate all day and night.",
+      "Performance isn't only about switching on. It's also about switching off. 10X is built around the full cycle — focus, execution, recovery, reset — so your brain can run at its real potential.",
   },
 ];
 
 export default function Benefits() {
   return (
     <section
+      id="benefits"
       aria-label="Benefits of 10X"
       className="relative w-full overflow-hidden text-fg-inverse"
     >
@@ -53,10 +54,10 @@ export default function Benefits() {
           </div>
 
           <p className="font-pt text-body text-white/90 md:text-right">
-            With ZERO calories and ZERO sugar, 10X is an indispensable asset for
-            those who want to plug into their maximum potential and harness every
-            ounce of it in a healthy way. And we deliver within 60 minutes of
-            your purchase!
+            Everyone is optimizing software. 10X fixes the hardware. Your brain
+            is the multiplier — and 10X is brain nourishment built around the
+            right inputs, time, and form. Delivered within 60 minutes of your
+            purchase.
           </p>
         </div>
 
@@ -65,7 +66,7 @@ export default function Benefits() {
           <div className="relative aspect-[16/7] w-full overflow-hidden md:aspect-[21/8]">
             <Image
               src={benefitsBanner}
-              alt="A group of hikers in mountains carrying 10X energy drinks"
+              alt="A group of hikers in mountains carrying 10X brain nourishment sachets"
               fill
               sizes="(min-width: 1280px) 1200px, 100vw"
               className="object-cover"

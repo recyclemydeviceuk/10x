@@ -73,6 +73,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* clear the fixed header on anchor navigation */
 }
 
 body {
@@ -94,7 +95,7 @@ body {
 
   /* Primary lime CTA (matches "GET STARTED" / "BUY NOW") */
   .btn-accent {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5
+    @apply inline-flex items-center justify-center gap-2 bg-accent px-7 py-3.5
            text-sm font-bold uppercase tracking-wider text-accent-ink
            transition-colors duration-200 ease-out-expo
            hover:bg-accent-hover active:bg-accent-pressed
@@ -104,7 +105,7 @@ body {
 
   /* Ghost CTA on dark bg */
   .btn-ghost-dark {
-    @apply inline-flex items-center justify-center gap-2 rounded-full
+    @apply inline-flex items-center justify-center gap-2
            border border-fg-inverse-muted/40 px-7 py-3.5 text-sm font-bold
            uppercase tracking-wider text-fg-inverse
            transition-colors duration-200 ease-out-expo
@@ -133,4 +134,22 @@ body {
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
+}
+
+/* =========================================================
+   Image protection — no select, no drag, no save-as
+   ========================================================= */
+img,
+picture,
+video {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
 }

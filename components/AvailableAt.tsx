@@ -21,6 +21,7 @@ const marqueeItems = [...partners, ...partners];
 export default function AvailableAt() {
   return (
     <section
+      id="available-at"
       aria-label="Available at"
       className="relative w-full overflow-hidden bg-paper-100 py-14 md:py-20"
     >

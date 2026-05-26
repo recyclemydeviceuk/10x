@@ -86,7 +86,7 @@ const typographyScale = [
   { name: 'display-lg', sample: 'Benefits of 10X', cls: 'text-display-lg' },
   { name: 'display-md', sample: 'How It Works', cls: 'text-display-md' },
   { name: 'body-lg', sample: 'Pocket-sized nourishment that revitalises starved brains around the clock.', cls: 'text-body-lg' },
-  { name: 'body', sample: 'Forget nervous, jittery, unsteady energy. 10X is collected, expansive energy.', cls: 'text-body' },
+  { name: 'body', sample: 'Focus, clarity, and control — without spikes or crashes. 10X is brain nourishment, not an override.', cls: 'text-body' },
   { name: 'body-sm', sample: 'Pack of 2 (60ml) — ₹299.00', cls: 'text-body-sm' },
   { name: 'overline', sample: 'AVAILABLE AT', cls: 'text-overline' },
   { name: 'caption', sample: 'Empty one sachet into water', cls: 'text-caption' },
@@ -96,7 +96,7 @@ const fontFamilies = [
   { label: 'Helvetica', cls: 'font-sans', sample: 'Pocket-Sized Brain Nourishment 0123456789' },
   { label: 'Helvetica Display', cls: 'font-display', sample: 'THE BRAIN BATTERY' },
   { label: 'Helvetica Condensed', cls: 'font-condensed', sample: 'TAKE CHARGE. OWN THE DAY.' },
-  { label: 'Nimbus Sans', cls: 'font-nimbus', sample: 'CLEAN ENERGY. LASER FOCUS.' },
+  { label: 'Nimbus Sans', cls: 'font-nimbus', sample: 'FOCUS. CLARITY. CONTROL.' },
   { label: 'PT Sans (CDN)', cls: 'font-pt', sample: 'Built for real life. Not just gyms.' },
 ];
 
@@ -376,8 +376,8 @@ export default function DesignSystemPage() {
           <figure className="rounded-lg border border-paper-200 bg-paper p-6 shadow-card">
             <div className="text-display-md font-display text-accent leading-none">"</div>
             <blockquote className="mt-2 text-body text-fg">
-              10X Daytime helps me stay focused during long work hours. No crash, just clean
-              energy.
+              10X Daytime helps me stay focused during long work hours. No spikes, no crashes —
+              just usable output.
             </blockquote>
             <figcaption className="mt-6 flex items-center gap-3">
               <div className="h-10 w-10 rounded-full bg-paper-100" aria-hidden />
@@ -473,7 +473,7 @@ export default function DesignSystemPage() {
                 <span className="text-accent">Own The Day.</span>
               </h3>
               <p className="mt-6 max-w-prose text-body-lg text-fg-inverse-muted">
-                The Brain Battery — Clean energy. Laser focus. No crash.
+                The Brain Battery — Focus. Clarity. Control. No spikes. No crashes.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <button type="button" className="btn-accent">Get Started →</button>
@@ -493,14 +493,15 @@ export default function DesignSystemPage() {
                 Benefits<br />of 10X
               </h3>
               <p className="mt-6 max-w-prose text-body-lg text-white/80">
-                Zero calories. Zero sugar. An indispensable asset for those who want to plug
-                into their maximum potential and harness every ounce of it in a healthy way.
+                Everyone is optimizing software. 10X fixes the hardware. Brain nourishment built
+                on the right inputs, in the right form, at the right time — so your brain
+                multiplies everything else.
               </p>
               <div className="mt-8 grid gap-6 sm:grid-cols-3">
                 {[
-                  ['01', 'Powerhouse of Rejuvenation'],
-                  ['02', 'The Winner’s Shot'],
-                  ['03', 'Energy You Can Control'],
+                  ['01', 'Brain Nourishment, Not Override'],
+                  ['02', 'Focus. Clarity. Control.'],
+                  ['03', 'Switch On. Switch Off.'],
                 ].map(([n, label]) => (
                   <div key={n} className="border-t border-white/20 pt-4">
                     <p className="text-overline text-accent">{n}</p>

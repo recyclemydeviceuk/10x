@@ -5,6 +5,7 @@ import banner from '../10x-Assets/POUR IT-MIX IT-DRINK IT.jpg';
 export default function PourMixDrink() {
   return (
     <section
+      id="pour-mix-drink"
       aria-label="Pour it. Mix it. Drink it."
       className="bg-paper py-3 sm:py-4 md:py-5"
     >

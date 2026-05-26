@@ -2,16 +2,26 @@ import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 
 import productDay from '../10x-Assets/Product Gallery image/Day-2.jpg';
+import AddToCartButton from './AddToCartButton';
 
 type Product = {
+  id: string;
   name: string;
   pack: string;
-  price: string;
+  price: number;
+  priceLabel: string;
   image: StaticImageData;
 };
 
 const products: Product[] = [
-  { name: 'Lime Charge', pack: 'Pack of 2 (60ml)', price: '₹299.00', image: productDay },
+  {
+    id: 'lime-charge-pack-2',
+    name: 'Lime Charge',
+    pack: 'Pack of 2 (60ml)',
+    price: 299,
+    priceLabel: '₹299.00',
+    image: productDay,
+  },
 ];
 
 const ctaGradient =
@@ -20,6 +30,7 @@ const ctaGradient =
 export default function Collection() {
   return (
     <section
+      id="collection"
       aria-label="Our Collection"
       className="bg-paper py-14 md:py-20"
     >
@@ -56,7 +67,7 @@ export default function Collection() {
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-16 md:gap-8 lg:grid-cols-3">
           {products.map((p) => (
             <article
-              key={p.name}
+              key={p.id}
               className="flex flex-col border border-paper-200 bg-paper p-3 shadow-card"
             >
               <div className="relative aspect-square w-full overflow-hidden bg-paper-100">
@@ -79,21 +90,20 @@ export default function Collection() {
                   </p>
                 </div>
                 <p className="font-quantico text-body font-bold text-fg">
-                  {p.price}
+                  {p.priceLabel}
                 </p>
               </div>
 
-              <button
-                type="button"
-                className="mt-4 w-full cursor-pointer bg-transparent px-4 py-3 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-brand-blue transition hover:opacity-80"
-                style={{
-                  cursor: 'pointer',
-                  border: '2px solid',
-                  borderImage: `${ctaGradient} 1`,
+              <AddToCartButton
+                product={{
+                  id: p.id,
+                  name: p.name,
+                  pack: p.pack,
+                  price: p.price,
+                  priceLabel: p.priceLabel,
+                  image: p.image,
                 }}
-              >
-                Add to Cart
-              </button>
+              />
             </article>
           ))}
         </div>

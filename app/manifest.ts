@@ -2,10 +2,10 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: '10X — The Brain Battery | Zero Sugar Energy Drink',
+    name: '10X — The Brain Battery | Brain-First Performance',
     short_name: '10X',
     description:
-      'Pocket-sized brain nourishment — zero sugar, zero calories. Revitalize your focus and energy. Available on Blinkit, Zepto, Swiggy Instamart & Flipkart Minutes.',
+      'Pocket-sized brain nourishment from a brain-first performance company. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control. Available on Blinkit, Zepto, Swiggy Instamart & Flipkart Minutes.',
     start_url: '/',
     scope: '/',
     display: 'standalone',

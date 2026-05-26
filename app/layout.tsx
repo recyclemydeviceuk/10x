@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from 'next';
 import { quantico, nebulaSans, ptSans } from './fonts';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
+import ImageProtection from '../components/ImageProtection';
+import HideOnAuth from '../components/HideOnAuth';
+import { CartProvider } from '../components/CartContext';
+import CartPanel from '../components/CartPanel';
+import { AuthProvider } from '../components/AuthContext';
 import './globals.css';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
@@ -9,26 +14,24 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: '10X — The Brain Battery | Zero Sugar Energy Drink for Focus',
+    default: '10X — The Brain Battery | Brain-First Performance',
     template: '%s | 10X',
   },
   description:
-    '10X is India\'s pocket-sized brain battery — zero-sugar, zero-calorie nourishment that revitalizes focus & energy. Available on Blinkit, Zepto, Swiggy Instamart & Flipkart Minutes. Brain-optimized energy drink.',
+    '10X is The Brain Battery — pocket-sized brain nourishment from a brain-first performance company. A precise blend of amino acids, nutrients, and nootropics for focus, clarity, and control. No spikes. No crashes. No override. Available on Blinkit, Zepto, Swiggy Instamart & Flipkart Minutes.',
   keywords: [
     '10X drink',
     'brain battery',
     'brain nourishment',
-    'energy drink India',
-    'zero sugar energy drink',
-    'zero calorie energy',
-    'focus drink',
+    'brain-first performance',
     'nootropic drink',
-    'brain energy supplement',
+    'focus drink',
+    'clarity drink',
     'productivity drink',
-    'lime charge drink',
-    'brain function supplement',
-    'mental energy drink',
-    'Indian energy drink',
+    'amino acids drink',
+    'cognitive support drink',
+    'mental performance drink',
+    'brain support drink India',
   ],
   authors: [{ name: '10X Formulas' }],
   creator: '10X Formulas',
@@ -50,15 +53,15 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US', 'en_GB'],
     url: SITE_URL,
     siteName: '10X',
-    title: '10X — The Brain Battery | Zero Sugar Energy Drink',
+    title: '10X — The Brain Battery | Brain-First Performance',
     description:
-      'Pocket-sized brain nourishment. Zero sugar, zero calories, controllable energy. Scientifically formulated for peak focus & performance.',
+      'Pocket-sized brain nourishment. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control. No spikes. No crashes. No override.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: '10X — The Brain Battery Energy Drink',
+        alt: '10X — The Brain Battery',
         type: 'image/jpeg',
       },
       {
@@ -76,7 +79,7 @@ export const metadata: Metadata = {
     creator: '@10xdrink',
     title: '10X — The Brain Battery',
     description:
-      'Pocket-sized brain nourishment. Zero sugar, zero calories, controllable energy for peak performance.',
+      'Pocket-sized brain nourishment. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -124,7 +127,7 @@ const organizationJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   description:
-    '10X is pocket-sized brain nourishment engineered with critical ingredients that cross the blood-brain barrier to optimize brain function. Zero sugar, zero calories, 100% brain power.',
+    '10X is a brain-first performance company. Pocket-sized brain nourishment — a precise blend of amino acids, nutrients, and nootropics formulated to support the brain, not override it. Designed for focus, clarity, and control.',
   sameAs: [
     'https://www.instagram.com/10xdrink',
     'https://www.facebook.com/10xdrink',
@@ -150,7 +153,7 @@ const websiteJsonLd = {
   '@id': `${SITE_URL}/#website`,
   name: '10X',
   url: SITE_URL,
-  description: 'The Brain Battery — Zero Sugar Energy Drink',
+  description: 'The Brain Battery — Brain-First Performance. Pocket-sized brain nourishment.',
   publisher: {
     '@type': 'Organization',
     name: '10X Formulas',
@@ -188,9 +191,19 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <SiteHeader />
-        {children}
-        <SiteFooter />
+        <ImageProtection />
+        <AuthProvider>
+          <CartProvider>
+            <HideOnAuth>
+              <SiteHeader />
+            </HideOnAuth>
+            {children}
+            <HideOnAuth>
+              <SiteFooter />
+              <CartPanel />
+            </HideOnAuth>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

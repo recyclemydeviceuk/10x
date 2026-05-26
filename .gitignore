@@ -33,6 +33,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+10x-Assets
+
 # env files
 .env*
 !.env.example

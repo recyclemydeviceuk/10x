@@ -57,19 +57,22 @@ This document outlines all SEO enhancements implemented for the 10X website to m
 ## 2. On-Page SEO
 
 ### Keywords Strategy
+
+> **Positioning note:** 10X is **not** an energy drink. It is brain nourishment from a brain-first performance company. Keywords intentionally avoid "energy drink" framing.
+
 ✅ **Primary Keywords:**
 - 10X drink
 - Brain battery
-- Energy drink India
-- Zero sugar energy drink
+- Brain nourishment
+- Brain-first performance
 - Focus drink
 
 ✅ **Long-tail Keywords:**
-- Zero sugar, zero calorie energy drink
-- Nootropic energy drink India
-- Brain energy supplement
+- Pocket-sized brain nourishment India
+- Nootropic drink for focus and clarity
+- Cognitive support drink India
 - Productivity drink
-- Mental focus drink
+- Mental performance drink
 
 **Implementation:** Keywords are naturally integrated into:
 - Page titles and meta descriptions
@@ -174,7 +177,7 @@ This document outlines all SEO enhancements implemented for the 10X website to m
 ✅ **Configured for India:**
 - OpenGraph locale: en_IN
 - Alternate locales: en_US, en_GB
-- India-specific keywords ("energy drink India", "quick commerce")
+- India-specific keywords ("brain nourishment India", "quick commerce")
 - Retailer schema for Indian platforms:
   - Blinkit
   - Zepto
