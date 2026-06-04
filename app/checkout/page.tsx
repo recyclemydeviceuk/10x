@@ -3,9 +3,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useCart } from '../../components/CartContext';
+import { useAuth } from '../../components/AuthContext';
 
 function fmt(n: number) {
   return `₹${Math.floor(n).toLocaleString('en-IN')}`;
@@ -24,6 +25,7 @@ const PAYMENTS = [
 
 export default function CheckoutPage() {
   const { items, totals, count, clear } = useCart();
+  const { isLoggedIn, user } = useAuth();
   const router = useRouter();
 
   const [form, setForm] = useState({
@@ -32,6 +34,18 @@ export default function CheckoutPage() {
   const [payment, setPayment] = useState('cod');
   const [error, setError] = useState('');
   const [placing, setPlacing] = useState(false);
+
+  // Prefill contact details from the logged-in user.
+  useEffect(() => {
+    if (user) {
+      setForm((f) => ({
+        ...f,
+        name: f.name || user.name,
+        email: f.email || user.email,
+        phone: f.phone || user.phone,
+      }));
+    }
+  }, [user]);
 
   function set<K extends keyof typeof form>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -58,6 +72,7 @@ export default function CheckoutPage() {
     const order = {
       id,
       date: new Date().toISOString(),
+      status: 'Processing',
       items: items.map((i) => ({ name: i.name, pack: i.pack, qty: i.quantity, price: i.price })),
       totals: {
         subtotal: totals.subtotal,
@@ -71,6 +86,9 @@ export default function CheckoutPage() {
     try {
       window.localStorage.setItem(`10x:order:${id}`, JSON.stringify(order));
       window.localStorage.setItem('10x:order:last', id);
+      const raw = window.localStorage.getItem('10x:orders');
+      const list = raw ? (JSON.parse(raw) as unknown[]) : [];
+      window.localStorage.setItem('10x:orders', JSON.stringify([order, ...list]));
     } catch {
       // ignore
     }
@@ -87,6 +105,48 @@ export default function CheckoutPage() {
         <div className="text-center">
           <span className="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-2 border-paper-200 border-t-brand-blue" />
           <p className="mt-5 font-quantico text-body font-bold uppercase tracking-wide text-fg">Placing your order…</p>
+        </div>
+      </main>
+    );
+  }
+
+  // Auth gate — must be logged in to place an order.
+  if (isLoggedIn === null) {
+    return (
+      <main className="flex min-h-[70vh] items-center justify-center bg-paper-100 px-6 pt-16 md:pt-20">
+        <p className="font-pt text-body text-fg-muted">Loading…</p>
+      </main>
+    );
+  }
+  if (!isLoggedIn) {
+    return (
+      <main className="flex min-h-[70vh] items-center justify-center bg-paper-100 px-6 pt-16 md:pt-20">
+        <div className="w-full max-w-md border border-paper-200 bg-white p-8 text-center shadow-card md:p-10">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center border-2 border-brand-blue text-brand-blue">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <rect x="4" y="11" width="16" height="9" rx="1.5" />
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+              <circle cx="12" cy="15.5" r="1" />
+            </svg>
+          </span>
+          <h1 className="mt-5 font-condensed text-display-md font-black uppercase italic leading-none tracking-tight text-fg">
+            Log In To Checkout
+          </h1>
+          <p className="mt-3 font-pt text-body text-fg-muted">
+            Your cart is saved. Log in or create an account to place your order.
+          </p>
+          <Link
+            href="/login?next=/checkout"
+            className="mt-6 block w-full cursor-pointer bg-accent px-6 py-3.5 text-center font-quantico text-body-sm font-bold uppercase tracking-[0.16em] text-ink transition-colors hover:bg-accent-hover"
+          >
+            Log In
+          </Link>
+          <Link
+            href="/register?next=/checkout"
+            className="mt-3 block w-full cursor-pointer border-2 border-ink px-6 py-3 text-center font-quantico text-body-sm font-bold uppercase tracking-[0.16em] text-ink transition-colors hover:bg-ink hover:text-white"
+          >
+            Create Account
+          </Link>
         </div>
       </main>
     );

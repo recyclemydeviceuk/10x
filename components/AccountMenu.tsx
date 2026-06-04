@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -75,6 +76,23 @@ export default function AccountMenu() {
               <p className="mt-0.5 truncate font-pt text-caption text-fg-muted">{user.email}</p>
             )}
           </div>
+          <ul className="py-1">
+            {[
+              { label: 'My Account', href: '/account' },
+              { label: 'Orders', href: '/account/orders' },
+              { label: 'Addresses', href: '/account/addresses' },
+            ].map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  role="menuitem"
+                  className="block px-4 py-2.5 font-pt text-body-sm text-fg transition-colors hover:bg-paper-100 hover:text-brand-blue"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
           <button
             type="button"
             role="menuitem"
@@ -83,7 +101,7 @@ export default function AccountMenu() {
               setOpen(false);
               router.push('/');
             }}
-            className="block w-full px-4 py-3 text-left font-quantico text-caption font-bold uppercase tracking-wider text-danger transition-colors hover:bg-paper-100"
+            className="block w-full border-t border-paper-200 px-4 py-3 text-left font-quantico text-caption font-bold uppercase tracking-wider text-danger transition-colors hover:bg-paper-100"
           >
             Sign Out
           </button>

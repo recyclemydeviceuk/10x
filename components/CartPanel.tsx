@@ -1,10 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { useCart } from './CartContext';
+import { useAuth } from './AuthContext';
+import { useAuthGate } from './AuthGate';
 
 const inrFormatter = new Intl.NumberFormat('en-IN', {
   style: 'currency',
@@ -21,6 +23,18 @@ function formatPrice(amount: number) {
 export default function CartPanel() {
   const { isOpen, close, items, removeItem, setQuantity, count, totals } =
     useCart();
+  const { isLoggedIn } = useAuth();
+  const { promptLogin } = useAuthGate();
+  const router = useRouter();
+
+  function handleCheckout() {
+    close();
+    if (isLoggedIn) {
+      router.push('/checkout');
+    } else {
+      promptLogin('/checkout');
+    }
+  }
 
   useEffect(() => {
     if (!isOpen) return;
@@ -245,9 +259,9 @@ export default function CartPanel() {
               Includes CGST 9% + SGST 9%. Prices in INR.
             </p>
 
-            <Link
-              href="/checkout"
-              onClick={close}
+            <button
+              type="button"
+              onClick={handleCheckout}
               className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 px-6 py-4 font-quantico text-body font-bold uppercase tracking-[0.18em] text-white shadow-elevated transition hover:opacity-90"
               style={{
                 background:
@@ -255,7 +269,7 @@ export default function CartPanel() {
               }}
             >
               Checkout · {formatPrice(totals.grandTotal)}
-            </Link>
+            </button>
             <button
               type="button"
               onClick={close}

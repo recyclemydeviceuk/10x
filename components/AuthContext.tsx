@@ -24,6 +24,7 @@ type AuthContextValue = {
   user: AuthUser | null;
   login: (email: string) => AuthResult;
   register: (data: RegisterInput) => AuthResult;
+  updateUser: (data: Partial<AuthUser>) => AuthResult;
   logout: () => void;
 };
 
@@ -135,6 +136,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const updateUser = useCallback((data: Partial<AuthUser>): AuthResult => {
+    try {
+      const raw = window.localStorage.getItem(CURRENT_USER);
+      const current: AuthUser = raw
+        ? (JSON.parse(raw) as AuthUser)
+        : { name: '', email: '', phone: '' };
+
+      const next: AuthUser = {
+        name: 'name' in data ? (data.name ?? '').trim() : current.name,
+        email: 'email' in data ? (data.email ?? '').trim().toLowerCase() : current.email,
+        phone: 'phone' in data ? (data.phone ?? '').trim() : current.phone,
+      };
+
+      if (!next.name) return { ok: false, error: 'Name is required.' };
+      if (!EMAIL_RE.test(next.email)) return { ok: false, error: 'Enter a valid email address.' };
+      if (next.phone && !PHONE_RE.test(next.phone)) return { ok: false, error: 'Enter a valid phone number.' };
+
+      const users = readUsers();
+      if (
+        next.email !== current.email.toLowerCase() &&
+        users.some((u) => u.email.toLowerCase() === next.email)
+      ) {
+        return { ok: false, error: 'That email is already in use.' };
+      }
+      const idx = users.findIndex((u) => u.email.toLowerCase() === current.email.toLowerCase());
+      if (idx >= 0) {
+        users[idx] = { ...users[idx], ...next };
+        window.localStorage.setItem(USERS_DB, JSON.stringify(users));
+      }
+
+      window.localStorage.setItem(CURRENT_USER, JSON.stringify(next));
+      setUser(next);
+      return { ok: true };
+    } catch {
+      return { ok: false, error: 'Something went wrong. Try again.' };
+    }
+  }, []);
+
   const logout = useCallback(() => {
     window.localStorage.removeItem(AUTH_FLAG);
     window.localStorage.removeItem(CURRENT_USER);
@@ -147,6 +186,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     user,
     login,
     register,
+    updateUser,
     logout,
   };
 

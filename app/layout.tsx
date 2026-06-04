@@ -8,6 +8,7 @@ import { CartProvider } from '../components/CartContext';
 import CartPanel from '../components/CartPanel';
 import FloatingCartBar from '../components/FloatingCartBar';
 import { AuthProvider } from '../components/AuthContext';
+import { AuthGateProvider } from '../components/AuthGate';
 import './globals.css';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
@@ -195,15 +196,17 @@ export default function RootLayout({
         <ImageProtection />
         <AuthProvider>
           <CartProvider>
-            <HideOnAuth>
-              <SiteHeader />
-            </HideOnAuth>
-            {children}
-            <HideOnAuth>
-              <SiteFooter />
-              <CartPanel />
-              <FloatingCartBar />
-            </HideOnAuth>
+            <AuthGateProvider>
+              <HideOnAuth>
+                <SiteHeader />
+              </HideOnAuth>
+              {children}
+              <HideOnAuth>
+                <SiteFooter />
+                <CartPanel />
+                <FloatingCartBar />
+              </HideOnAuth>
+            </AuthGateProvider>
           </CartProvider>
         </AuthProvider>
       </body>
