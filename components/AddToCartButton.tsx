@@ -12,7 +12,7 @@ type Props = {
 };
 
 const gradient =
-  'linear-gradient(90deg, #000204 0%, #02063A 35%, #06189E 100%)';
+  'linear-gradient(90deg, #000204 0%, #02063A 35%, #0821D2 100%)';
 
 function CheckIcon() {
   return (

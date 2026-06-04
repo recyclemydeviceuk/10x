@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { useCart } from './CartContext';
@@ -8,12 +9,13 @@ import { useCart } from './CartContext';
 const inrFormatter = new Intl.NumberFormat('en-IN', {
   style: 'currency',
   currency: 'INR',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
 });
 
 function formatPrice(amount: number) {
-  return inrFormatter.format(amount);
+  // Round down and show whole rupees only (no paise).
+  return inrFormatter.format(Math.floor(amount));
 }
 
 export default function CartPanel() {
@@ -143,8 +145,8 @@ export default function CartPanel() {
                       <p className="mt-1 font-pt text-caption text-fg-muted">
                         {item.pack}
                       </p>
-                      <p className="mt-1 font-pt text-caption text-fg-subtle">
-                        {item.priceLabel} each
+                      <p className="mt-1 font-quantico text-caption text-fg-subtle">
+                        {formatPrice(item.price)} each
                       </p>
                     </div>
                     <button
@@ -205,51 +207,6 @@ export default function CartPanel() {
         {/* Footer */}
         {items.length > 0 && (
           <div className="border-t border-paper-200 bg-paper-50 px-5 py-5 md:px-6">
-            {/* Free-shipping progress strip */}
-            {totals.shippingIsFree ? (
-              <div className="mb-4 flex items-center gap-2 border border-success/30 bg-success/10 px-3 py-2">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="shrink-0 text-success"
-                  aria-hidden
-                >
-                  <path d="M5 12.5 10 17.5 19 7" />
-                </svg>
-                <p className="font-pt text-caption font-bold text-success">
-                  You&rsquo;ve unlocked free shipping
-                </p>
-              </div>
-            ) : (
-              <div className="mb-4 border border-paper-200 bg-white px-3 py-2">
-                <p className="font-pt text-caption text-fg">
-                  Add{' '}
-                  <span className="font-bold text-brand-blue">
-                    {formatPrice(totals.amountUntilFreeShipping)}
-                  </span>{' '}
-                  more for{' '}
-                  <span className="font-bold">free shipping</span>.
-                </p>
-                <div className="mt-2 h-1 w-full overflow-hidden bg-paper-200">
-                  <div
-                    className="h-full bg-brand-blue transition-all duration-300"
-                    style={{
-                      width: `${Math.min(
-                        100,
-                        (totals.subtotal / totals.freeShippingThreshold) * 100,
-                      )}%`,
-                    }}
-                  />
-                </div>
-              </div>
-            )}
-
             {/* Pricing breakdown */}
             <dl className="space-y-2 font-pt text-body-sm text-fg">
               <div className="flex items-center justify-between">
@@ -288,16 +245,17 @@ export default function CartPanel() {
               Includes CGST 9% + SGST 9%. Prices in INR.
             </p>
 
-            <button
-              type="button"
+            <Link
+              href="/checkout"
+              onClick={close}
               className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 px-6 py-4 font-quantico text-body font-bold uppercase tracking-[0.18em] text-white shadow-elevated transition hover:opacity-90"
               style={{
                 background:
-                  'linear-gradient(90deg, #000204 0%, #02063A 35%, #06189E 100%)',
+                  'linear-gradient(90deg, #000204 0%, #02063A 35%, #0821D2 100%)',
               }}
             >
               Checkout · {formatPrice(totals.grandTotal)}
-            </button>
+            </Link>
             <button
               type="button"
               onClick={close}

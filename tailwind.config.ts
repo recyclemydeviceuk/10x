@@ -25,23 +25,27 @@ const config: Config = {
           200: '#E5E7EB', // dividers / borders
           300: '#D1D5DB',
         },
-        // Brand secondary — electric royal blue ("BENEFITS OF 10X" section)
+        // Brand secondary — Deep Navy / electric royal blue ("BENEFITS OF 10X" section)
         brand: {
           blue: {
-            DEFAULT: '#06189E',
+            DEFAULT: '#0821D2',
             dark: '#040F66',
-            light: '#1E34C0',
+            light: '#1F3CE0',
             soft: '#E5E9F8',
           },
         },
-        // Single hero accent — brand lime
+        // Hero accent — brand Lawn Green ("power up")
         accent: {
-          DEFAULT: '#CDE633',
-          hover: '#B8D12A',
-          pressed: '#A3BC20',
-          glow: '#E0F55A',
+          DEFAULT: '#6DE325',
+          hover: '#5BC91D',
+          pressed: '#4EA310',
+          glow: '#D4FE4C',
           ink: '#000204', // text color when on accent bg
         },
+        // Brand sub colours — product / campaign specific (kit pg 27)
+        sunglow: '#FFCE1C', // power up
+        'power-cyan': '#13EAED', // power down
+        'power-purple': '#A467F7', // power down
         // Pastel category cards (Pour / Mix / Drink)
         pastel: {
           lime: '#E8F5C0',
@@ -106,9 +110,9 @@ const config: Config = {
       boxShadow: {
         card: '0 1px 2px rgba(0, 2, 4, 0.04), 0 4px 16px rgba(0, 2, 4, 0.06)',
         elevated: '0 8px 32px rgba(0, 2, 4, 0.10)',
-        glow: '0 0 32px rgba(205, 230, 51, 0.40)',
-        'glow-soft': '0 0 16px rgba(205, 230, 51, 0.22)',
-        'glow-blue': '0 0 32px rgba(6, 24, 158, 0.35)',
+        glow: '0 0 32px rgba(109, 227, 37, 0.40)',
+        'glow-soft': '0 0 16px rgba(109, 227, 37, 0.22)',
+        'glow-blue': '0 0 32px rgba(8, 33, 210, 0.35)',
       },
       spacing: {
         section: '6rem', // vertical rhythm between major sections

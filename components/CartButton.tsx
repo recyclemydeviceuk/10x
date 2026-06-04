@@ -17,9 +17,9 @@ export default function CartButton() {
       <Image
         src={cartIcon}
         alt=""
-        width={40}
-        height={40}
-        className="h-8 w-8 md:h-10 md:w-10"
+        width={28}
+        height={28}
+        className="h-7 w-7"
       />
       {count > 0 && (
         <span

@@ -1,111 +1,142 @@
-import Image, { type StaticImageData } from 'next/image';
-import Link from 'next/link';
+'use client';
 
-import productDay from '../10x-Assets/Product Gallery image/Day-2.jpg';
-import AddToCartButton from './AddToCartButton';
+import Image from 'next/image';
 
-type Product = {
-  id: string;
-  name: string;
-  pack: string;
-  price: number;
-  priceLabel: string;
-  image: StaticImageData;
+import productDay from '../10x-Assets/Product Gallery image/a2f49314-bd16-47d6-b876-b00dce74b757.png';
+import { useCart, type CartProduct } from './CartContext';
+
+const PRODUCT: CartProduct = {
+  id: '10x-daytime',
+  name: '10X Daytime',
+  pack: 'Pack of 2 (60ml)',
+  price: 299,
+  priceLabel: '₹299.00',
+  image: productDay,
 };
 
-const products: Product[] = [
+const ctaGradient =
+  'linear-gradient(90deg, #000204 0%, #02063A 35%, #0821D2 100%)';
+
+const includes = [
   {
-    id: 'lime-charge-pack-2',
-    name: 'Lime Charge',
-    pack: 'Pack of 2 (60ml)',
-    price: 299,
-    priceLabel: '₹299.00',
-    image: productDay,
+    label: 'Free Express Delivery',
+    sub: 'Blinkit, Zepto, Instamart & Flipkart Minutes',
+    value: 'Free',
+    strike: '₹49',
+  },
+  {
+    label: 'Focus. Clarity. Control.',
+    sub: 'No spikes. No crashes. No noise.',
+    value: 'Included',
   },
 ];
 
-const ctaGradient =
-  'linear-gradient(90deg, #000204 0%, #02063A 35%, #06189E 100%)';
-
 export default function Collection() {
+  const { addItem, open } = useCart();
+
+  function buy() {
+    addItem(PRODUCT, 1);
+    open();
+  }
+
   return (
-    <section
-      id="collection"
-      aria-label="Our Collection"
-      className="bg-paper py-14 md:py-20"
-    >
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 md:px-14">
-        {/* ============ Header ============ */}
-        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-          <div>
-            <div className="inline-block w-fit">
-              <span aria-hidden className="block h-[3px] w-full bg-fg" />
-              <h2 className="my-2 font-condensed italic font-black uppercase leading-[0.95] tracking-tight text-fg text-[clamp(2rem,4.5vw,3.25rem)]">
-                Collection
-              </h2>
-              <span aria-hidden className="block h-[3px] w-full bg-fg" />
-            </div>
-            <p className="mt-4 font-pt text-body text-fg-muted">
-              Take a look at our expansive collection.
+    <section id="collection" aria-label="Start with 10X Daytime" className="bg-paper py-16 md:py-24">
+      <div className="mx-auto max-w-6xl px-6 sm:px-10 md:px-14">
+        <div className="grid items-center gap-10 md:grid-cols-[1fr_1.05fr] md:gap-16">
+          {/* ============ Left: offer breakdown ============ */}
+          <div className="order-last md:order-first">
+            <p className="font-quantico text-caption font-bold uppercase tracking-[0.18em] text-brand-blue">
+              Get Started
             </p>
-          </div>
+            <h2 className="mt-3 font-condensed text-[clamp(2rem,4vw,3.25rem)] font-black uppercase italic leading-[0.95] tracking-tight text-fg">
+              Start Your Day
+              <br />
+              With 10X Daytime
+            </h2>
+            <p className="mt-4 max-w-md font-pt text-body text-fg-muted">
+              Brain nourishment for focus, clarity, and control — delivered to your
+              door in minutes.
+            </p>
 
-          <Link
-            href="#"
-            className="cursor-pointer bg-transparent px-6 py-3 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-brand-blue transition hover:opacity-80"
-            style={{
-              cursor: 'pointer',
-              border: '2px solid',
-              borderImage: `${ctaGradient} 1`,
-            }}
-          >
-            View All
-          </Link>
-        </div>
-
-        {/* ============ Product card(s) ============ */}
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-16 md:gap-8 lg:grid-cols-3">
-          {products.map((p) => (
-            <article
-              key={p.id}
-              className="flex flex-col border border-paper-200 bg-paper p-3 shadow-card"
-            >
-              <div className="relative aspect-square w-full overflow-hidden bg-paper-100">
-                <Image
-                  src={p.image}
-                  alt={p.name}
-                  fill
-                  sizes="(min-width: 1024px) 280px, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-
-              <div className="mt-4 flex items-start justify-between gap-3 px-1">
+            <div className="mt-8 border border-paper-200 bg-white p-6 shadow-card md:p-7">
+              {/* Primary line — the product */}
+              <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h3 className="font-quantico text-body font-bold text-fg">
-                    {p.name}
-                  </h3>
-                  <p className="mt-1 font-pt text-caption text-fg-muted">
-                    {p.pack}
+                  <p className="font-quantico text-body font-bold uppercase tracking-wide text-ink">
+                    10X Daytime
+                  </p>
+                  <p className="mt-1 font-pt text-body-sm text-fg-muted">
+                    Pack of 2 &middot; 60ml sachets
                   </p>
                 </div>
-                <p className="font-quantico text-body font-bold text-fg">
-                  {p.priceLabel}
-                </p>
+                <div className="shrink-0 text-right">
+                  <p className="font-quantico text-body-lg font-bold text-ink">₹299</p>
+                  <p className="font-quantico text-caption text-fg-subtle line-through">₹399</p>
+                </div>
               </div>
 
-              <AddToCartButton
-                product={{
-                  id: p.id,
-                  name: p.name,
-                  pack: p.pack,
-                  price: p.price,
-                  priceLabel: p.priceLabel,
-                  image: p.image,
-                }}
-              />
-            </article>
-          ))}
+              <div className="my-6 border-t border-paper-200" />
+
+              <p className="mb-4 font-quantico text-[11px] font-bold uppercase tracking-[0.16em] text-fg-subtle">
+                Every order includes
+              </p>
+              <ul className="space-y-5">
+                {includes.map((item) => (
+                  <li key={item.label} className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="font-quantico text-body-sm font-bold uppercase tracking-wide text-ink">
+                        {item.label}
+                      </p>
+                      <p className="mt-0.5 font-pt text-caption text-fg-muted">{item.sub}</p>
+                    </div>
+                    <div className="shrink-0 whitespace-nowrap text-right">
+                      <span className="font-quantico text-body-sm font-bold uppercase tracking-wide text-brand-blue">
+                        {item.value}
+                      </span>
+                      {item.strike && (
+                        <span className="ml-2 font-quantico text-caption text-fg-subtle line-through">
+                          {item.strike}
+                        </span>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="my-6 border-t border-paper-200" />
+
+              <div className="flex items-baseline justify-between">
+                <p className="font-quantico text-body font-bold uppercase tracking-wide text-ink">
+                  Total
+                </p>
+                <p className="font-quantico text-display-md font-bold text-ink">₹299.00</p>
+              </div>
+
+              <button
+                type="button"
+                onClick={buy}
+                className="mt-6 inline-flex w-full cursor-pointer items-center justify-center gap-2 px-8 py-4 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-white shadow-elevated transition hover:opacity-90"
+                style={{ background: ctaGradient }}
+              >
+                Shop 10X Daytime
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* ============ Right: product image ============ */}
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-paper-100">
+            <Image
+              src={productDay}
+              alt="10X Daytime — brain nourishment for focus, clarity, and control"
+              fill
+              sizes="(min-width: 768px) 560px, 100vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
     </section>

@@ -15,7 +15,8 @@ export type AuthUser = {
   phone: string;
 };
 
-type RegisterInput = AuthUser & { password: string };
+// OTP-only auth — no passwords are collected or stored.
+type RegisterInput = AuthUser;
 type AuthResult = { ok: boolean; error?: string };
 
 type AuthContextValue = {
@@ -104,16 +105,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const name = data.name.trim();
     const email = data.email.trim().toLowerCase();
     const phone = data.phone.trim();
-    const password = data.password;
 
     if (!name) return { ok: false, error: 'Name is required.' };
     if (!EMAIL_RE.test(email))
       return { ok: false, error: 'Enter a valid email address.' };
     if (!PHONE_RE.test(phone))
       return { ok: false, error: 'Enter a valid phone number.' };
-    if (password.length < 6) {
-      return { ok: false, error: 'Password must be at least 6 characters.' };
-    }
 
     try {
       const users = readUsers();
@@ -123,7 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           error: 'An account with this email already exists.',
         };
       }
-      const record: RegisterInput = { name, email, phone, password };
+      const record: RegisterInput = { name, email, phone };
       users.push(record);
       window.localStorage.setItem(USERS_DB, JSON.stringify(users));
 

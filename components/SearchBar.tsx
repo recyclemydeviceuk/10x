@@ -15,18 +15,11 @@ type SearchItem = {
 
 const SEARCH_INDEX: SearchItem[] = [
   {
-    title: '10X Daytime — Lime Charge',
+    title: '10X Daytime',
     description: 'Pack of 2 (60ml). Focus, clarity, and control — without spikes or crashes.',
     href: '#collection',
     price: '₹299.00',
-    keywords: 'daytime lime charge focus clarity sachet amino acids nootropic brain battery',
-  },
-  {
-    title: '10X Nighttime',
-    description: 'Wind down & reset. The recovery half of the brain-battery system.',
-    href: '#collection',
-    price: 'Coming soon',
-    keywords: 'nighttime recovery reset sleep wind down switch off brain battery',
+    keywords: 'daytime focus clarity sachet amino acids nootropic brain battery nourishment',
   },
 ];
 
@@ -137,9 +130,9 @@ export default function SearchBar() {
           <Image
             src={searchIcon}
             alt=""
-            width={40}
-            height={40}
-            className="h-8 w-8 md:h-10 md:w-10"
+            width={28}
+            height={28}
+            className="h-7 w-7"
           />
         )}
 
@@ -199,7 +192,7 @@ export default function SearchBar() {
                 No products match &ldquo;{query}&rdquo;
               </p>
               <p className="mt-1 font-pt text-caption text-fg-muted">
-                Try &ldquo;lime&rdquo;, &ldquo;daytime&rdquo;, or &ldquo;nighttime&rdquo;.
+                Try &ldquo;daytime&rdquo;, &ldquo;focus&rdquo;, or &ldquo;clarity&rdquo;.
               </p>
             </div>
           ) : (

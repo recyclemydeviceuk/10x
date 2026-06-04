@@ -27,7 +27,7 @@ export default function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(90deg, #02063A 0%, #06189E 30%, rgba(6,24,158,0.55) 58%, rgba(6,24,158,0.0) 78%)',
+            'linear-gradient(90deg, #02063A 0%, #0821D2 30%, rgba(8,33,210,0.55) 58%, rgba(8,33,210,0.0) 78%)',
         }}
       />
 
@@ -41,9 +41,9 @@ export default function Hero() {
             </h1>
 
             <p className="mt-6 max-w-md font-pt text-body font-bold uppercase tracking-[0.04em] text-white/90">
-              Pocket-sized nourishment that revitalises
+              Brain nourishment for focus, clarity, and control.
               <br className="hidden sm:block" />
-              starved brains around the clock.
+              No spikes. No crashes. No noise.
             </p>
 
             <Link

@@ -5,19 +5,19 @@ import benefitsBanner from '../10x-Assets/Section-2-Banner-1.png';
 
 const benefits = [
   {
-    title: 'Brain Nourishment, Not Override',
+    title: 'Brain Nourishment',
     body:
-      "Coffee, energy drinks, and nicotine override the brain. 10X supports it. A precise blend of amino acids, nutrients, and nootropics — ingredients your body already recognizes from everyday foods, used here in more effective forms.",
+      'Coffee, energy drinks, and nicotine override the brain. 10X supports it — a precise blend of amino acids, nutrients, and nootropics your body recognizes from everyday food.',
   },
   {
-    title: 'Focus. Clarity. Control.',
+    title: 'Total Control',
     body:
-      "Designed for usable output, all day and all night. No harsh stimulants. No unnecessary additives. No spikes. No crashes. No noise — just the inputs your brain needs to perform.",
+      'Designed for clean, usable output that lasts all day long. No harsh stimulants, no unnecessary additives, no spikes, no crashes — just the inputs your brain needs to perform.',
   },
   {
-    title: 'Switch On. Switch Off.',
+    title: 'Clean Inputs',
     body:
-      "Performance isn't only about switching on. It's also about switching off. 10X is built around the full cycle — focus, execution, recovery, reset — so your brain can run at its real potential.",
+      'Ingredients your body already recognizes from everyday foods, used here in more effective forms. No harsh stimulants, no additives — simple, real, and well understood.',
   },
 ];
 
@@ -54,10 +54,10 @@ export default function Benefits() {
           </div>
 
           <p className="font-pt text-body text-white/90 md:text-right">
-            Everyone is optimizing software. 10X fixes the hardware. Your brain
-            is the multiplier — and 10X is brain nourishment built around the
-            right inputs, time, and form. Delivered within 60 minutes of your
-            purchase.
+            Everyone is optimizing software. We&rsquo;re fixing the hardware. Your
+            brain is the multiplier — when it underperforms, everything compounds
+            at a lower level. 10X is brain nourishment, built around the right
+            inputs, time, and form.
           </p>
         </div>
 

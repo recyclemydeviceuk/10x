@@ -8,7 +8,7 @@ import RegisterForm from '../../components/RegisterForm';
 export const metadata: Metadata = {
   title: 'Create account',
   description:
-    'Create your 10X account — name, email, phone, password. Sign in afterwards with a one-tap email OTP.',
+    'Create your 10X account — name, email, phone. Verify with a 6-digit email OTP. No password needed.',
   robots: { index: false, follow: false },
 };
 

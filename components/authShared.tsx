@@ -4,7 +4,7 @@ export const authInputClass =
   'w-full border-2 border-paper-200 bg-white px-4 py-3 font-pt text-body text-fg outline-none transition-colors placeholder:text-fg-subtle focus:border-brand-blue';
 
 export const authButtonStyle: CSSProperties = {
-  background: 'linear-gradient(90deg, #000204 0%, #02063A 35%, #06189E 100%)',
+  background: 'linear-gradient(90deg, #000204 0%, #02063A 35%, #0821D2 100%)',
 };
 
 export function AuthField({

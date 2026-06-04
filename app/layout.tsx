@@ -6,6 +6,7 @@ import ImageProtection from '../components/ImageProtection';
 import HideOnAuth from '../components/HideOnAuth';
 import { CartProvider } from '../components/CartContext';
 import CartPanel from '../components/CartPanel';
+import FloatingCartBar from '../components/FloatingCartBar';
 import { AuthProvider } from '../components/AuthContext';
 import './globals.css';
 
@@ -68,7 +69,7 @@ export const metadata: Metadata = {
         url: '/og-image-square.jpg',
         width: 800,
         height: 800,
-        alt: '10X Lime Charge',
+        alt: '10X Daytime',
         type: 'image/jpeg',
       },
     ],
@@ -184,7 +185,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:font-bold focus:text-ink"
@@ -201,6 +202,7 @@ export default function RootLayout({
             <HideOnAuth>
               <SiteFooter />
               <CartPanel />
+              <FloatingCartBar />
             </HideOnAuth>
           </CartProvider>
         </AuthProvider>

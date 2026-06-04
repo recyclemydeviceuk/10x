@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     'nootropic drink',
     'focus drink',
     'clarity drink',
-    'lime charge',
+    '10x daytime',
     'productivity drink',
     'amino acids drink',
     'cognitive support drink',
@@ -63,7 +63,7 @@ const productJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   '@id': `${SITE_URL}/#product`,
-  name: '10X Lime Charge',
+  name: '10X Daytime',
   alternateName: '10X Brain Battery',
   description:
     'Pocket-sized brain nourishment — a precise blend of amino acids, nutrients, and nootropics designed for focus, clarity, and control. Pack of 2 (60ml each). No harsh stimulants. No unnecessary additives.',
@@ -183,7 +183,7 @@ const faqJsonLd = {
       name: 'Where can I buy 10X?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '10X Lime Charge is available on Blinkit, Zepto, Swiggy Instamart, and Flipkart Minutes for quick delivery across India.',
+        text: '10X Daytime is available on Blinkit, Zepto, Swiggy Instamart, and Flipkart Minutes for quick delivery across India.',
       },
     },
     {

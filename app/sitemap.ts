@@ -36,6 +36,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: `${SITE_URL}/products/10x-daytime`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${SITE_URL}/our-story`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.80,
+    },
+    {
+      url: `${SITE_URL}/formulation`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.80,
+    },
+    {
+      url: `${SITE_URL}/science`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.80,
+    },
+    {
       url: `${SITE_URL}/design-system`,
       lastModified: now,
       changeFrequency: 'monthly',

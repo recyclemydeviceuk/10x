@@ -39,22 +39,22 @@ const colorGroups: {
     ],
   },
   {
-    group: 'Accent — Brand Lime',
-    description: 'Single hero accent. Used on CTAs, icons, highlights, badges.',
+    group: 'Accent — Lawn Green (Power Up)',
+    description: 'Brand "power up" green. Used on CTAs, icons, highlights, badges.',
     swatches: [
-      { name: 'accent', hex: '#CDE633', usage: 'Default CTA / highlight', textOn: 'light' },
-      { name: 'accent.hover', hex: '#B8D12A', usage: 'Hover state', textOn: 'light' },
-      { name: 'accent.pressed', hex: '#A3BC20', usage: 'Pressed state', textOn: 'light' },
-      { name: 'accent.glow', hex: '#E0F55A', usage: 'Glow / soft accent', textOn: 'light' },
+      { name: 'accent', hex: '#6DE325', usage: 'Default CTA / highlight', textOn: 'dark' },
+      { name: 'accent.hover', hex: '#5BC91D', usage: 'Hover state', textOn: 'dark' },
+      { name: 'accent.pressed', hex: '#4EA310', usage: 'Pressed state', textOn: 'dark' },
+      { name: 'accent.glow', hex: '#D4FE4C', usage: 'Glow / soft accent', textOn: 'light' },
     ],
   },
   {
-    group: 'Brand — Electric Blue',
-    description: 'Royal blue used as the dramatic backdrop for the "BENEFITS OF 10X" panel.',
+    group: 'Brand — Deep Navy / Electric Blue',
+    description: 'Royal blue (#0821d2) used as the dramatic backdrop for the "BENEFITS OF 10X" panel.',
     swatches: [
-      { name: 'brand.blue', hex: '#06189E', usage: 'Hero / feature panel bg', textOn: 'dark' },
+      { name: 'brand.blue', hex: '#0821D2', usage: 'Hero / feature panel bg', textOn: 'dark' },
       { name: 'brand.blue.dark', hex: '#040F66', usage: 'Gradient stop / pressed', textOn: 'dark' },
-      { name: 'brand.blue.light', hex: '#1E34C0', usage: 'Hover / link', textOn: 'dark' },
+      { name: 'brand.blue.light', hex: '#1F3CE0', usage: 'Hover / link', textOn: 'dark' },
       { name: 'brand.blue.soft', hex: '#E5E9F8', usage: 'Soft tint surface', textOn: 'light' },
     ],
   },
@@ -485,7 +485,7 @@ export default function DesignSystemPage() {
           {/* Royal blue panel — BENEFITS OF 10X */}
           <div
             className="overflow-hidden rounded-2xl text-fg-inverse"
-            style={{ backgroundColor: '#06189E' }}
+            style={{ backgroundColor: '#0821D2' }}
           >
             <div className="px-8 py-16 md:px-16 md:py-24 max-w-3xl">
               <p className="eyebrow text-accent">Why 10X</p>

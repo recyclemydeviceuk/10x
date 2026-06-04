@@ -29,13 +29,15 @@ export default function AuthLayout({ heading, children, footer }: Props) {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(135deg, rgba(0,2,4,0.78) 0%, rgba(6,24,158,0.55) 45%, rgba(6,24,158,0.10) 100%)',
+              'linear-gradient(135deg, rgba(0,2,4,0.78) 0%, rgba(8,33,210,0.55) 45%, rgba(8,33,210,0.10) 100%)',
           }}
         />
         <div className="absolute inset-0 flex items-center p-10 lg:p-16">
-          <h2 className="font-condensed text-[clamp(3.5rem,9vw,8rem)] font-black uppercase italic leading-[0.88] tracking-tight text-accent">
+          <h2 className="font-condensed text-[clamp(3.5rem,9vw,8rem)] font-black uppercase italic leading-[0.88] tracking-tight text-white">
             <span className="block">Fuel</span>
-            <span className="block">your mind.</span>
+            <span className="block">
+              your <span className="text-accent">mind</span>.
+            </span>
           </h2>
         </div>
       </div>

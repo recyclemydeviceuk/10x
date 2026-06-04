@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 /* =========================================================
-   10X — Design Tokens
-   Fonts: Helvetica → Nimbus Sans → PT Sans (web fallback)
+   10X — Design Tokens  (per 10X Brand Identity Kit)
+   Headlines  → Quantico Bold Italic   (uppercase, tight tracking)
+   Sub-heads  → Nebula Sans Bold        (≈ Nimbus Sans Bold, uppercase)
+   Titles/Body→ PT Sans                 (sentence case)
    ========================================================= */
 
 :root {
@@ -18,18 +20,23 @@
   --color-paper-100: #F4F5F7;
   --color-paper-200: #E5E7EB;
 
-  /* Brand secondary — electric royal blue */
-  --color-brand-blue: #06189E;
+  /* Brand secondary — Deep Navy / electric royal blue (#0821d2) */
+  --color-brand-blue: #0821D2;
   --color-brand-blue-dark: #040F66;
-  --color-brand-blue-light: #1E34C0;
+  --color-brand-blue-light: #1F3CE0;
   --color-brand-blue-soft: #E5E9F8;
 
-  /* Accent — brand lime */
-  --color-accent: #CDE633;
-  --color-accent-hover: #B8D12A;
-  --color-accent-pressed: #A3BC20;
-  --color-accent-glow: #E0F55A;
+  /* Accent — brand Lawn Green ("power up") */
+  --color-accent: #6DE325;
+  --color-accent-hover: #5BC91D;
+  --color-accent-pressed: #4EA310;
+  --color-accent-glow: #D4FE4C;
   --color-accent-ink: #000204;
+
+  /* Brand sub colours (product / campaign specific) */
+  --color-sunglow: #FFCE1C;      /* power up   */
+  --color-power-cyan: #13EAED;   /* power down */
+  --color-power-purple: #A467F7; /* power down */
 
   /* Pastel category cards */
   --color-pastel-lime: #E8F5C0;
@@ -43,12 +50,12 @@
   --color-fg-inverse: #FFFFFF;
   --color-fg-inverse-muted: #B0B5C0;
 
-  /* Type */
-  --font-sans: var(--font-helvetica), 'Helvetica', 'PT Sans', Arial, sans-serif;
-  --font-display-stack: var(--font-helvetica-display), var(--font-helvetica), 'Helvetica', sans-serif;
-  --font-condensed-stack: var(--font-helvetica-condensed), 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif;
-  --font-nimbus-stack: var(--font-nimbus-sans), 'Nimbus Sans', 'Helvetica', sans-serif;
-  --font-pt-stack: 'PT Sans', 'Helvetica', Arial, sans-serif;
+  /* Type — map to the fonts actually loaded in app/fonts.ts */
+  --font-sans: var(--font-nebula), 'PT Sans', Arial, sans-serif;
+  --font-display-stack: var(--font-quantico), var(--font-nebula), Arial, sans-serif;
+  --font-condensed-stack: var(--font-quantico), var(--font-nebula), Arial, sans-serif;
+  --font-nimbus-stack: var(--font-nebula), 'Nimbus Sans', Arial, sans-serif;
+  --font-pt-stack: var(--font-pt-sans), 'PT Sans', Arial, sans-serif;
 
   /* Radii */
   --radius-sm: 4px;
