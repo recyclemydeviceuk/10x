@@ -17,7 +17,7 @@ export type CartProduct = {
   pack: string;
   price: number;
   priceLabel: string;
-  image: StaticImageData;
+  image: string | StaticImageData;
 };
 
 export type CartItem = CartProduct & { quantity: number };

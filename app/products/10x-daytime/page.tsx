@@ -7,11 +7,7 @@ import ProductGallery, { type GalleryImage } from '../../../components/ProductGa
 import BuyOptions from '../../../components/BuyOptions';
 import type { CartProduct } from '../../../components/CartContext';
 
-import imgLifestyle from '../../../10x-Assets/Product Gallery image/a2f49314-bd16-47d6-b876-b00dce74b757.png';
-import imgCan from '../../../10x-Assets/Product Gallery image/Day-2.jpg';
-import imgSachet from '../../../10x-Assets/Product Gallery image/Day.png';
-import imgHands from '../../../10x-Assets/Product Gallery image/Hands_1.png';
-import imgScene from '../../../10x-Assets/Product Gallery image/b6ded1ff-f558-487d-af06-7086bfebb031.png';
+import { PRODUCT_IMAGES } from '../../../components/productMedia';
 import ctaBg from '../../../10x-Assets/Section-2-Banner-1.png';
 import logoTenx from '../../../10x-Assets/10x-available.png';
 import logoBlinkit from '../../../10x-Assets/Blinkit.png';
@@ -27,11 +23,16 @@ export const metadata: Metadata = {
 };
 
 const gallery: GalleryImage[] = [
-  { src: imgLifestyle, alt: '10X Daytime can and sachet on a travel tray' },
-  { src: imgCan, alt: '10X Daytime can with sachet' },
-  { src: imgSachet, alt: '10X Daytime single-serve sachet' },
-  { src: imgHands, alt: 'Pouring 10X Daytime into water' },
-  { src: imgScene, alt: '10X Daytime in everyday use' },
+  { src: PRODUCT_IMAGES.front, alt: '10X Daytime can and sachet, front view' },
+  { src: PRODUCT_IMAGES.canSingle, alt: '10X Daytime can on a kitchen counter' },
+  { src: PRODUCT_IMAGES.back, alt: '10X Daytime can — back panel' },
+  { src: PRODUCT_IMAGES.left, alt: '10X Daytime can — left side' },
+  { src: PRODUCT_IMAGES.right, alt: '10X Daytime can — ingredients panel' },
+  { src: PRODUCT_IMAGES.top, alt: '10X Daytime can — lid detail' },
+  { src: PRODUCT_IMAGES.pourOffice, alt: 'Pouring 10X Daytime into a glass of water' },
+  { src: PRODUCT_IMAGES.pourBeige, alt: '10X Daytime mixing into water' },
+  { src: PRODUCT_IMAGES.sachetsHeld, alt: 'Holding three 10X Daytime sachets' },
+  { src: PRODUCT_IMAGES.sachetsFlat, alt: '10X Daytime single-serve sachets' },
 ];
 
 const product: CartProduct = {
@@ -40,7 +41,7 @@ const product: CartProduct = {
   pack: 'Pack of 2 (60ml)',
   price: 299,
   priceLabel: '₹299.00',
-  image: imgLifestyle,
+  image: PRODUCT_IMAGES.front,
 };
 
 const trust = [

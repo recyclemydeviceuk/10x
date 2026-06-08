@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-const DAYTIME_IMG =
-  'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1780496176/Daytime_iooiff.jpg';
+import { PRODUCT_IMAGES } from './productMedia';
+
+const DAYTIME_IMG = PRODUCT_IMAGES.front;
 const NIGHT_IMG =
   'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1780496210/Night_Time_qhfuds.jpg';
 

@@ -2,8 +2,10 @@
 
 import Image from 'next/image';
 
-import productDay from '../10x-Assets/Product Gallery image/a2f49314-bd16-47d6-b876-b00dce74b757.png';
+import { PRODUCT_IMAGES } from './productMedia';
 import { useCart, type CartProduct } from './CartContext';
+
+const productDay = PRODUCT_IMAGES.front;
 
 const PRODUCT: CartProduct = {
   id: '10x-daytime',

@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import storyImg from '../../10x-Assets/Product Gallery image/Hands_1.png';
 import adventureImg from '../../10x-Assets/Section-2-Banner-1.png';
+import { PRODUCT_IMAGES } from '../../components/productMedia';
+
+const storyImg = PRODUCT_IMAGES.pourBeige;
 
 export const metadata: Metadata = {
   title: 'Our Story',

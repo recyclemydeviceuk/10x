@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import heroBanner from '../10x-Assets/10X WEBSITE FIRST BANNER.png';
+import { PRODUCT_IMAGES } from './productMedia';
 
 export default function Hero() {
   return (
@@ -10,15 +10,15 @@ export default function Hero() {
       className="relative w-full overflow-hidden bg-ink text-fg-inverse"
       aria-label="The Brain Battery"
     >
-      {/* Background image — shifted left so product sits closer to centre */}
+      {/* Background image — wide hero crop with the product left-of-centre */}
       <Image
-        src={heroBanner}
-        alt="10X Daytime sachet poured into a glass beside a 10X tin labelled The Brain Battery"
+        src={PRODUCT_IMAGES.heroBanner}
+        alt="10X Daytime can and single-serve sachet on a kitchen counter"
         fill
         priority
         fetchPriority="high"
         sizes="100vw"
-        className="object-cover object-left md:object-[0%_center]"
+        className="object-cover object-center"
       />
 
       {/* Left blue gradient overlay — keeps text legible */}
@@ -27,7 +27,7 @@ export default function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(90deg, #02063A 0%, #0821D2 30%, rgba(8,33,210,0.55) 58%, rgba(8,33,210,0.0) 78%)',
+            'linear-gradient(90deg, #02063A 0%, #0821D2 30%, rgba(8,33,210,0.55) 58%, rgba(8,33,210,0.0) 80%)',
         }}
       />
 
@@ -55,7 +55,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
     </section>
   );
 }

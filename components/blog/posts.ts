@@ -1,9 +1,11 @@
 import type { StaticImageData } from 'next/image';
 
 import imgHikers from '../../10x-Assets/Section-2-Banner-1.png';
-import imgHands from '../../10x-Assets/Product Gallery image/Hands_1.png';
-import imgTravel from '../../10x-Assets/Product Gallery image/a2f49314-bd16-47d6-b876-b00dce74b757.png';
-import imgCan from '../../10x-Assets/Product Gallery image/Day-2.jpg';
+import { PRODUCT_IMAGES } from '../productMedia';
+
+const imgHands = PRODUCT_IMAGES.pourBeige;
+const imgTravel = PRODUCT_IMAGES.canSingle;
+const imgCan = PRODUCT_IMAGES.front;
 
 export type BlogBlock = { type: 'h' | 'p'; text: string };
 
@@ -14,7 +16,7 @@ export type BlogPost = {
   date: string; // ISO
   category: string;
   readTime: string;
-  image: StaticImageData;
+  image: string | StaticImageData;
   body: BlogBlock[];
 };
 

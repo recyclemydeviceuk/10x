@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import productImg from '../../10x-Assets/Product Gallery image/Day.png';
+import { PRODUCT_IMAGES } from '../../components/productMedia';
+
+const productImg = PRODUCT_IMAGES.canSingle;
 
 export const metadata: Metadata = {
   title: 'Formulation',
@@ -247,7 +249,7 @@ export default function FormulationPage() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-20 sm:px-10 md:grid-cols-2 md:gap-16 md:px-14 md:py-28">
           <div className="relative order-last md:order-first">
             <div className="relative aspect-square w-full overflow-hidden border border-paper-200 bg-white">
-              <Image src={productImg} alt="10X Daytime sachet" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-contain p-10" />
+              <Image src={productImg} alt="10X Daytime can" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
             </div>
             <PowerUpChevrons className="pointer-events-none absolute -bottom-5 -left-5 hidden h-24 w-20 text-accent md:block" />
           </div>
