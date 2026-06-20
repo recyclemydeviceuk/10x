@@ -47,10 +47,10 @@ export default function WhyWeExist() {
     <section
       id="why-we-exist"
       aria-label="Why we exist"
-      className="bg-white py-20 md:py-28"
+      className="bg-white py-14 sm:py-16 md:py-24"
     >
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 md:px-14">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-10">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch lg:gap-10">
           {/* ---------- Left: everyday habits ---------- */}
           <div className="flex flex-col">
             <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
@@ -62,16 +62,16 @@ export default function WhyWeExist() {
               Of It All.
             </h2>
 
-            <ul className="mt-8 flex-1 space-y-4">
+            <ul className="mt-6 flex-1 space-y-3">
               {HABITS.map(({ label, Icon }) => (
                 <li
                   key={label}
-                  className="flex items-center gap-5 border border-paper-200 bg-paper-50 px-5 py-4"
+                  className="flex items-center gap-4 border border-paper-200 bg-paper-50 px-4 py-3.5"
                 >
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-paper-200 bg-white text-brand-blue">
-                    <Icon className="h-6 w-6" />
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-paper-200 bg-white text-brand-blue">
+                    <Icon className="h-5 w-5" />
                   </span>
-                  <span className="font-condensed text-2xl font-black uppercase italic tracking-tight text-ink">
+                  <span className="font-condensed text-lg font-black uppercase italic tracking-tight text-ink sm:text-2xl">
                     {label}
                   </span>
                 </li>
@@ -80,23 +80,23 @@ export default function WhyWeExist() {
           </div>
 
           {/* ---------- Right: the brain answer (navy) ---------- */}
-          <div className="relative overflow-hidden bg-brand-blue p-8 text-white sm:p-10 md:p-12">
-            <BrainIcon className="pointer-events-none absolute -right-8 -top-8 h-48 w-48 text-white/10" />
+          <div className="relative overflow-hidden bg-brand-blue p-6 text-white sm:p-8 md:p-12">
+            <BrainIcon className="pointer-events-none absolute -right-8 -top-8 h-44 w-44 text-white/10 sm:h-48 sm:w-48" />
             <div className="relative flex h-full flex-col">
-              <span className="flex h-14 w-14 items-center justify-center border-2 border-accent text-accent">
-                <BrainIcon className="h-7 w-7" />
+              <span className="flex h-12 w-12 items-center justify-center border-2 border-accent text-accent sm:h-14 sm:w-14">
+                <BrainIcon className="h-6 w-6 sm:h-7 sm:w-7" />
               </span>
 
-              <h3 className="mt-7 font-condensed text-4xl font-black uppercase italic leading-[0.95] tracking-tight sm:text-5xl">
+              <h3 className="mt-6 font-condensed text-3xl font-black uppercase italic leading-[0.95] tracking-tight sm:text-4xl lg:text-5xl">
                 But What About Our Brains?
               </h3>
-              <p className="mt-5 max-w-md font-pt text-body-lg text-white/85">
+              <p className="mt-4 max-w-md font-pt text-body text-white/85 sm:mt-5 sm:text-body-lg">
                 <span className="font-bold text-white">THE BRAIN BATTERY</span> was
                 created to help people fuel better thinking every day.
               </p>
 
               {/* Mission */}
-              <div className="mt-auto border-t border-white/15 pt-8">
+              <div className="mt-8 border-t border-white/15 pt-6 lg:mt-auto">
                 <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-accent">
                   Our Mission
                 </p>

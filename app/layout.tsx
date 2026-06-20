@@ -3,14 +3,8 @@ import { quantico, nebulaSans, ptSans } from './fonts';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import ImageProtection from '../components/ImageProtection';
-import HideOnAuth from '../components/HideOnAuth';
-import { CartProvider } from '../components/CartContext';
-import CartPanel from '../components/CartPanel';
-import FloatingCartBar from '../components/FloatingCartBar';
 import { CheckoutProvider } from '../components/CheckoutContext';
 import CheckoutModal from '../components/CheckoutModal';
-import { AuthProvider } from '../components/AuthContext';
-import { AuthGateProvider } from '../components/AuthGate';
 import './globals.css';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
@@ -195,24 +189,12 @@ export default function RootLayout({
           Skip to main content
         </a>
         <ImageProtection />
-        <AuthProvider>
-          <CartProvider>
-            <CheckoutProvider>
-              <AuthGateProvider>
-                <HideOnAuth>
-                  <SiteHeader />
-                </HideOnAuth>
-                {children}
-                <HideOnAuth>
-                  <SiteFooter />
-                  <CartPanel />
-                  <FloatingCartBar />
-                </HideOnAuth>
-                <CheckoutModal />
-              </AuthGateProvider>
-            </CheckoutProvider>
-          </CartProvider>
-        </AuthProvider>
+        <CheckoutProvider>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+          <CheckoutModal />
+        </CheckoutProvider>
       </body>
     </html>
   );

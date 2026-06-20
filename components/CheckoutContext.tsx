@@ -2,29 +2,28 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
   useState,
   type ReactNode,
 } from 'react';
-import type { Plan } from './plans';
+import type { CheckoutSelection } from './plans';
 
 type CheckoutContextValue = {
-  plan: Plan | null;
-  open: (plan: Plan) => void;
+  selection: CheckoutSelection | null;
+  open: (selection: CheckoutSelection) => void;
   close: () => void;
 };
 
 const CheckoutContext = createContext<CheckoutContextValue | null>(null);
 
 export function CheckoutProvider({ children }: { children: ReactNode }) {
-  const [plan, setPlan] = useState<Plan | null>(null);
+  const [selection, setSelection] = useState<CheckoutSelection | null>(null);
 
-  const open = (p: Plan) => setPlan(p);
-  const close = () => setPlan(null);
+  const open = (s: CheckoutSelection) => setSelection(s);
+  const close = () => setSelection(null);
 
   return (
-    <CheckoutContext.Provider value={{ plan, open, close }}>
+    <CheckoutContext.Provider value={{ selection, open, close }}>
       {children}
     </CheckoutContext.Provider>
   );

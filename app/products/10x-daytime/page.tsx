@@ -2,31 +2,30 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import ProductGallery, { type GalleryImage } from '../../../components/ProductGallery';
-import PlanSelector from '../../../components/PlanSelector';
+import ProductPurchase from '../../../components/ProductPurchase';
 import IngredientStrip from '../../../components/IngredientStrip';
 import ProductFAQ from '../../../components/ProductFAQ';
 import BuiltForMinds from '../../../components/BuiltForMinds';
-
-import { PRODUCT_IMAGES } from '../../../components/productMedia';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 
 export const metadata: Metadata = {
   title: '10X Day Time — The Brain Battery | Fuel Better Thinking',
   description:
-    '10X Day Time: a premium brain nourishment formula for calm focus, cognitive clarity, and sustained mental performance. One-time ₹1,199 (10 servings) or monthly ₹2,999 (30 servings). Also on Blinkit & Zepto.',
+    '10X Day Time: a premium brain nourishment formula for calm focus, cognitive clarity, and sustained mental performance. Single Pack ₹799, Core Daily Pack ₹1,999, Performance Stack ₹3,499 — subscribe & save 15%. Also on Blinkit & Zepto.',
   alternates: { canonical: '/products/10x-daytime' },
 };
 
 const gallery: GalleryImage[] = [
-  { src: PRODUCT_IMAGES.front, alt: '10X Day Time — can and sachet, front view' },
-  { src: PRODUCT_IMAGES.sachetsHeld, alt: 'Holding portable 10X sachets' },
-  { src: PRODUCT_IMAGES.pourOffice, alt: 'Pouring 10X into a glass of water' },
-  { src: PRODUCT_IMAGES.canSingle, alt: '10X Day Time can on a kitchen counter' },
-  { src: PRODUCT_IMAGES.sachetsFlat, alt: '10X single-serve sachets' },
-  { src: PRODUCT_IMAGES.back, alt: '10X Day Time — back panel' },
-  { src: PRODUCT_IMAGES.right, alt: '10X Day Time — ingredients panel' },
-  { src: PRODUCT_IMAGES.pourBeige, alt: '10X mixing into water' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781960130/Day_g1dpif.png', alt: '10X Day Time — can and sachet' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781945940/ChatGPT_Image_May_29_2026_03_41_00_PM_qorlzz.png', alt: '10X Day Time — product pack' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781945944/ChatGPT_Image_May_29_2026_03_40_56_PM_bhhf11.png', alt: '10X Day Time — sachets' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781945940/ChatGPT_Image_May_29_2026_03_40_52_PM_zpxryj.png', alt: '10X Day Time — single serve' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781960130/12456_ese6aq.png', alt: '10X Day Time — product detail' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781960148/REALIFE-1_bzspe1.png', alt: '10X Day Time — in real life' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781960148/17138f45-de2c-45a6-bb6b-25a7fcd190de_w91bl4.png', alt: '10X Day Time — lifestyle' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781960148/Real-Life_bni425.png', alt: '10X Day Time — everyday use' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781960151/Life-style_tgmrx8.png', alt: '10X Day Time — lifestyle shot' },
 ];
 
 const productJsonLd = {
@@ -41,16 +40,16 @@ const productJsonLd = {
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'INR',
-    lowPrice: '1199',
-    highPrice: '2999',
-    offerCount: '2',
+    lowPrice: '799',
+    highPrice: '3499',
+    offerCount: '3',
     availability: 'https://schema.org/InStock',
   },
 };
 
 export default function ProductPage() {
   return (
-    <main id="main" className="bg-white pt-16 md:pt-[72px]">
+    <main id="main" className="bg-white pt-14 md:pt-[72px]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
@@ -73,33 +72,9 @@ export default function ProductPage() {
           {/* Gallery */}
           <ProductGallery images={gallery} />
 
-          {/* Info + purchase */}
+          {/* Dynamic purchase panel */}
           <div className="md:py-1">
-            <p className="font-quantico text-caption font-bold uppercase tracking-[0.2em] text-brand-blue">
-              The Brain Battery
-            </p>
-            <h1 className="mt-2 font-condensed text-4xl font-black uppercase italic leading-[0.95] tracking-tight text-ink sm:text-5xl">
-              10X Day Time
-            </h1>
-
-            <p className="mt-5 max-w-md font-pt text-body-lg text-fg-muted">
-              A premium brain nourishment formula designed to support calm focus,
-              cognitive clarity, and sustained mental performance. Built for
-              creators, developers, athletes, and directors.
-            </p>
-
-            <div className="mt-7 border-t border-paper-200 pt-7">
-              <PlanSelector />
-            </div>
-
-            {/* small trust line */}
-            <p className="mt-5 flex items-center justify-center gap-2 font-pt text-caption text-fg-subtle">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <rect x="4" y="11" width="16" height="9" rx="1.5" />
-                <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-              </svg>
-              Secure checkout · Free shipping · Cancel anytime
-            </p>
+            <ProductPurchase />
           </div>
         </div>
       </section>

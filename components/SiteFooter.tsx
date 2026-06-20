@@ -21,8 +21,8 @@ const legalLinks = [
 export default function SiteFooter() {
   return (
     <footer className="bg-ink text-white">
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:px-10 md:px-14 md:py-20">
-        <div className="flex flex-col items-center text-center">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 md:px-14 md:py-20">
+        <div className="flex flex-col items-start text-left sm:items-center sm:text-center">
           <Image
             src={logo}
             alt="10X"
@@ -39,7 +39,7 @@ export default function SiteFooter() {
 
           <Link
             href={PRODUCT_HREF}
-            className="mt-8 inline-flex cursor-pointer items-center gap-2 bg-accent px-9 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.16em] text-ink transition-colors hover:bg-accent-hover"
+            className="mt-7 inline-flex cursor-pointer items-center gap-2 bg-accent px-8 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.16em] text-ink transition-colors hover:bg-accent-hover"
           >
             Order Now
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -49,7 +49,7 @@ export default function SiteFooter() {
           </Link>
 
           {/* socials */}
-          <div className="mt-9 flex items-center gap-5">
+          <div className="mt-8 flex items-center gap-5">
             {socials.map((s) => (
               <a
                 key={s.label}
@@ -68,9 +68,9 @@ export default function SiteFooter() {
         </div>
 
         {/* bottom row */}
-        <div className="mt-14 flex flex-col items-center gap-4 border-t border-white/10 pt-7 text-center md:flex-row md:justify-between md:text-left">
+        <div className="mt-10 flex flex-col items-start gap-4 border-t border-white/10 pt-6 text-left sm:items-center sm:text-center md:flex-row md:items-center md:justify-between md:text-left">
           <p className="font-pt text-body-sm text-white/60">© 2026 10X. All rights reserved.</p>
-          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-pt text-body-sm text-white/60">
+          <ul className="flex flex-wrap items-center justify-start gap-x-6 gap-y-2 font-pt text-body-sm text-white/60 sm:justify-center">
             {legalLinks.map((l) => (
               <li key={l.label}>
                 <Link href={l.href} className="cursor-pointer transition-colors hover:text-white">

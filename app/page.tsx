@@ -59,8 +59,8 @@ const productJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   '@id': `${SITE_URL}/#product`,
-  name: 'THE BRAIN BATTERY',
-  alternateName: '10X Brain Battery',
+  name: '10X Day Time',
+  alternateName: 'THE BRAIN BATTERY',
   description:
     'Engineered nutrition designed to support focused thinking, controlled energy, and clear execution. Engineered with pumpkin seeds, sesame seeds, edamame, matcha, spinach, and almonds.',
   brand: {
@@ -72,22 +72,30 @@ const productJsonLd = {
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'INR',
-    lowPrice: '1199',
-    highPrice: '2999',
-    offerCount: '2',
+    lowPrice: '799',
+    highPrice: '3499',
+    offerCount: '3',
     offers: [
       {
         '@type': 'Offer',
-        name: 'One-Time Purchase',
-        price: '1199',
+        name: 'Single Pack — 10 sticks',
+        price: '799',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
         url: `${SITE_URL}/products/10x-daytime`,
       },
       {
         '@type': 'Offer',
-        name: 'Monthly Subscription',
-        price: '2999',
+        name: 'Core Daily Pack — 30 sticks',
+        price: '1999',
+        priceCurrency: 'INR',
+        availability: 'https://schema.org/InStock',
+        url: `${SITE_URL}/products/10x-daytime`,
+      },
+      {
+        '@type': 'Offer',
+        name: 'Performance Stack — 60 sticks',
+        price: '3499',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
         url: `${SITE_URL}/products/10x-daytime`,
@@ -121,7 +129,7 @@ const faqJsonLd = {
       name: 'How do I buy 10X?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Choose a one-time purchase (₹1,199 for 10 servings) or a monthly subscription (₹2,999 for 30 servings) on 10xdrink.com. It is also available on Blinkit and Zepto.',
+        text: 'Pick a pack on 10xdrink.com — Single Pack (10 sticks, ₹799), Core Daily Pack (30 sticks, ₹1,999) or Performance Stack (60 sticks, ₹3,499). The larger packs can be subscribed to Save 15%. Also available on Blinkit and Zepto.',
       },
     },
   ],

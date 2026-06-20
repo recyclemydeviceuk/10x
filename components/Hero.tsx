@@ -27,11 +27,11 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="The Brain Battery"
-      className="relative w-full overflow-hidden bg-white pt-16 md:pt-[72px]"
+      className="relative w-full overflow-hidden bg-white pt-14 md:pt-[72px]"
     >
       {/* Product / lifestyle carousel —
           mobile: full-width block on top · lg: full-bleed right half, full height */}
-      <div className="relative h-[58vw] max-h-[440px] w-full bg-paper-100 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:max-h-none lg:w-1/2">
+      <div className="relative h-[56vw] max-h-[360px] w-full bg-paper-100 sm:max-h-[440px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:max-h-none lg:w-1/2">
         {SLIDES.map((s, i) => (
           <Image
             key={s.src}
@@ -64,14 +64,14 @@ export default function Hero() {
       </div>
 
       {/* Copy — aligned to the site container so its left edge lines up with the logo */}
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 md:px-14">
-        <div className="flex items-center py-14 sm:py-16 lg:min-h-[80vh] lg:w-1/2 lg:py-20 lg:pr-12">
-          <div className="w-full max-w-xl">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
+        <div className="flex items-center py-10 sm:py-14 lg:min-h-[80vh] lg:w-1/2 lg:py-20 lg:pr-12">
+          <div className="w-full max-w-xl text-center lg:text-left">
             <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
               The Brain Battery
             </p>
 
-            <h1 className="mt-4 font-condensed text-5xl font-black uppercase italic leading-[0.9] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+            <h1 className="mt-3 font-condensed text-[2.6rem] font-black uppercase italic leading-[0.9] tracking-tight text-ink sm:text-6xl lg:text-7xl">
               Fuel
               <br />
               Better
@@ -79,15 +79,15 @@ export default function Hero() {
               <span className="text-brand-blue">Thinking.</span>
             </h1>
 
-            <p className="mt-6 max-w-md font-pt text-body-lg text-fg-muted">
+            <p className="mx-auto mt-5 max-w-md font-pt text-body text-fg-muted sm:text-body-lg lg:mx-0">
               Engineered nutrition designed to support focused thinking, controlled
               energy, and clear execution.
             </p>
 
-            <div className="mt-9">
+            <div className="mt-7">
               <Link
                 href={PRODUCT_HREF}
-                className="inline-flex cursor-pointer items-center gap-2 bg-accent px-9 py-4 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
+                className="inline-flex cursor-pointer items-center gap-2 bg-accent px-8 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
               >
                 Order Now
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

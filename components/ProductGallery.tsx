@@ -36,11 +36,6 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
           className="object-cover"
         />
 
-        {/* Best seller badge */}
-        <span className="absolute left-4 top-4 bg-accent px-3 py-1.5 font-quantico text-[10px] font-bold uppercase tracking-widest text-ink">
-          Best Seller
-        </span>
-
         {count > 1 && (
           <>
             <button

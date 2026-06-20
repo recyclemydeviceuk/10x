@@ -47,10 +47,10 @@ export default function BrandPromise() {
     <section
       id="brand-promise"
       aria-label="The Brain Battery — Fuel better thinking"
-      className="bg-white py-20 md:py-28"
+      className="bg-white py-14 sm:py-16 md:py-24"
     >
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 md:px-14">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
           {/* ---------- Left: content (unchanged) ---------- */}
           <div>
             <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
@@ -75,7 +75,7 @@ export default function BrandPromise() {
 
             <Link
               href={PRODUCT_HREF}
-              className="mt-9 inline-flex cursor-pointer items-center gap-2 bg-accent px-10 py-4 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
+              className="mt-8 inline-flex cursor-pointer items-center gap-2 bg-accent px-9 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
             >
               Order Now
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

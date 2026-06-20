@@ -24,8 +24,8 @@ export default function WhoWeAre() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-[560px] max-w-7xl items-center px-6 py-16 sm:px-10 md:min-h-[680px] md:px-14 md:py-24">
-        <div className="ml-auto w-full max-w-lg bg-white p-8 shadow-elevated sm:p-10 md:p-12 lg:-translate-x-16 xl:-translate-x-28">
+      <div className="relative z-10 mx-auto flex min-h-[420px] max-w-7xl items-center px-5 py-12 sm:min-h-[520px] sm:px-8 sm:py-16 md:min-h-[680px] md:px-14 md:py-24">
+        <div className="ml-auto w-full max-w-lg bg-white p-6 shadow-elevated sm:p-8 md:p-12 lg:-translate-x-16 xl:-translate-x-28">
           <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
             Who We Are
           </p>
@@ -33,7 +33,7 @@ export default function WhoWeAre() {
             Your Brain Is Your Most Important Tool.
           </h2>
 
-          <p className="mt-6 font-pt text-body-lg text-fg">
+          <p className="mt-5 font-pt text-body text-fg sm:text-body-lg">
             Every thought. Every action. Every result.{' '}
             <span className="font-bold text-brand-blue">Begins there.</span>
           </p>

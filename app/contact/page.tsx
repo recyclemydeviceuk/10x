@@ -30,8 +30,8 @@ const channels = [
   },
   {
     title: 'Orders',
-    value: 'Track in your account',
-    href: '/account/orders',
+    value: 'Reorder in minutes',
+    href: '/products/10x-daytime',
     Icon: (p: { className?: string }) => (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={p.className} aria-hidden>
         <path d="M6 7h12l-1 13H7L6 7Z" /><path d="M9 7a3 3 0 0 1 6 0" />
