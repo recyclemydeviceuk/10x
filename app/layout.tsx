@@ -7,6 +7,8 @@ import HideOnAuth from '../components/HideOnAuth';
 import { CartProvider } from '../components/CartContext';
 import CartPanel from '../components/CartPanel';
 import FloatingCartBar from '../components/FloatingCartBar';
+import { CheckoutProvider } from '../components/CheckoutContext';
+import CheckoutModal from '../components/CheckoutModal';
 import { AuthProvider } from '../components/AuthContext';
 import { AuthGateProvider } from '../components/AuthGate';
 import './globals.css';
@@ -16,23 +18,22 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: '10X — The Brain Battery | Brain-First Performance',
+    default: '10X — The Brain Battery | Fuel Better Thinking',
     template: '%s | 10X',
   },
   description:
-    '10X is The Brain Battery — pocket-sized brain nourishment from a brain-first performance company. A precise blend of amino acids, nutrients, and nootropics for focus, clarity, and control. No spikes. No crashes. No override. Available on Blinkit, Zepto, Swiggy Instamart & Flipkart Minutes.',
+    '10X is THE BRAIN BATTERY — engineered nutrition designed to support focused thinking, controlled energy, and clear execution. Engineered with pumpkin seeds, sesame seeds, edamame, matcha, spinach & almonds. Available on 10xdrink.com, Blinkit & Zepto.',
   keywords: [
     '10X drink',
     'brain battery',
-    'brain nourishment',
-    'brain-first performance',
-    'nootropic drink',
+    'fuel better thinking',
     'focus drink',
-    'clarity drink',
+    'mental performance',
     'productivity drink',
-    'amino acids drink',
+    'nootropic drink',
+    'matcha focus drink',
+    'clarity drink',
     'cognitive support drink',
-    'mental performance drink',
     'brain support drink India',
   ],
   authors: [{ name: '10X Formulas' }],
@@ -55,9 +56,9 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US', 'en_GB'],
     url: SITE_URL,
     siteName: '10X',
-    title: '10X — The Brain Battery | Brain-First Performance',
+    title: '10X — The Brain Battery | Fuel Better Thinking',
     description:
-      'Pocket-sized brain nourishment. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control. No spikes. No crashes. No override.',
+      'Engineered nutrition designed to support focused thinking, controlled energy, and clear execution. One simple daily protocol.',
     images: [
       {
         url: '/og-image.jpg',
@@ -81,7 +82,7 @@ export const metadata: Metadata = {
     creator: '@10xdrink',
     title: '10X — The Brain Battery',
     description:
-      'Pocket-sized brain nourishment. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control.',
+      'Engineered nutrition for focused thinking, controlled energy, and clear execution.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -129,7 +130,7 @@ const organizationJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   description:
-    '10X is a brain-first performance company. Pocket-sized brain nourishment — a precise blend of amino acids, nutrients, and nootropics formulated to support the brain, not override it. Designed for focus, clarity, and control.',
+    '10X makes THE BRAIN BATTERY — engineered nutrition designed to support focused thinking, controlled energy, and clear execution.',
   sameAs: [
     'https://www.instagram.com/10xdrink',
     'https://www.facebook.com/10xdrink',
@@ -155,7 +156,7 @@ const websiteJsonLd = {
   '@id': `${SITE_URL}/#website`,
   name: '10X',
   url: SITE_URL,
-  description: 'The Brain Battery — Brain-First Performance. Pocket-sized brain nourishment.',
+  description: 'THE BRAIN BATTERY — Fuel Better Thinking. Engineered nutrition for focus, energy, and execution.',
   publisher: {
     '@type': 'Organization',
     name: '10X Formulas',
@@ -196,17 +197,20 @@ export default function RootLayout({
         <ImageProtection />
         <AuthProvider>
           <CartProvider>
-            <AuthGateProvider>
-              <HideOnAuth>
-                <SiteHeader />
-              </HideOnAuth>
-              {children}
-              <HideOnAuth>
-                <SiteFooter />
-                <CartPanel />
-                <FloatingCartBar />
-              </HideOnAuth>
-            </AuthGateProvider>
+            <CheckoutProvider>
+              <AuthGateProvider>
+                <HideOnAuth>
+                  <SiteHeader />
+                </HideOnAuth>
+                {children}
+                <HideOnAuth>
+                  <SiteFooter />
+                  <CartPanel />
+                  <FloatingCartBar />
+                </HideOnAuth>
+                <CheckoutModal />
+              </AuthGateProvider>
+            </CheckoutProvider>
           </CartProvider>
         </AuthProvider>
       </body>

@@ -1,32 +1,28 @@
 import type { Metadata } from 'next';
 
 import Hero from '../components/Hero';
-import AvailableAt from '../components/AvailableAt';
-import Benefits from '../components/Benefits';
-import PourMixDrink from '../components/PourMixDrink';
-import TakeCharge from '../components/TakeCharge';
-import Collection from '../components/Collection';
+import IngredientStrip from '../components/IngredientStrip';
+import BrandPromise from '../components/BrandPromise';
+import WhoWeAre from '../components/WhoWeAre';
+import WhyWeExist from '../components/WhyWeExist';
+import FinalCTA from '../components/FinalCTA';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 
 export const metadata: Metadata = {
-  title: '10X — The Brain Battery | Brain-First Performance',
+  title: '10X — The Brain Battery | Fuel Better Thinking',
   description:
-    'The Brain Battery — pocket-sized brain nourishment from a brain-first performance company. A precise blend of amino acids, nutrients, and nootropics designed for focus, clarity, and control. Available on Blinkit, Zepto, Swiggy Instamart & Flipkart Minutes.',
+    'THE BRAIN BATTERY — engineered nutrition designed to support focused thinking, controlled energy, and clear execution. Engineered with pumpkin seeds, sesame seeds, edamame, matcha, spinach & almonds. One simple daily protocol.',
   keywords: [
     '10X drink',
     'brain battery',
-    'brain nourishment',
-    'brain-first performance',
-    'nootropic drink',
+    'fuel better thinking',
     'focus drink',
-    'clarity drink',
-    '10x daytime',
+    'mental performance',
     'productivity drink',
-    'amino acids drink',
-    'cognitive support drink',
-    'mental performance drink',
-    'brain support drink India',
+    'nootropic drink',
+    'matcha focus drink',
+    'cognitive support drink India',
   ],
   alternates: {
     canonical: '/',
@@ -36,9 +32,9 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: SITE_URL,
     siteName: '10X',
-    title: '10X — The Brain Battery | Brain-First Performance',
+    title: '10X — The Brain Battery | Fuel Better Thinking',
     description:
-      'Pocket-sized brain nourishment. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control. No spikes. No crashes. No override. Available on all major quick commerce platforms.',
+      'Engineered nutrition for focused thinking, controlled energy, and clear execution. One simple daily protocol.',
     images: [
       {
         url: '/og-image.jpg',
@@ -54,7 +50,7 @@ export const metadata: Metadata = {
     site: '@10xdrink',
     title: '10X — The Brain Battery',
     description:
-      'Pocket-sized brain nourishment. A precise blend of amino acids, nutrients, and nootropics — designed for focus, clarity, and control.',
+      'Engineered nutrition for focused thinking, controlled energy, and clear execution.',
     images: ['/og-image.jpg'],
   },
 };
@@ -63,96 +59,38 @@ const productJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   '@id': `${SITE_URL}/#product`,
-  name: '10X Daytime',
+  name: 'THE BRAIN BATTERY',
   alternateName: '10X Brain Battery',
   description:
-    'Pocket-sized brain nourishment — a precise blend of amino acids, nutrients, and nootropics designed for focus, clarity, and control. Pack of 2 (60ml each). No harsh stimulants. No unnecessary additives.',
+    'Engineered nutrition designed to support focused thinking, controlled energy, and clear execution. Engineered with pumpkin seeds, sesame seeds, edamame, matcha, spinach, and almonds.',
   brand: {
     '@type': 'Brand',
     name: '10X',
-    description: '10X Formulas — A Brain-First Performance Company',
   },
   category: 'Nutritional Supplement',
-  gtin: process.env.NEXT_PUBLIC_PRODUCT_GTIN || '8906103000000',
-  image: [
-    `${SITE_URL}/product-hero.jpg`,
-    `${SITE_URL}/product-side.jpg`,
-  ],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.8',
-    ratingCount: '2150',
-    bestRating: '5',
-    worstRating: '1',
-  },
-  review: [
-    {
-      '@type': 'Review',
-      reviewRating: {
-        '@type': 'Rating',
-        ratingValue: '5',
-      },
-      author: {
-        '@type': 'Person',
-        name: 'Customer',
-      },
-      reviewBody: 'Real brain nourishment — clean focus and clarity without the spikes and crashes.',
-    },
-  ],
-  aggregateOffer: {
+  image: [`${SITE_URL}/product-hero.jpg`],
+  offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'INR',
-    lowPrice: '299',
-    highPrice: '399',
-    offerCount: '4',
+    lowPrice: '1199',
+    highPrice: '2999',
+    offerCount: '2',
     offers: [
       {
         '@type': 'Offer',
-        name: 'Blinkit',
-        url: 'https://blinkit.com',
-        price: '299',
+        name: 'One-Time Purchase',
+        price: '1199',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
-        seller: {
-          '@type': 'Organization',
-          name: 'Blinkit',
-        },
+        url: `${SITE_URL}/products/10x-daytime`,
       },
       {
         '@type': 'Offer',
-        name: 'Zepto',
-        url: 'https://zepto.in',
-        price: '299',
+        name: 'Monthly Subscription',
+        price: '2999',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
-        seller: {
-          '@type': 'Organization',
-          name: 'Zepto',
-        },
-      },
-      {
-        '@type': 'Offer',
-        name: 'Swiggy Instamart',
-        url: 'https://instamart.swiggy.com',
-        price: '349',
-        priceCurrency: 'INR',
-        availability: 'https://schema.org/InStock',
-        seller: {
-          '@type': 'Organization',
-          name: 'Swiggy Instamart',
-        },
-      },
-      {
-        '@type': 'Offer',
-        name: 'Flipkart Minutes',
-        url: 'https://flipkart.com',
-        price: '399',
-        priceCurrency: 'INR',
-        availability: 'https://schema.org/InStock',
-        seller: {
-          '@type': 'Organization',
-          name: 'Flipkart',
-        },
+        url: `${SITE_URL}/products/10x-daytime`,
       },
     ],
   },
@@ -164,48 +102,27 @@ const faqJsonLd = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What is 10X Brain Battery?',
+      name: 'What is THE BRAIN BATTERY?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '10X is The Brain Battery — pocket-sized brain nourishment from a brain-first performance company. A precise blend of amino acids, nutrients, and nootropics designed for focus, clarity, and control. It is not an energy drink; it supports the brain rather than overriding it.',
+        text: 'THE BRAIN BATTERY by 10X is engineered nutrition designed to support focused thinking, controlled energy, and clear execution — a simple daily protocol for people who rely on their minds every day.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Is 10X an energy drink?',
+      name: 'What is it engineered with?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'No. 10X is brain nourishment, not an energy drink. Coffee, energy drinks, and nicotine override the brain with stimulants — leading to spikes, crashes, and noise. 10X uses ingredients your body already recognizes from everyday foods, in more effective forms, to support the brain naturally.',
+        text: 'Pumpkin seeds, sesame seeds, edamame, matcha, spinach, and almonds — carefully selected ingredients brought together in one simple daily protocol.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Where can I buy 10X?',
+      name: 'How do I buy 10X?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '10X Daytime is available on Blinkit, Zepto, Swiggy Instamart, and Flipkart Minutes for quick delivery across India.',
+        text: 'Choose a one-time purchase (₹1,199 for 10 servings) or a monthly subscription (₹2,999 for 30 servings) on 10xdrink.com. It is also available on Blinkit and Zepto.',
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'What does 10X contain?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: '10X is a precise blend of amino acids, nutrients, and nootropics — ingredients your body already recognizes from everyday foods, used here in more effective, bioavailable forms. No harsh stimulants. No unnecessary additives. Simple, real, and well understood.',
-      },
-    },
-  ],
-};
-
-const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    {
-      '@type': 'ListItem',
-      position: 1,
-      name: 'Home',
-      item: SITE_URL,
     },
   ],
 };
@@ -219,19 +136,15 @@ export default function HomePage() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <main id="main">
         <Hero />
-        <AvailableAt />
-        <Benefits />
-        <PourMixDrink />
-        <TakeCharge />
-        <Collection />
+        <IngredientStrip />
+        <BrandPromise />
+        <WhoWeAre />
+        <WhyWeExist />
+        <FinalCTA />
       </main>
     </>
   );

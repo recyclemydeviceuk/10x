@@ -1,57 +1,101 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import { PRODUCT_IMAGES } from './productMedia';
+const PRODUCT_HREF = '/products/10x-daytime';
+
+const SLIDES = [
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781942859/1_ijcfyp.png', alt: '10X The Brain Battery' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781942859/Banner-2_ifjqif.png', alt: '10X The Brain Battery — focus and performance' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781942860/Banner-3_tqhuc2.jpg', alt: '10X The Brain Battery — engineered nutrition' },
+  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781942864/Section-2-Banner-1_rpmgmo.png', alt: '10X The Brain Battery — fuel better thinking' },
+];
 
 export default function Hero() {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const t = window.setInterval(() => {
+      setActive((i) => (i + 1) % SLIDES.length);
+    }, 3800);
+    return () => window.clearInterval(t);
+  }, []);
+
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden bg-ink text-fg-inverse"
       aria-label="The Brain Battery"
+      className="relative w-full overflow-hidden bg-white pt-16 md:pt-[72px]"
     >
-      {/* Background image — wide hero crop with the product left-of-centre */}
-      <Image
-        src={PRODUCT_IMAGES.heroBanner}
-        alt="10X Daytime can and single-serve sachet on a kitchen counter"
-        fill
-        priority
-        fetchPriority="high"
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+      {/* Product / lifestyle carousel —
+          mobile: full-width block on top · lg: full-bleed right half, full height */}
+      <div className="relative h-[58vw] max-h-[440px] w-full bg-paper-100 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:max-h-none lg:w-1/2">
+        {SLIDES.map((s, i) => (
+          <Image
+            key={s.src}
+            src={s.src}
+            alt={s.alt}
+            fill
+            priority={i === 0}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className={`object-cover transition-opacity duration-700 ease-out ${
+              i === active ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
 
-      {/* Left blue gradient overlay — keeps text legible */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          background:
-            'linear-gradient(90deg, #02063A 0%, #0821D2 30%, rgba(8,33,210,0.55) 58%, rgba(8,33,210,0.0) 80%)',
-        }}
-      />
+        {/* dots */}
+        <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2">
+          {SLIDES.map((s, i) => (
+            <button
+              key={s.src}
+              type="button"
+              onClick={() => setActive(i)}
+              aria-label={`Show slide ${i + 1}`}
+              aria-current={i === active}
+              className={`h-2 rounded-full shadow transition-all ${
+                i === active ? 'w-6 bg-white' : 'w-2 bg-white/60'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
 
-      {/* Content */}
-      <div className="relative z-10 flex min-h-[500px] items-center py-14 md:min-h-[620px] md:py-20 lg:min-h-[720px] lg:py-24">
-        <div className="w-full max-w-7xl px-6 sm:px-10 md:px-14">
-          <div className="max-w-2xl">
-            <h1 className="font-condensed italic font-black uppercase leading-[0.88] tracking-tight text-white text-[clamp(3rem,8vw,6.5rem)]">
-              <span className="block whitespace-nowrap">The Brain</span>
-              <span className="block whitespace-nowrap">Battery</span>
-            </h1>
-
-            <p className="mt-6 max-w-md font-pt text-body font-bold uppercase tracking-[0.04em] text-white/90">
-              Brain nourishment for focus, clarity, and control.
-              <br className="hidden sm:block" />
-              No spikes. No crashes. No noise.
+      {/* Copy — aligned to the site container so its left edge lines up with the logo */}
+      <div className="mx-auto max-w-7xl px-6 sm:px-10 md:px-14">
+        <div className="flex items-center py-14 sm:py-16 lg:min-h-[80vh] lg:w-1/2 lg:py-20 lg:pr-12">
+          <div className="w-full max-w-xl">
+            <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
+              The Brain Battery
             </p>
 
-            <Link
-              href="#collection"
-              className="mt-8 inline-flex cursor-pointer items-center gap-2 border-2 border-accent bg-transparent px-7 py-3 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-accent transition hover:bg-accent hover:text-ink"
-            >
-              Shop Now
-            </Link>
+            <h1 className="mt-4 font-condensed text-5xl font-black uppercase italic leading-[0.9] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+              Fuel
+              <br />
+              Better
+              <br />
+              <span className="text-brand-blue">Thinking.</span>
+            </h1>
+
+            <p className="mt-6 max-w-md font-pt text-body-lg text-fg-muted">
+              Engineered nutrition designed to support focused thinking, controlled
+              energy, and clear execution.
+            </p>
+
+            <div className="mt-9">
+              <Link
+                href={PRODUCT_HREF}
+                className="inline-flex cursor-pointer items-center gap-2 bg-accent px-9 py-4 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
+              >
+                Order Now
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -18,10 +18,14 @@ const nextConfig = {
     ],
   },
   async headers() {
+    const isProd = process.env.NODE_ENV === 'production';
     return [
       {
         source: '/(.*)',
         headers: [
+          // In dev, prevent the browser from caching navigation documents
+          // (avoids stale HTML during rapid iteration). No effect in prod.
+          ...(isProd ? [] : [{ key: 'Cache-Control', value: 'no-store, must-revalidate' }]),
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
@@ -51,12 +55,18 @@ const nextConfig = {
           { key: 'Content-Type', value: 'application/manifest+json' },
         ],
       },
-      {
-        source: '/:path*.(js|css|webp|png|jpg|jpeg|svg|woff|woff2|ttf|eot)',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
-      },
+      // Long-lived immutable caching only in production (assets are content-hashed).
+      // In dev this would pin stale CSS/JS in the browser, so skip it.
+      ...(isProd
+        ? [
+            {
+              source: '/:path*.(js|css|webp|png|jpg|jpeg|svg|woff|woff2|ttf|eot)',
+              headers: [
+                { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+              ],
+            },
+          ]
+        : []),
       {
         source: '/:path*.(html)',
         headers: [
