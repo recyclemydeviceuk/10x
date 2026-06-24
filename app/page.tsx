@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import Hero from '../components/Hero';
+import HeroMobile from '../components/HeroMobile';
 import IngredientStrip from '../components/IngredientStrip';
 import BrandPromise from '../components/BrandPromise';
 import WhoWeAre from '../components/WhoWeAre';
@@ -147,6 +148,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <main id="main">
+        <HeroMobile />
         <Hero />
         <IngredientStrip />
         <BrandPromise />

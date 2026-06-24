@@ -1,17 +1,40 @@
 'use client';
 
+import Image from 'next/image';
 import { useRef } from 'react';
 
 const MINDS = [
-  { label: 'Creators', text: 'Sustain creative sprints without the crash.' },
-  { label: 'Developers', text: 'Hold deep focus through long problem loops.' },
-  { label: 'Students', text: 'Study longer with a calm, clear mind.' },
-  { label: 'Athletes', text: 'Sharper focus and reaction — clean inputs only.' },
-  { label: 'Entrepreneurs', text: 'Make better decisions, all day long.' },
-  { label: 'Leaders', text: 'Stay sharp through back-to-back calls.' },
+  {
+    label: 'Creators',
+    text: 'Sustain creative sprints without the crash.',
+    image: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782301319/CREATORS.jpg_orofoj.jpg',
+  },
+  {
+    label: 'Developers',
+    text: 'Hold deep focus through long problem loops.',
+    image: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782301319/DEVELOPERS.jpg_tmy9e5.jpg',
+  },
+  {
+    label: 'Students',
+    text: 'Study longer with a calm, clear mind.',
+    image: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782301319/STUDENTS.jpg_jcbkxf.jpg',
+  },
+  {
+    label: 'Athletes',
+    text: 'Sharper focus and reaction — clean inputs only.',
+    image: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782301319/ATHLETES.jpg_djkixu.jpg',
+  },
+  {
+    label: 'Entrepreneurs',
+    text: 'Make better decisions, all day long.',
+    image: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782301320/FOUNDERS.jpg_dtb63a.jpg',
+  },
+  {
+    label: 'Leaders',
+    text: 'Stay sharp through back-to-back calls.',
+    image: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782301319/EXECUTIVES.jpg_wze9kd.jpg',
+  },
 ];
-
-const CARD_BG = 'linear-gradient(160deg, #0821D2 0%, #02063A 58%, #000204 100%)';
 
 export default function BuiltForMinds() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -64,10 +87,20 @@ export default function BuiltForMinds() {
           {MINDS.map((m, i) => (
             <article
               key={m.label}
-              className="relative flex aspect-[3/4] w-[250px] shrink-0 snap-start flex-col justify-end overflow-hidden p-6 text-white"
-              style={{ background: CARD_BG }}
+              className="relative flex aspect-[3/5] w-[250px] shrink-0 snap-start flex-col justify-end overflow-hidden bg-ink p-6 text-white"
             >
-              <span className="pointer-events-none absolute right-4 top-3 font-condensed text-6xl font-black italic leading-none text-white/10">
+              {/* Background image */}
+              <Image
+                src={m.image}
+                alt={m.label}
+                fill
+                sizes="250px"
+                className="object-cover object-center"
+              />
+              {/* Dark scrim — keeps the label and number legible over the photo */}
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
+
+              <span className="pointer-events-none absolute right-4 top-3 font-condensed text-6xl font-black italic leading-none text-white/20">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className="relative">
@@ -75,7 +108,7 @@ export default function BuiltForMinds() {
                 <h3 className="mt-4 font-condensed text-2xl font-black uppercase italic tracking-tight">
                   {m.label}
                 </h3>
-                <p className="mt-2 font-pt text-caption text-white/75">{m.text}</p>
+                <p className="mt-2 font-pt text-caption text-white/80">{m.text}</p>
               </div>
             </article>
           ))}

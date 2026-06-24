@@ -8,28 +8,23 @@ export default function WhoWeAre() {
     <section
       id="who-we-are"
       aria-label="Who we are"
-      className="relative w-full overflow-hidden bg-brand-blue"
+      className="relative w-full overflow-hidden bg-pastel-lime lg:bg-brand-blue"
     >
-      {/* Image — left, bleeds to the left edge */}
-      <div className="absolute inset-y-0 left-0 z-0 w-full lg:w-[56%]">
+      {/* Image — left half, lg and up only (hidden on mobile for a clean full section) */}
+      <div className="absolute inset-y-0 left-0 z-0 hidden w-[56%] lg:block">
         <Image
           src={BG_IMAGE}
           alt="10X — fuel better thinking"
           fill
-          sizes="(min-width: 1024px) 56vw, 100vw"
+          sizes="56vw"
           className="object-cover object-center"
         />
-        {/* dim the image a touch on mobile so the card reads */}
-        <div aria-hidden className="absolute inset-0 bg-ink/30 lg:hidden" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-[420px] max-w-7xl items-center px-5 py-12 sm:min-h-[520px] sm:px-8 sm:py-16 md:min-h-[680px] md:px-14 md:py-24">
-        <div className="ml-auto w-full max-w-lg bg-white p-6 shadow-elevated sm:p-8 md:p-12 lg:-translate-x-16 xl:-translate-x-28">
-          <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
-            Who We Are
-          </p>
-          <h2 className="mt-4 font-condensed text-3xl font-black uppercase italic leading-[0.95] tracking-tight text-ink sm:text-4xl lg:text-5xl">
+      <div className="relative z-10 mx-auto flex max-w-7xl items-center px-5 py-12 sm:px-8 sm:py-16 md:px-14 md:py-24 lg:min-h-[680px]">
+        <div className="w-full lg:ml-auto lg:max-w-lg lg:bg-white lg:p-12 lg:shadow-elevated lg:-translate-x-16 xl:-translate-x-28">
+          <h2 className="font-condensed text-3xl font-black uppercase italic leading-[0.95] tracking-tight text-ink sm:text-4xl lg:text-5xl">
             Your Brain Is Your Most Important Tool.
           </h2>
 

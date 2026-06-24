@@ -50,13 +50,13 @@ export default function BrandPromise() {
       className="bg-white py-14 sm:py-16 md:py-24"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid grid-cols-1 items-center gap-8 sm:grid-cols-2 sm:gap-8 lg:gap-16">
           {/* ---------- Left: content (unchanged) ---------- */}
           <div>
-            <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
+            <h1 className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
               The Brain Battery
-            </p>
-            <h2 className="mt-4 font-condensed text-4xl font-black uppercase italic leading-[0.9] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            </h1>
+            <h2 className="mt-4 font-condensed text-4xl font-black uppercase italic leading-[0.9] tracking-tight text-ink lg:text-6xl">
               Fuel Better
               <br />
               Thinking.
@@ -149,7 +149,7 @@ export default function BrandPromise() {
                   aria-label={`Show slide ${i + 1}`}
                   aria-current={i === active}
                   className={`h-2 rounded-full transition-all ${
-                    i === active ? 'w-6 bg-brand-blue' : 'w-2 bg-paper-300 hover:bg-paper-300'
+                    i === active ? 'w-6 bg-accent' : 'w-2 bg-paper-300 hover:bg-paper-300'
                   }`}
                 />
               ))}

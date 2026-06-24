@@ -53,10 +53,7 @@ export default function WhyWeExist() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch lg:gap-10">
           {/* ---------- Left: everyday habits ---------- */}
           <div className="flex flex-col">
-            <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
-              Why We Exist
-            </p>
-            <h2 className="mt-4 font-condensed text-3xl font-black uppercase italic leading-[0.95] tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-condensed text-3xl font-black uppercase italic leading-[0.95] tracking-tight text-ink sm:text-4xl">
               We Take Care
               <br />
               Of It All.

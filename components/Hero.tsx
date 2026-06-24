@@ -27,7 +27,7 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="The Brain Battery"
-      className="relative w-full overflow-hidden bg-white pt-14 md:pt-[72px]"
+      className="relative hidden w-full overflow-hidden bg-white pt-14 md:pt-[72px] lg:block"
     >
       {/* Product / lifestyle carousel —
           mobile: full-width block on top · lg: full-bleed right half, full height */}
