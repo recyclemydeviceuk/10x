@@ -7,10 +7,9 @@ import { useEffect, useState } from 'react';
 const PRODUCT_HREF = '/products/10x-daytime';
 
 const SLIDES = [
-  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781942859/1_ijcfyp.png', alt: '10X The Brain Battery' },
-  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781942859/Banner-2_ifjqif.png', alt: '10X The Brain Battery — focus and performance' },
-  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781942860/Banner-3_tqhuc2.jpg', alt: '10X The Brain Battery — engineered nutrition' },
-  { src: 'https://res.cloudinary.com/dpq1nvxmd/image/upload/v1781942864/Section-2-Banner-1_rpmgmo.png', alt: '10X The Brain Battery — fuel better thinking' },
+  { src: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782395886/3_nvngsk.png', alt: '10X The Brain Battery — on the go' },
+  { src: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782395881/1_p1utcj.png', alt: '10X The Brain Battery' },
+  { src: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782395881/2_qx1n8q.png', alt: '10X The Brain Battery — engineered nutrition' },
 ];
 
 export default function Hero() {
@@ -19,7 +18,7 @@ export default function Hero() {
   useEffect(() => {
     const t = window.setInterval(() => {
       setActive((i) => (i + 1) % SLIDES.length);
-    }, 3800);
+    }, 5000);
     return () => window.clearInterval(t);
   }, []);
 
@@ -31,23 +30,28 @@ export default function Hero() {
     >
       {/* Product / lifestyle carousel —
           mobile: full-width block on top · lg: full-bleed right half, full height */}
-      <div className="relative h-[56vw] max-h-[360px] w-full bg-paper-100 sm:max-h-[440px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:max-h-none lg:w-1/2">
-        {SLIDES.map((s, i) => (
-          <Image
-            key={s.src}
-            src={s.src}
-            alt={s.alt}
-            fill
-            priority={i === 0}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className={`object-cover transition-opacity duration-700 ease-out ${
-              i === active ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        ))}
+      <div className="relative h-[56vw] max-h-[360px] w-full overflow-hidden bg-paper-100 sm:max-h-[440px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:max-h-none lg:w-1/2">
+        {/* sliding track — moves one full panel-width per slide */}
+        <div
+          className="flex h-full w-full transition-transform duration-[1100ms] ease-[cubic-bezier(0.65,0,0.35,1)] will-change-transform"
+          style={{ transform: `translateX(-${active * 100}%)` }}
+        >
+          {SLIDES.map((s, i) => (
+            <div key={s.src} className="relative h-full w-full shrink-0">
+              <Image
+                src={s.src}
+                alt={s.alt}
+                fill
+                priority={i === 0}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
 
         {/* dots */}
-        <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2">
+        <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
           {SLIDES.map((s, i) => (
             <button
               key={s.src}
