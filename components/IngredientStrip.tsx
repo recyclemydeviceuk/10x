@@ -33,7 +33,7 @@ export default function IngredientStrip() {
     <section
       id="ingredients"
       aria-label="Engineered with"
-      className="bg-paper-100 py-12 sm:py-16 md:py-24"
+      className="bg-paper-100 pb-10 pt-7 sm:py-16 md:py-24"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
         <h2 className="font-condensed text-2xl font-black uppercase italic leading-none tracking-tight text-ink sm:text-3xl md:text-4xl">
@@ -41,7 +41,7 @@ export default function IngredientStrip() {
         </h2>
 
         {/* Mobile / tablet: swipeable carousel, 4 per view */}
-        <ul className="mt-7 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2 md:hidden [scrollbar-width:none]">
+        <ul className="mt-5 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2 md:hidden [scrollbar-width:none]">
           {INGREDIENT_DETAILS.map((ing) => (
             <Card key={ing.name} ing={ing} className="w-[calc((100%-1.5rem)/4)] shrink-0 snap-start" />
           ))}
