@@ -37,7 +37,7 @@ export default function HeroMobile() {
       {/* Product carousel — banner image, edge to edge, slides horizontally.
           Height is capped to the viewport so the hero copy + ingredient strip
           stay in the first view, matching the mockup. */}
-      <div className="relative h-[42vh] max-h-[400px] min-h-[280px] w-full overflow-hidden bg-white">
+      <div className="relative h-[46vh] max-h-[440px] min-h-[300px] w-full overflow-hidden bg-white">
         {/* sliding track — moves one full screen-width per slide */}
         <div
           className="flex h-full w-full transition-transform duration-[1100ms] ease-[cubic-bezier(0.65,0,0.35,1)] will-change-transform"
@@ -74,28 +74,29 @@ export default function HeroMobile() {
         </div>
       </div>
 
-      {/* Copy — left aligned */}
-      <div className="px-5 pb-7 pt-5 text-left">
-        <h1 className="font-condensed text-[2.6rem] font-black uppercase italic leading-[0.9] tracking-tight text-ink">
+      {/* Copy — left aligned. Compact sizing on mobile so the ingredient strip
+          stays in the first view alongside a taller hero image. */}
+      <div className="px-5 pb-5 pt-4 text-left">
+        <h1 className="font-condensed text-[2rem] font-black uppercase italic leading-[0.9] tracking-tight text-ink">
           The Brain Battery
         </h1>
 
-        <p className="mt-2.5 font-condensed text-xl font-bold uppercase italic tracking-tight text-brand-blue">
+        <p className="mt-2 font-condensed text-base font-bold uppercase italic tracking-tight text-brand-blue">
           Fuel Better Thinking.
         </p>
 
-        <p className="mt-3 max-w-md font-pt text-body-sm text-fg-muted">
+        <p className="mt-2.5 max-w-md font-pt text-xs leading-relaxed text-fg-muted">
           Engineered nutrition designed to support focused thinking, controlled
           energy, and clear execution.
         </p>
 
-        <div className="mt-5">
+        <div className="mt-4">
           <Link
             href={PRODUCT_HREF}
-            className="inline-flex cursor-pointer items-center gap-2 bg-accent px-8 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
+            className="inline-flex cursor-pointer items-center gap-2 bg-accent px-6 py-3 font-quantico text-[11px] font-bold uppercase tracking-[0.16em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
           >
             Order Now
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
             </svg>

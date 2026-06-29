@@ -33,7 +33,7 @@ export default function IngredientStrip() {
     <section
       id="ingredients"
       aria-label="Engineered with"
-      className="bg-paper-100 pb-10 pt-7 sm:py-16 md:py-24"
+      className="bg-paper-100 pb-10 pt-5 sm:py-16 md:py-24"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
         <h2 className="font-condensed text-2xl font-black uppercase italic leading-none tracking-tight text-ink sm:text-3xl md:text-4xl">
