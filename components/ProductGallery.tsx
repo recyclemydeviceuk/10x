@@ -1,13 +1,24 @@
 'use client';
 
 import Image, { type StaticImageData } from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export type GalleryImage = { src: string | StaticImageData; alt: string };
+
+const AUTO_SLIDE_MS = 3000;
 
 export default function ProductGallery({ images }: { images: GalleryImage[] }) {
   const [active, setActive] = useState(0);
   const count = images.length;
+
+  // Auto-advance; keyed on `active` so any manual navigation restarts the timer.
+  useEffect(() => {
+    if (count <= 1) return;
+    const t = window.setInterval(() => {
+      setActive((i) => (i + 1) % count);
+    }, AUTO_SLIDE_MS);
+    return () => window.clearInterval(t);
+  }, [active, count]);
 
   function go(dir: number) {
     setActive((i) => (i + dir + count) % count);
