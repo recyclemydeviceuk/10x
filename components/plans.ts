@@ -1,10 +1,11 @@
 // =========================================================
 // 10X DAY TIME — THE BRAIN BATTERY
-// Pricing model: three pack tiers; the larger packs can be
-// bought one-time or on a Subscribe & Save (15% off) plan.
-//   Single Pack       — 10 sticks · ₹799   (one-time only)
-//   Core Daily Pack   — 30 sticks · ₹1,999 (sub ₹1,699)  ← Most Popular
-//   Performance Stack — 60 sticks · ₹3,499 (sub ₹2,974)
+// Pricing model: three pack tiers priced off the 10-pack
+// unit rate (₹1,199 per 10 sticks = MRP). Larger packs are
+// discounted on the Subscribe & Save plan:
+//   Single Pack       — 10 sticks · ₹1,199 (one-time only)
+//   Core Daily Pack   — 30 sticks · MRP ₹3,597 → ₹3,299 (Save ₹298 | ~8.3% Off)
+//   Performance Stack — 60 sticks · MRP ₹7,194 → ₹5,999 (Save ₹1,195 | ~16.6% Off)
 // =========================================================
 
 export type TierId = 'single' | 'core' | 'performance';
@@ -34,8 +35,8 @@ export const TIERS: Record<TierId, Tier> = {
     name: 'Single Pack',
     tagline: 'Calm Focus Energy for High Performance',
     packets: '10 Stick Packets',
-    price: 799,
-    priceLabel: inr(799),
+    price: 1199,
+    priceLabel: inr(1199),
     benefits: ['Sustained focus support', 'Calm energy delivery', 'Zero Sugar'],
     subscribable: false,
   },
@@ -44,8 +45,8 @@ export const TIERS: Record<TierId, Tier> = {
     name: 'Core Daily Pack',
     tagline: 'The Brain Battery (Most Popular)',
     packets: '30 Stick Packets',
-    price: 1999,
-    priceLabel: inr(1999),
+    price: 3597,
+    priceLabel: inr(3597),
     benefits: [
       'Priority focus support',
       'Calm energy delivery',
@@ -54,16 +55,16 @@ export const TIERS: Record<TierId, Tier> = {
     ],
     badge: 'Most Popular',
     subscribable: true,
-    subscriptionPrice: 1699,
-    subscriptionLabel: inr(1699),
+    subscriptionPrice: 3299,
+    subscriptionLabel: inr(3299),
   },
   performance: {
     id: 'performance',
     name: 'Performance Stack',
     tagline: 'Maximum Cognitive Resilience',
     packets: '60 Stick Packets',
-    price: 3499,
-    priceLabel: inr(3499),
+    price: 7194,
+    priceLabel: inr(7194),
     benefits: [
       'Unrestricted cognitive support',
       'Deep focus protection',
@@ -71,10 +72,24 @@ export const TIERS: Record<TierId, Tier> = {
       'Zero Sugar',
     ],
     subscribable: true,
-    subscriptionPrice: 2974,
-    subscriptionLabel: inr(2974),
+    subscriptionPrice: 5999,
+    subscriptionLabel: inr(5999),
   },
 };
+
+/** Savings on the Subscribe & Save price vs the one-time MRP. */
+export function tierSavings(tier: Tier) {
+  if (!tier.subscribable || tier.subscriptionPrice == null) return null;
+  const amount = tier.price - tier.subscriptionPrice;
+  const pctLabel = `${((amount / tier.price) * 100).toFixed(1)}%`;
+  return { amount, amountLabel: inr(amount), pctLabel };
+}
+
+// Product copy — shared by the desktop purchase panel and the mobile details
+// block so the wording stays in one place.
+export const PRODUCT_DESCRIPTION =
+  'Premium brain nourishment formula designed to support calm focus, cognitive clarity, and sustained mental performance.';
+export const PRODUCT_PERFECT_FOR = 'Creators, developers, athletes, and directors.';
 
 export const TIER_LIST: Tier[] = [TIERS.single, TIERS.core, TIERS.performance];
 

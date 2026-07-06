@@ -26,8 +26,9 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
 
   return (
     <div>
-      {/* Main image */}
-      <div className="relative aspect-square w-full overflow-hidden border border-paper-200 bg-paper-100">
+      {/* Main image — slightly shorter on mobile so the full purchase panel
+          (title, packs, price, add to cart) fits in the first screen. */}
+      <div className="relative aspect-[10/9] w-full overflow-hidden border border-paper-200 bg-paper-100 md:aspect-square">
         <Image
           key={active}
           src={images[active].src}
@@ -44,7 +45,7 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
               type="button"
               onClick={() => go(-1)}
               aria-label="Previous image"
-              className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/90 text-ink shadow-card transition-colors hover:bg-white"
+              className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/90 text-ink shadow-card transition-colors hover:bg-white md:h-10 md:w-10"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <polyline points="15 18 9 12 15 6" />
@@ -54,7 +55,7 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
               type="button"
               onClick={() => go(1)}
               aria-label="Next image"
-              className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/90 text-ink shadow-card transition-colors hover:bg-white"
+              className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/90 text-ink shadow-card transition-colors hover:bg-white md:h-10 md:w-10"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <polyline points="9 18 15 12 9 6" />
@@ -66,7 +67,7 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
 
       {/* Position dots (thumbnail previews removed for a minimal gallery) */}
       {count > 1 && (
-        <div className="mt-4 flex items-center justify-center gap-2">
+        <div className="mt-2.5 flex items-center justify-center gap-2 md:mt-4">
           {images.map((im, i) => (
             <button
               key={typeof im.src === 'string' ? im.src : i}

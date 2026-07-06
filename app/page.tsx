@@ -73,14 +73,14 @@ const productJsonLd = {
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'INR',
-    lowPrice: '799',
-    highPrice: '3499',
+    lowPrice: '1199',
+    highPrice: '5999',
     offerCount: '3',
     offers: [
       {
         '@type': 'Offer',
         name: 'Single Pack — 10 sticks',
-        price: '799',
+        price: '1199',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
         url: `${SITE_URL}/products/10x-daytime`,
@@ -88,7 +88,7 @@ const productJsonLd = {
       {
         '@type': 'Offer',
         name: 'Core Daily Pack — 30 sticks',
-        price: '1999',
+        price: '3299',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
         url: `${SITE_URL}/products/10x-daytime`,
@@ -96,7 +96,7 @@ const productJsonLd = {
       {
         '@type': 'Offer',
         name: 'Performance Stack — 60 sticks',
-        price: '3499',
+        price: '5999',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
         url: `${SITE_URL}/products/10x-daytime`,
@@ -130,7 +130,7 @@ const faqJsonLd = {
       name: 'How do I buy 10X?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Pick a pack on 10xdrink.com — Single Pack (10 sticks, ₹799), Core Daily Pack (30 sticks, ₹1,999) or Performance Stack (60 sticks, ₹3,499). The larger packs can be subscribed to Save 15%. Also available on Blinkit and Zepto.',
+        text: 'Pick a pack on 10xdrink.com — Single Pack (10 sticks, ₹1,199), Core Daily Pack (30 sticks, ₹3,299) or Performance Stack (60 sticks, ₹5,999). The larger packs can be subscribed to Save up to 16.6%. Also available on Blinkit and Zepto.',
       },
     },
   ],

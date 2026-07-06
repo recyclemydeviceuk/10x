@@ -33,16 +33,11 @@ export default function ProductFAQ() {
   return (
     <section aria-label="Common questions" className="bg-white">
       <div className="mx-auto max-w-3xl px-6 py-20 sm:px-10 md:px-14 md:py-24">
-        <div className="text-center">
-          <p className="font-quantico text-caption font-bold uppercase tracking-[0.2em] text-brand-blue">
-            FAQ
-          </p>
-          <h2 className="mt-3 font-condensed text-3xl font-black uppercase italic leading-[0.95] tracking-tight text-ink sm:text-4xl">
+        <div>
+          <h2 className="font-condensed text-3xl font-black uppercase italic leading-[0.95] tracking-tight text-ink sm:text-4xl">
             Common Questions About 10X
           </h2>
-          <p className="mx-auto mt-4 max-w-md font-pt text-body text-fg-muted">
-            Clear answers on what it is, how it feels, and how to use it.
-          </p>
+          <span aria-hidden className="mt-3 block h-1 w-12 rounded-full bg-accent" />
         </div>
 
         <div className="mt-10 border-t border-paper-200">

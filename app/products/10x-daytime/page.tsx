@@ -2,16 +2,18 @@ import type { Metadata } from 'next';
 
 import ProductGallery, { type GalleryImage } from '../../../components/ProductGallery';
 import ProductPurchase from '../../../components/ProductPurchase';
+import ProductDetailsMobile from '../../../components/ProductDetailsMobile';
 import IngredientStrip from '../../../components/IngredientStrip';
 import ProductFAQ from '../../../components/ProductFAQ';
 import BuiltForMinds from '../../../components/BuiltForMinds';
+import { ProductConfigProvider } from '../../../components/ProductConfigContext';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 
 export const metadata: Metadata = {
   title: '10X Day Time — The Brain Battery | Fuel Better Thinking',
   description:
-    '10X Day Time: a premium brain nourishment formula for calm focus, cognitive clarity, and sustained mental performance. Single Pack ₹799, Core Daily Pack ₹1,999, Performance Stack ₹3,499 — subscribe & save 15%. Also on Blinkit & Zepto.',
+    '10X Day Time: a premium brain nourishment formula for calm focus, cognitive clarity, and sustained mental performance. Single Pack ₹1,199, Core Daily Pack ₹3,299, Performance Stack ₹5,999 — subscribe & save up to 16.6%. Also on Blinkit & Zepto.',
   alternates: { canonical: '/products/10x-daytime' },
 };
 
@@ -39,8 +41,8 @@ const productJsonLd = {
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'INR',
-    lowPrice: '799',
-    highPrice: '3499',
+    lowPrice: '1199',
+    highPrice: '5999',
     offerCount: '3',
     availability: 'https://schema.org/InStock',
   },
@@ -54,27 +56,30 @@ export default function ProductPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
 
-      {/* ============ Gallery + Purchase ============ */}
-      <section className="mx-auto max-w-7xl px-6 py-10 sm:px-10 md:px-14 md:py-14">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-14">
-          {/* Gallery */}
-          <ProductGallery images={gallery} />
+      <ProductConfigProvider>
+        {/* ============ Screen 1 — Gallery + Purchase (hero) ============ */}
+        <section className="mx-auto max-w-7xl px-6 py-6 sm:px-10 md:px-14 md:py-14">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-14">
+            {/* Gallery */}
+            <ProductGallery images={gallery} />
 
-          {/* Dynamic purchase panel */}
-          <div className="md:py-1">
-            <ProductPurchase />
+            {/* Dynamic purchase panel */}
+            <div className="md:py-1">
+              <ProductPurchase />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ============ Engineered with ============ */}
-      <IngredientStrip />
+        {/* ============ Screen 2 — Engineered with + details ============ */}
+        <IngredientStrip />
+        <ProductDetailsMobile />
 
-      {/* ============ FAQ ============ */}
-      <ProductFAQ />
+        {/* ============ Screen 3 — Built for high-output minds ============ */}
+        <BuiltForMinds />
 
-      {/* ============ Built for high-output minds ============ */}
-      <BuiltForMinds />
+        {/* ============ Screen 4 — FAQ (last) ============ */}
+        <ProductFAQ />
+      </ProductConfigProvider>
     </main>
   );
 }

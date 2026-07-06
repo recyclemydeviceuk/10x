@@ -366,7 +366,7 @@ export default function DesignSystemPage() {
               <div>
                 <h3 className="text-body-lg font-bold">10X Daytime</h3>
                 <p className="text-body-sm text-fg-muted">The Brain Battery — Pack of 10</p>
-                <p className="mt-2 text-body-lg font-bold">₹799.00</p>
+                <p className="mt-2 text-body-lg font-bold">₹1,199.00</p>
               </div>
               <button type="button" className="btn-accent">Add</button>
             </div>
