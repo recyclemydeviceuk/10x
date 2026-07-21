@@ -51,7 +51,7 @@ export default function ProductPurchase() {
               type="button"
               onClick={() => setTierId(t.id)}
               aria-pressed={active}
-              className={`flex-1 cursor-pointer rounded-full px-2 py-2.5 text-center font-quantico text-[11px] font-bold uppercase tracking-wide transition-colors sm:text-body-sm ${
+              className={`type-k flex-1 cursor-pointer rounded-full px-2 py-2.5 text-center transition-colors ${
                 active ? 'bg-accent text-ink shadow-glow-soft' : 'text-fg-muted hover:text-ink'
               }`}
             >
@@ -103,13 +103,13 @@ export default function ProductPurchase() {
           Engineered With carousel (see ProductDetailsMobile) so the hero fits
           in the first screen. */}
       <div className="hidden md:block">
-        <p className="mt-7 font-pt text-body text-fg-muted">
+        <p className="mt-7 type-b2 text-fg-muted">
           {PRODUCT_DESCRIPTION} Perfect for {PRODUCT_PERFECT_FOR.toLowerCase()}
         </p>
 
         <ul className="mt-5 space-y-2.5">
           {tier.benefits.map((b) => (
-            <li key={b} className="flex items-center gap-3 font-pt text-body text-fg">
+            <li key={b} className="flex items-center gap-3 type-b2 text-fg">
               <Dot />
               {b}
             </li>

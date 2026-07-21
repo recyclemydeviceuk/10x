@@ -1,6 +1,6 @@
 // Central source of truth for 10X Daytime product imagery.
 // All hosted on Cloudinary — referenced across the product page, collection,
-// shop menu, cart, story, formulation and blog.
+// shop menu, cart, story and formulation.
 
 export const PRODUCT_IMAGES = {
   /** Wide lifestyle banner for the home hero — can + sachet on a kitchen counter.

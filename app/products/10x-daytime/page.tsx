@@ -7,6 +7,7 @@ import IngredientStrip from '../../../components/IngredientStrip';
 import ProductFAQ from '../../../components/ProductFAQ';
 import BuiltForMinds from '../../../components/BuiltForMinds';
 import { ProductConfigProvider } from '../../../components/ProductConfigContext';
+import { tierIdFromPack } from '../../../components/plans';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 
@@ -48,7 +49,14 @@ const productJsonLd = {
   },
 };
 
-export default function ProductPage() {
+export default async function ProductPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ pack?: string }>;
+}) {
+  const { pack } = await searchParams;
+  const initialTierId = tierIdFromPack(pack);
+
   return (
     <main id="main" className="bg-white pt-14 md:pt-[72px]">
       <script
@@ -56,7 +64,7 @@ export default function ProductPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
 
-      <ProductConfigProvider>
+      <ProductConfigProvider initialTierId={initialTierId}>
         {/* ============ Screen 1 — Gallery + Purchase (hero) ============ */}
         <section className="mx-auto max-w-7xl px-6 py-6 sm:px-10 md:px-14 md:py-14">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-14">

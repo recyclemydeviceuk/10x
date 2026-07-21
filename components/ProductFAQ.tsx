@@ -33,26 +33,24 @@ export default function ProductFAQ() {
   return (
     <section aria-label="Common questions" className="bg-white">
       <div className="mx-auto max-w-3xl px-6 py-20 sm:px-10 md:px-14 md:py-24">
-        <div>
-          <h2 className="font-condensed text-3xl font-black uppercase italic leading-[0.95] tracking-tight text-ink sm:text-4xl">
-            Common Questions About 10X
-          </h2>
-          <span aria-hidden className="mt-3 block h-1 w-12 rounded-full bg-accent" />
-        </div>
+        <p className="type-k text-fg-muted">Before you ask</p>
+        <h2 className="type-d2 mt-4 text-ink">Common questions about 10X</h2>
 
         <div className="mt-10 border-t border-paper-200">
-          {FAQS.map((f) => (
-            <details key={f.q} className="group border-b border-paper-200">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-quantico text-body font-bold uppercase tracking-wide text-fg">
-                {f.q}
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center border border-paper-300 text-brand-blue transition-transform duration-200 group-open:rotate-45">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                  </svg>
+          {FAQS.map((f, i) => (
+            <details key={f.q} open={i === 0} className="group border-b border-paper-200">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 text-ink">
+                <span className="type-d3">{f.q}</span>
+                {/* Green "+" → "−" on open */}
+                <span
+                  aria-hidden
+                  className="relative flex h-6 w-6 shrink-0 items-center justify-center text-accent-pressed"
+                >
+                  <span className="absolute h-0.5 w-3.5 rounded-full bg-current" />
+                  <span className="absolute h-3.5 w-0.5 rounded-full bg-current transition-transform duration-200 group-open:scale-y-0" />
                 </span>
               </summary>
-              <p className="pb-6 font-pt text-body text-fg-muted">{f.a}</p>
+              <p className="type-b2 max-w-2xl pb-6 text-fg-muted">{f.a}</p>
             </details>
           ))}
         </div>

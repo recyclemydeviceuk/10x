@@ -75,15 +75,14 @@ export default function ProductDetailsMobile() {
       <div className="mx-auto max-w-2xl px-6 pb-10 pt-8 sm:px-10">
         {/* Description */}
         <div className="rounded-xl border border-paper-200 bg-paper-50 p-5">
-          <p className="font-pt text-body text-fg-muted">
+          <p className="type-b2 text-fg-muted">
             <span className="font-bold text-ink">Premium brain nourishment formula</span>{' '}
             {PRODUCT_DESCRIPTION.replace('Premium brain nourishment formula ', '')}
           </p>
-          <p className="mt-3 font-pt text-body-sm text-fg-muted">
-            <span className="font-quantico text-caption font-bold uppercase tracking-wide text-ink">
+          <p className="mt-3 type-b2 text-fg-muted">
+            <span className="type-k mb-1 block text-ink">
               Perfect for
             </span>
-            <br />
             {PRODUCT_PERFECT_FOR}
           </p>
         </div>
@@ -100,7 +99,7 @@ export default function ProductDetailsMobile() {
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/15 text-ink">
                 <BenefitIcon label={b} />
               </span>
-              <span className="font-pt text-body-sm leading-tight text-fg">{b}</span>
+              <span className="type-b2 leading-tight text-fg">{b}</span>
             </li>
           ))}
         </ul>

@@ -51,11 +51,16 @@
   --color-fg-inverse-muted: #B0B5C0;
 
   /* Type — map to the fonts actually loaded in app/fonts.ts */
-  --font-sans: var(--font-nebula), 'PT Sans', Arial, sans-serif;
-  --font-display-stack: var(--font-quantico), var(--font-nebula), Arial, sans-serif;
-  --font-condensed-stack: var(--font-quantico), var(--font-nebula), Arial, sans-serif;
-  --font-nimbus-stack: var(--font-nebula), 'Nimbus Sans', Arial, sans-serif;
-  --font-pt-stack: var(--font-pt-sans), 'PT Sans', Arial, sans-serif;
+  /* `system-ui, -apple-system` before Arial gives any font that lacks a glyph a
+     clean fallback (e.g. ₹ from San Francisco). NOTE: PT Sans Caption *has* a ₹
+     (drawn like a ₱), so prices in PT Sans Caption context can't be fixed by
+     fallback ordering — those render the ₹ token in a system font in markup. */
+  --font-sans: var(--font-nebula), system-ui, -apple-system, Arial, sans-serif;
+  --font-display-stack: var(--font-quantico), var(--font-nebula), system-ui, -apple-system, Arial, sans-serif;
+  --font-condensed-stack: var(--font-quantico), var(--font-nebula), system-ui, -apple-system, Arial, sans-serif;
+  --font-nimbus-stack: var(--font-nebula), system-ui, -apple-system, Arial, sans-serif;
+  --font-pt-stack: var(--font-pt-sans), system-ui, -apple-system, Arial, sans-serif;
+  --font-pt-caption-stack: var(--font-pt-caption), system-ui, -apple-system, 'PT Sans Caption', Arial, sans-serif;
 
   /* Radii */
   --radius-sm: 4px;
@@ -126,6 +131,85 @@ body {
 
   .section {
     @apply py-section-sm md:py-section;
+  }
+
+  /* =========================================================
+     THE TYPE SCALE — define these six once (per 10X brand kit)
+     D1/D2/D3 → Quantico Bold Italic (uppercase, tight tracking)
+     K        → Nimbus Sans Bold (≈ Nebula Sans) — kicker / label
+     B1/B2    → PT Sans Caption Reg — lede / body & answer
+     Green (#6DE325) is a colour applied on top, never a font change.
+     Sizes below are  mobile / desktop  from the kit's type table.
+     ========================================================= */
+
+  /* D1 — display hero · 44 / 88px */
+  .type-d1 {
+    font-family: var(--font-display-stack);
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: 2.75rem;
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+  }
+
+  /* D2 — section head · 32 / 56px */
+  .type-d2 {
+    font-family: var(--font-display-stack);
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: 2rem;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+  }
+
+  /* D3 — sub-display · 20 / 24px */
+  .type-d3 {
+    font-family: var(--font-display-stack);
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  /* K — kicker / label · 11 / 12px */
+  .type-k {
+    font-family: var(--font-nimbus-stack);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.22em;
+  }
+
+  /* B1 — lede · 18 / 22px  (Bold for emphasis) */
+  .type-b1 {
+    font-family: var(--font-pt-caption-stack);
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+
+  /* B2 — body / answer · 15 / 16px */
+  .type-b2 {
+    font-family: var(--font-pt-caption-stack);
+    font-weight: 400;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  @screen md {
+    .type-d1 { font-size: 5.5rem; }
+    .type-d2 { font-size: 3.5rem; }
+    .type-d3 { font-size: 1.5rem; }
+    .type-k  { font-size: 0.75rem; }
+    .type-b1 { font-size: 1.375rem; }
+    .type-b2 { font-size: 1rem; }
   }
 }
 

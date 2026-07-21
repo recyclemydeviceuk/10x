@@ -599,6 +599,15 @@ export default function CheckoutModal() {
                 </div>
               </div>
 
+              {/* Track order link */}
+              <a
+                href={`/track?id=${encodeURIComponent(orderId)}`}
+                className="mx-auto mt-4 flex max-w-sm items-center justify-center gap-2 font-quantico text-body-sm font-bold uppercase tracking-[0.12em] text-accent-pressed transition-colors hover:text-ink"
+              >
+                Track your order
+                {IconArrow}
+              </a>
+
               {/* Summary rows */}
               <dl className="mx-auto mt-4 max-w-sm space-y-3 rounded-2xl border border-paper-200 p-5 text-left font-pt text-body-sm">
                 <div className="flex items-center justify-between">

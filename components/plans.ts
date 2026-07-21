@@ -93,6 +93,28 @@ export const PRODUCT_PERFECT_FOR = 'Creators, developers, athletes, and director
 
 export const TIER_LIST: Tier[] = [TIERS.single, TIERS.core, TIERS.performance];
 
+/**
+ * Map a `?pack=` value (the pack size sent from the homepage Buy selector — e.g.
+ * "10", "30", "60") or a raw TierId to a TierId. Falls back to 'core' (30-pack)
+ * for anything unrecognised, matching the default selection.
+ */
+export function tierIdFromPack(pack?: string | string[] | null): TierId {
+  const value = Array.isArray(pack) ? pack[0] : pack;
+  switch (value) {
+    case '10':
+    case 'single':
+      return 'single';
+    case '60':
+    case 'performance':
+      return 'performance';
+    case '30':
+    case 'core':
+      return 'core';
+    default:
+      return 'core';
+  }
+}
+
 // What gets handed to the checkout popup.
 export type CheckoutSelection = {
   productName: string;

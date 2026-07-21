@@ -76,24 +76,24 @@ export default function HeroMobile() {
 
       {/* Copy — left aligned. Compact sizing on mobile so the ingredient strip
           stays in the first view alongside a taller hero image. */}
-      <div className="px-5 pb-5 pt-4 text-left">
-        <h1 className="font-condensed text-[2rem] font-black uppercase italic leading-[0.9] tracking-tight text-ink">
-          The Brain Battery
-        </h1>
+      <div className="px-5 pb-6 pt-4 text-left">
+        {/* K — kicker, grey */}
+        <p className="type-k text-fg-muted">The Brain Battery</p>
 
-        <p className="mt-2 font-condensed text-base font-bold uppercase italic tracking-tight text-brand-blue">
-          Fuel Better Thinking.
+        {/* D1 — display hero, black (no blue) */}
+        <h1 className="type-d1 mt-3 text-ink">Fuel Better Thinking.</h1>
+
+        {/* B1 — lede, "quietly better afternoon" bold */}
+        <p className="type-b1 mt-3 max-w-md text-ink">
+          No buzz. No crash. No moment it &ldquo;kicks in.&rdquo;{' '}
+          <span className="font-bold">Just a quietly better afternoon.</span>
         </p>
 
-        <p className="mt-2.5 max-w-md font-pt text-xs leading-relaxed text-fg-muted">
-          Engineered nutrition designed to support focused thinking, controlled
-          energy, and clear execution.
-        </p>
-
-        <div className="mt-4">
+        {/* Primary button (K on green) + micro-trust (B2, grey) */}
+        <div className="mt-5 flex flex-col items-start gap-2.5">
           <Link
             href={PRODUCT_HREF}
-            className="inline-flex cursor-pointer items-center gap-2 bg-accent px-6 py-3 font-quantico text-[11px] font-bold uppercase tracking-[0.16em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
+            className="type-k inline-flex cursor-pointer items-center gap-2 bg-accent px-6 py-3 text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
           >
             Order Now
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -101,7 +101,21 @@ export default function HeroMobile() {
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </Link>
+          <span className="type-b2 text-fg-muted">
+            Zero calories · No harsh stimulants
+          </span>
         </div>
+
+        {/* Hero testimonial — rule above it */}
+        <figure className="mt-6 max-w-md border-t border-paper-200 pt-5">
+          <blockquote className="type-d3 text-ink">
+            &ldquo;I started dancing again. Don&rsquo;t know if it&rsquo;s the 10X.&rdquo;
+          </blockquote>
+          <figcaption className="type-b2 mt-2.5 text-fg-muted">
+            — an early user. That&rsquo;s the review we&rsquo;re{' '}
+            <span className="font-bold text-accent-pressed">proudest of</span>.
+          </figcaption>
+        </figure>
       </div>
     </section>
   );

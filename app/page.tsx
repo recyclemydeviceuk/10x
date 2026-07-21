@@ -3,9 +3,11 @@ import type { Metadata } from 'next';
 import Hero from '../components/Hero';
 import HeroMobile from '../components/HeroMobile';
 import IngredientStrip from '../components/IngredientStrip';
+import WhatItIs from '../components/WhatItIs';
 import BrandPromise from '../components/BrandPromise';
 import WhoWeAre from '../components/WhoWeAre';
 import WhyWeExist from '../components/WhyWeExist';
+import Reassurance from '../components/Reassurance';
 import FinalCTA from '../components/FinalCTA';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
@@ -151,9 +153,11 @@ export default function HomePage() {
         <HeroMobile />
         <Hero />
         <IngredientStrip />
+        <WhatItIs />
         <BrandPromise />
         <WhoWeAre />
         <WhyWeExist />
+        <Reassurance />
         <FinalCTA />
       </main>
     </>

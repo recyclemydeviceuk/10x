@@ -14,8 +14,15 @@ const ProductConfigContext = createContext<ProductConfig | null>(null);
 // Holds the selected pack tier so the purchase panel (hero) and the mobile
 // details block (rendered further down the page, after Engineered With) stay
 // in sync from a single source of truth.
-export function ProductConfigProvider({ children }: { children: ReactNode }) {
-  const [tierId, setTierId] = useState<TierId>('core');
+export function ProductConfigProvider({
+  children,
+  initialTierId = 'core',
+}: {
+  children: ReactNode;
+  /** Pre-selected pack, e.g. from the homepage Buy selector's `?pack=` param. */
+  initialTierId?: TierId;
+}) {
+  const [tierId, setTierId] = useState<TierId>(initialTierId);
   return (
     <ProductConfigContext.Provider value={{ tierId, setTierId }}>
       {children}

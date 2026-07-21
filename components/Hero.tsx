@@ -71,27 +71,29 @@ export default function Hero() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
         <div className="flex items-center py-10 sm:py-14 lg:min-h-[80vh] lg:w-1/2 lg:py-20 lg:pr-12">
           <div className="w-full max-w-xl text-center lg:text-left">
-            <p className="font-quantico text-caption font-bold uppercase tracking-[0.24em] text-brand-blue">
-              The Brain Battery
-            </p>
+            {/* K — kicker, grey */}
+            <p className="type-k text-fg-muted">The Brain Battery</p>
 
-            <h1 className="mt-3 font-condensed text-[2.6rem] font-black uppercase italic leading-[0.9] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+            {/* D1 — display hero, black (no blue) */}
+            <h1 className="type-d1 mt-4 text-ink">
               Fuel
               <br />
               Better
               <br />
-              <span className="text-brand-blue">Thinking.</span>
+              Thinking.
             </h1>
 
-            <p className="mx-auto mt-5 max-w-md font-pt text-body text-fg-muted sm:text-body-lg lg:mx-0">
-              Engineered nutrition designed to support focused thinking, controlled
-              energy, and clear execution.
+            {/* B1 — lede, "quietly better afternoon" bold */}
+            <p className="type-b1 mx-auto mt-6 max-w-md text-ink lg:mx-0">
+              No buzz. No crash. No moment it &ldquo;kicks in.&rdquo;{' '}
+              <span className="font-bold">Just a quietly better afternoon.</span>
             </p>
 
-            <div className="mt-7">
+            {/* Primary button (K on green) + micro-trust (B2, grey) */}
+            <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap lg:items-center lg:justify-start">
               <Link
                 href={PRODUCT_HREF}
-                className="inline-flex cursor-pointer items-center gap-2 bg-accent px-8 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
+                className="type-k inline-flex cursor-pointer items-center gap-2 bg-accent px-8 py-3.5 text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
               >
                 Order Now
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -99,7 +101,21 @@ export default function Hero() {
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
               </Link>
+              <span className="type-b2 text-fg-muted">
+                Zero calories · No harsh stimulants
+              </span>
             </div>
+
+            {/* Hero testimonial — rule above it. The review we're proudest of. */}
+            <figure className="mx-auto mt-9 max-w-md border-t border-paper-200 pt-6 lg:mx-0">
+              <blockquote className="type-d3 text-ink">
+                &ldquo;I started dancing again. Don&rsquo;t know if it&rsquo;s the 10X.&rdquo;
+              </blockquote>
+              <figcaption className="type-b2 mt-3 text-fg-muted">
+                — an early user. That&rsquo;s the review we&rsquo;re{' '}
+                <span className="font-bold text-accent-pressed">proudest of</span>.
+              </figcaption>
+            </figure>
           </div>
         </div>
       </div>

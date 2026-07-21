@@ -66,14 +66,16 @@ const config: Config = {
         danger: '#DC2626',
       },
       fontFamily: {
+        // `system-ui, -apple-system` before Arial = clean fallback for any glyph
+        // the branded latin-subset webfonts lack (e.g. ₹ from San Francisco).
         // Body / default → Nebula Sans
-        sans: ['var(--font-nebula)', 'Arial', 'sans-serif'],
-        nebula: ['var(--font-nebula)', 'Arial', 'sans-serif'],
+        sans: ['var(--font-nebula)', 'system-ui', '-apple-system', 'Arial', 'sans-serif'],
+        nebula: ['var(--font-nebula)', 'system-ui', '-apple-system', 'Arial', 'sans-serif'],
         // Primary display / headlines → Quantico
-        display: ['var(--font-quantico)', 'var(--font-nebula)', 'Arial', 'sans-serif'],
-        condensed: ['var(--font-quantico)', 'var(--font-nebula)', 'Arial', 'sans-serif'],
-        quantico: ['var(--font-quantico)', 'Arial', 'sans-serif'],
-        pt: ['var(--font-pt-sans)', 'Arial', 'sans-serif'],
+        display: ['var(--font-quantico)', 'var(--font-nebula)', 'system-ui', '-apple-system', 'Arial', 'sans-serif'],
+        condensed: ['var(--font-quantico)', 'var(--font-nebula)', 'system-ui', '-apple-system', 'Arial', 'sans-serif'],
+        quantico: ['var(--font-quantico)', 'system-ui', '-apple-system', 'Arial', 'sans-serif'],
+        pt: ['var(--font-pt-sans)', 'system-ui', '-apple-system', 'Arial', 'sans-serif'],
       },
       fontSize: {
         // Display scale tuned for "THE BRAIN BATTERY" / "TAKE CHARGE" hero type

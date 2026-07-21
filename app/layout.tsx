@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { quantico, nebulaSans, ptSans } from './fonts';
+import { quantico, nebulaSans, ptSans, ptSansCaption } from './fonts';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import ImageProtection from '../components/ImageProtection';
@@ -164,7 +164,12 @@ const websiteJsonLd = {
   inLanguage: 'en-IN',
 };
 
-const fontClasses = [quantico.variable, nebulaSans.variable, ptSans.variable].join(' ');
+const fontClasses = [
+  quantico.variable,
+  nebulaSans.variable,
+  ptSans.variable,
+  ptSansCaption.variable,
+].join(' ');
 
 export default function RootLayout({
   children,

@@ -59,18 +59,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.80,
     },
-    {
-      url: `${SITE_URL}/blog`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    ...['brain-nourishment-not-override', 'why-you-crash-after-coffee', 'three-inputs-your-brain-needs', 'energy-you-can-control'].map((slug) => ({
-      url: `${SITE_URL}/blog/${slug}`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    })),
     { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.5 },
     { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
     { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
