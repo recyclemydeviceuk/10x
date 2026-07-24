@@ -6,7 +6,6 @@ import WhatItIs from '../components/WhatItIs';
 import WhatPeopleSay from '../components/WhatPeopleSay';
 import BeforeYouAsk from '../components/BeforeYouAsk';
 import BuyBox from '../components/BuyBox';
-import BrandPromise from '../components/BrandPromise';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 
@@ -154,7 +153,6 @@ export default function HomePage() {
         <WhatPeopleSay />
         <BeforeYouAsk />
         <BuyBox />
-        <BrandPromise />
       </main>
     </>
   );
