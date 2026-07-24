@@ -1,96 +1,65 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 const PRODUCT_HREF = '/products/10x-daytime';
 
-// Mobile hero artwork — auto-sliding carousel (images are 1080×1440 / 3:4).
-const MOBILE_SLIDES = [
-  { src: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782395886/3_nvngsk.png', alt: '10X The Brain Battery — on the go' },
-  { src: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782395881/1_p1utcj.png', alt: '10X The Brain Battery' },
-  { src: 'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1782395881/2_qx1n8q.png', alt: '10X The Brain Battery — engineered nutrition' },
-];
+// Full-bleed hero lifestyle image — shared with the desktop hero.
+const HERO_IMG =
+  'https://res.cloudinary.com/dn2sab6qc/image/upload/v1784875982/Main_JEPG_qmer9f.jpg';
 
 /**
- * Mobile-only hero. Full-bleed product carousel on top that auto-advances every
- * 3 seconds, then a left-aligned copy stack below. The desktop hero (`Hero`) is
- * hidden below `lg`.
+ * Mobile hero (< lg). The same full-bleed lifestyle image as the desktop hero,
+ * framed on the dancing man, with the copy bottom-anchored over a strong white
+ * scrim so it reads. The desktop hero (`Hero`) takes over at `lg`.
  */
 export default function HeroMobile() {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const t = window.setInterval(() => {
-      setActive((i) => (i + 1) % MOBILE_SLIDES.length);
-    }, 5000);
-    return () => window.clearInterval(t);
-  }, []);
-
   return (
     <section
       id="hero-mobile"
       aria-label="The Brain Battery"
-      className="relative w-full overflow-hidden bg-white pt-14 lg:hidden"
+      className="relative w-full overflow-hidden bg-white lg:hidden"
     >
-      {/* Product carousel — banner image, edge to edge, slides horizontally.
-          Height is capped to the viewport so the hero copy + ingredient strip
-          stay in the first view, matching the mockup. */}
-      <div className="relative h-[46vh] max-h-[440px] min-h-[300px] w-full overflow-hidden bg-white">
-        {/* sliding track — moves one full screen-width per slide */}
-        <div
-          className="flex h-full w-full transition-transform duration-[1100ms] ease-[cubic-bezier(0.65,0,0.35,1)] will-change-transform"
-          style={{ transform: `translateX(-${active * 100}%)` }}
-        >
-          {MOBILE_SLIDES.map((s, i) => (
-            <div key={s.src} className="relative h-full w-full shrink-0">
-              <Image
-                src={s.src}
-                alt={s.alt}
-                fill
-                priority={i === 0}
-                sizes="100vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
+      {/* Full-bleed image — framed toward the dancing man on the right */}
+      <Image
+        src={HERO_IMG}
+        alt="A man in office wear dancing on a quiet street as a wedding procession passes — 10X, The Brain Battery"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[72%_center]"
+      />
 
-        {/* dots */}
-        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
-          {MOBILE_SLIDES.map((s, i) => (
-            <button
-              key={s.src}
-              type="button"
-              onClick={() => setActive(i)}
-              aria-label={`Show slide ${i + 1}`}
-              aria-current={i === active}
-              className={`h-2 rounded-full shadow transition-all ${
-                i === active ? 'w-6 bg-white' : 'w-2 bg-white/60'
-              }`}
-            />
-          ))}
-        </div>
-      </div>
+      {/* White scrim — image reads up top, copy sits on white below */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(to top, rgba(255,255,255,0.99) 0%, rgba(255,255,255,0.97) 44%, rgba(255,255,255,0.85) 58%, rgba(255,255,255,0.35) 74%, rgba(255,255,255,0) 90%)',
+        }}
+      />
 
-      {/* Copy — left aligned. Compact sizing on mobile so the ingredient strip
-          stays in the first view alongside a taller hero image. */}
-      <div className="px-5 pb-6 pt-4 text-left">
-        {/* K — kicker, grey */}
-        <p className="type-k text-fg-muted">The Brain Battery</p>
+      {/* Copy — bottom-anchored, left-aligned */}
+      <div className="relative z-10 flex h-[92svh] max-h-[760px] min-h-[600px] flex-col justify-end px-5 pb-10 pt-24">
+        {/* K — kicker, charcoal */}
+        <p className="type-k text-ink-800">The Brain Battery</p>
 
         {/* D1 — display hero, black (no blue) */}
-        <h1 className="type-d1 mt-3 text-ink">Fuel Better Thinking.</h1>
+        <h1 className="type-d1 mt-3 text-ink">
+          Fuel Better
+          <br />
+          Thinking.
+        </h1>
 
-        {/* B1 — lede, "quietly better afternoon" bold */}
-        <p className="type-b1 mt-3 max-w-md text-ink">
-          No buzz. No crash. No moment it &ldquo;kicks in.&rdquo;{' '}
-          <span className="font-bold">Just a quietly better afternoon.</span>
+        {/* Lede — PT Sans italic (real italic, not the caption cut) */}
+        <p className="mt-4 max-w-md font-pt text-lg italic leading-snug text-ink">
+          No buzz. No crash.
+          <br />
+          Just quietly better thinking.
         </p>
 
-        {/* Primary button (K on green) + micro-trust (B2, grey) */}
-        <div className="mt-5 flex flex-col items-start gap-2.5">
+        {/* Primary button (K on green) */}
+        <div className="mt-5">
           <Link
             href={PRODUCT_HREF}
             className="type-k inline-flex cursor-pointer items-center gap-2 bg-accent px-6 py-3 text-ink shadow-glow-soft transition-colors hover:bg-accent-hover"
@@ -101,19 +70,15 @@ export default function HeroMobile() {
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </Link>
-          <span className="type-b2 text-fg-muted">
-            Zero calories · No harsh stimulants
-          </span>
         </div>
 
-        {/* Hero testimonial — rule above it */}
-        <figure className="mt-6 max-w-md border-t border-paper-200 pt-5">
-          <blockquote className="type-d3 text-ink">
+        {/* Hero testimonial — the review we're proudest of */}
+        <figure className="mt-6 max-w-md">
+          <blockquote className="font-pt text-base font-bold italic leading-snug text-ink">
             &ldquo;I started dancing again. Don&rsquo;t know if it&rsquo;s the 10X.&rdquo;
           </blockquote>
-          <figcaption className="type-b2 mt-2.5 text-fg-muted">
-            — an early user. That&rsquo;s the review we&rsquo;re{' '}
-            <span className="font-bold text-accent-pressed">proudest of</span>.
+          <figcaption className="type-b2 mt-2 text-fg-muted">
+            — an early user. That&rsquo;s the review we&rsquo;re proudest of.
           </figcaption>
         </figure>
       </div>
