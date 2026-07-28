@@ -14,7 +14,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
 export const metadata: Metadata = {
   title: '10X Day Time — The Brain Battery | Fuel Better Thinking',
   description:
-    '10X Day Time: a premium brain nourishment formula for calm focus, cognitive clarity, and sustained mental performance. Single Pack ₹1,199, Core Daily Pack ₹3,299, Performance Stack ₹5,999 — subscribe & save up to 16.6%. Also on Blinkit & Zepto.',
+    '10X Day Time: a premium brain nourishment formula for calm focus, cognitive clarity, and sustained mental performance. Single Pack (10 sticks) ₹1,199 one-time, or ₹1,049 every 4 weeks — skip or cancel anytime. Also on Blinkit & Zepto.',
   alternates: { canonical: '/products/10x-daytime' },
 };
 
@@ -39,23 +39,25 @@ const productJsonLd = {
     'A premium brain nourishment formula designed to support calm focus, cognitive clarity, and sustained mental performance.',
   brand: { '@type': 'Brand', name: '10X' },
   image: [`${SITE_URL}/product-hero.jpg`],
+  // Only the 10-pack is on sale, so it is the only offer we publish.
   offers: {
-    '@type': 'AggregateOffer',
+    '@type': 'Offer',
+    name: 'Single Pack — 10 sticks',
+    price: '1199',
     priceCurrency: 'INR',
-    lowPrice: '1199',
-    highPrice: '5999',
-    offerCount: '3',
     availability: 'https://schema.org/InStock',
+    url: `${SITE_URL}/products/10x-daytime`,
   },
 };
 
 export default async function ProductPage({
   searchParams,
 }: {
-  searchParams: Promise<{ pack?: string }>;
+  searchParams: Promise<{ pack?: string; plan?: string }>;
 }) {
-  const { pack } = await searchParams;
+  const { pack, plan } = await searchParams;
   const initialTierId = tierIdFromPack(pack);
+  const initialSubscribe = plan === 'subscribe';
 
   return (
     <main id="main" className="bg-white pt-14 md:pt-[72px]">
@@ -64,7 +66,10 @@ export default async function ProductPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
 
-      <ProductConfigProvider initialTierId={initialTierId}>
+      <ProductConfigProvider
+        initialTierId={initialTierId}
+        initialSubscribe={initialSubscribe}
+      >
         {/* ============ Screen 1 — Gallery + Purchase (hero) ============ */}
         <section className="mx-auto max-w-7xl px-6 py-6 sm:px-10 md:px-14 md:py-14">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-14">
@@ -78,7 +83,7 @@ export default async function ProductPage({
           </div>
         </section>
 
-        {/* ============ Screen 2 — Engineered with + details ============ */}
+        {/* ============ Screen 2 — Made with + details ============ */}
         <IngredientStrip />
         <ProductDetailsMobile />
 

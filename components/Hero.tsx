@@ -53,11 +53,12 @@ export default function Hero() {
             Thinking.
           </h1>
 
-          {/* Lede — PT Sans italic (real italic, not the caption cut) */}
-          <p className="mt-6 max-w-[440px] font-pt text-xl italic leading-snug text-ink md:text-[22px]">
-            No buzz. No crash.
+          {/* B1 — lede, PT Sans Caption upright (italic is reserved for
+              headlines and pull-quotes) */}
+          <p className="type-b1 mt-6 max-w-[540px] text-ink">
+            No buzz. No crash. No moment it &lsquo;kicks in.&rsquo;
             <br />
-            Just quietly better thinking.
+            Just a quietly better afternoon.
           </p>
 
           {/* Primary button (K on green) */}

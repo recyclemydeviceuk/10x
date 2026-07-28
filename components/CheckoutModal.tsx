@@ -443,7 +443,9 @@ export default function CheckoutModal() {
                     {isSubscription ? 'Subscription' : 'Adjust Quantity'}
                   </p>
                   <p className="mt-0.5 font-pt text-caption text-fg-muted">
-                    {isSubscription ? 'Auto-renews · cancel anytime' : 'How many packs?'}
+                    {isSubscription
+                      ? 'Every 4 weeks · skip or cancel anytime'
+                      : 'How many packs?'}
                   </p>
                 </div>
                 {isSubscription ? (

@@ -6,12 +6,12 @@ export default function IngredientStrip() {
   return (
     <section
       id="ingredients"
-      aria-label="Engineered with"
+      aria-label="Made with"
       className="bg-paper-100 pb-8 pt-5 sm:py-16 md:py-24"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
         <h2 className="font-condensed text-2xl font-black uppercase italic leading-none tracking-tight text-ink sm:text-3xl md:text-4xl">
-          Engineered With
+          Made With
         </h2>
 
         {/* Mobile / tablet: auto-scrolling carousel, ~4 per view */}

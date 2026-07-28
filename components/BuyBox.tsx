@@ -4,21 +4,29 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { TIERS } from './plans';
+import {
+  TIERS,
+  tierSavings,
+  SUBSCRIPTION_CADENCE,
+  SUBSCRIPTION_NOTE,
+} from './plans';
+import PlanOption from './PlanOption';
 
 /**
  * SECTION — TRY IT (the mid-page buy block)
  *
- * Two columns: the product shot on the left, the buy block on the right. The
- * pack selector (10 / 30 / 60) updates the price; "Add to Cart" carries the
- * chosen pack to the product detail page via `?pack=` (read there by
- * `tierIdFromPack`). No checkout happens here — this is the hand-off to the PDP.
+ * Two columns: the product shot on the left, the buy block on the right.
+ *
+ * Only the 10-pack is on sale, so there is no pack-size selector — the choice
+ * here is how you buy it: one-time (default) or every 4 weeks at a lower price.
+ * "Add to Cart" carries both the pack and the chosen plan to the product detail
+ * page via `?pack=` / `?plan=`. No checkout happens here.
  *
  * Type map (per brand kit):
  *   "FUEL BETTER THINKING."   → D1 (sized to the column), ink
- *   "Start with a 10-pack…"   → PT Sans italic
- *   pack labels               → Nebula bold, uppercase
- *   price                     → Quantico bold (₹ falls through to a clean glyph)
+ *   "Start with a 10-pack…"   → B1, upright
+ *   plan labels               → Nebula bold, uppercase
+ *   price                     → Quantico bold
  */
 
 const PRODUCT_HREF = '/products/10x-daytime';
@@ -27,15 +35,10 @@ const PRODUCT_HREF = '/products/10x-daytime';
 const PRODUCT_IMG =
   'https://res.cloudinary.com/dn2sab6qc/image/upload/v1784895949/10x-1_hvygmw.jpg';
 
-type PackId = '10' | '30' | '60';
-type Pack = { id: PackId; name: string; price: string; note: string };
+const TIER = TIERS.single;
+const SAVINGS = tierSavings(TIER);
 
-// Prices come straight from the pricing source of truth (one-time / MRP).
-const PACKS: Pack[] = [
-  { id: '10', name: '10 Pack', price: TIERS.single.priceLabel, note: 'try it' },
-  { id: '30', name: '30 Pack', price: TIERS.core.priceLabel, note: 'best value' },
-  { id: '60', name: '60 Pack', price: TIERS.performance.priceLabel, note: 'the habit' },
-];
+type Plan = 'onetime' | 'subscribe';
 
 const BULLETS = [
   'Zero calories',
@@ -44,19 +47,26 @@ const BULLETS = [
 ];
 
 export default function BuyBox() {
-  const [selected, setSelected] = useState<PackId>('10');
-  const pack = PACKS.find((p) => p.id === selected) ?? PACKS[0];
+  // One-time is the default selection.
+  const [plan, setPlan] = useState<Plan>('onetime');
+  const subscribed = plan === 'subscribe';
+
+  const priceLabel = subscribed ? TIER.subscriptionLabel ?? TIER.priceLabel : TIER.priceLabel;
+  const priceNote = subscribed
+    ? `${SUBSCRIPTION_CADENCE} · incl. GST`
+    : 'One-time purchase · incl. GST';
 
   return (
     <section
       id="try-it"
       aria-label="Buy 10X"
-      className="bg-white py-14 sm:py-20 md:py-28"
+      className="bg-white py-10 sm:py-16 md:py-24"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-14">
-          {/* Left — product shot, square black frame */}
-          <div className="lg:w-1/2">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-14">
+          {/* Left — product shot, square black frame. Kept on its own stacking
+              level so the image can never paint over the price beside it. */}
+          <div className="relative z-0 lg:w-1/2">
             <div className="relative aspect-square w-full overflow-hidden bg-black">
               <Image
                 src={PRODUCT_IMG}
@@ -68,8 +78,8 @@ export default function BuyBox() {
             </div>
           </div>
 
-          {/* Right — buy block */}
-          <div className="lg:w-1/2">
+          {/* Right — buy block, above the product shot in the stacking order */}
+          <div className="relative z-10 lg:w-1/2">
             {/* D1 — headline, sized to the column */}
             <h2 className="type-d1 text-[2.5rem] text-ink sm:text-[3.25rem] lg:text-[3.5rem] xl:text-[4rem]">
               Fuel Better
@@ -77,55 +87,47 @@ export default function BuyBox() {
               Thinking.
             </h2>
 
-            {/* Sub — PT Sans italic */}
-            <p className="mt-5 font-pt text-lg italic leading-snug text-ink md:text-xl">
+            {/* Sub — B1, upright */}
+            <p className="type-b1 mt-5 text-ink">
               Start with a 10-pack.
               <br />
               See if you start doing things too.
             </p>
 
-            {/* Pack selector */}
+            {/* Plan selector — one-time (default) or every 4 weeks */}
             <div
               role="radiogroup"
-              aria-label="Choose a pack"
-              className="mt-7 grid w-full max-w-md grid-cols-3 gap-1 rounded-full border border-paper-200 bg-white p-1"
+              aria-label="Choose how you buy"
+              className="mt-7 grid w-full max-w-md gap-2 sm:grid-cols-2"
             >
-              {PACKS.map((p) => {
-                const active = p.id === selected;
-                return (
-                  <button
-                    key={p.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={active}
-                    aria-label={`${p.name} — ${p.note}`}
-                    onClick={() => setSelected(p.id)}
-                    className={`flex cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 py-2.5 transition-colors ${
-                      active ? 'bg-accent text-ink' : 'text-fg-muted hover:text-ink'
-                    }`}
-                  >
-                    <span className="font-nebula text-[11px] font-bold uppercase tracking-[0.1em] md:text-xs">
-                      {p.name}
-                    </span>
-                    {active && (
-                      <span className="hidden text-[10px] italic text-ink/70 sm:inline">
-                        {p.note}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
+              <PlanOption
+                active={!subscribed}
+                onSelect={() => setPlan('onetime')}
+                label="One-time"
+                price={TIER.priceLabel}
+              />
+              <PlanOption
+                active={subscribed}
+                onSelect={() => setPlan('subscribe')}
+                label={SUBSCRIPTION_CADENCE}
+                price={TIER.subscriptionLabel ?? TIER.priceLabel}
+                badge={SAVINGS ? `Save ${SAVINGS.amountLabel}` : undefined}
+              />
             </div>
+
+            {/* Subscription terms — visible next to the option, not in the fine
+                print. Kept in the flow so it reads at any width. */}
+            <p className="type-b2 mt-2.5 max-w-md text-fg-muted">{SUBSCRIPTION_NOTE}</p>
 
             {/* Price */}
-            <div className="mt-7">
-              <p className="font-quantico text-3xl font-bold text-ink">{pack.price}</p>
-              <p className="type-b2 mt-1 text-fg-muted">One-time purchase · incl. GST</p>
+            <div className="mt-6">
+              <p className="font-quantico text-3xl font-bold text-ink">{priceLabel}</p>
+              <p className="type-b2 mt-1 text-fg-muted">{priceNote}</p>
             </div>
 
-            {/* Add to Cart — hands the chosen pack to the product detail page */}
+            {/* Add to Cart — hands the pack and plan to the product detail page */}
             <Link
-              href={`${PRODUCT_HREF}?pack=${selected}`}
+              href={`${PRODUCT_HREF}?pack=10&plan=${plan}`}
               className="mt-6 flex w-full max-w-md cursor-pointer items-center justify-center gap-2.5 rounded-full bg-ink px-8 py-4 text-fg-inverse transition-colors hover:bg-ink-900"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

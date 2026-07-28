@@ -35,7 +35,7 @@ export default function SiteFooter() {
             The Brain Battery
           </p>
           <h2 className="mt-3 font-condensed text-3xl font-black uppercase italic leading-none tracking-tight md:text-4xl">
-            Engineer Better Thinking.
+            Fuel Better Thinking.
           </h2>
 
           <Link

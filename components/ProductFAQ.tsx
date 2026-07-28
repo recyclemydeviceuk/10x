@@ -5,7 +5,7 @@ const FAQS = [
   },
   {
     q: 'Is 10X an energy drink?',
-    a: 'No. 10X is engineered nutrition, not a stimulant hit. It supports your brain with real, recognizable ingredients rather than forcing a spike followed by a crash.',
+    a: 'No. 10X is whole-food nutrition, not a stimulant hit. It supports your brain with real, recognizable ingredients rather than forcing a spike followed by a crash.',
   },
   {
     q: 'Does 10X contain caffeine?',

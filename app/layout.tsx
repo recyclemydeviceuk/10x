@@ -5,6 +5,7 @@ import SiteFooter from '../components/SiteFooter';
 import ImageProtection from '../components/ImageProtection';
 import { CheckoutProvider } from '../components/CheckoutContext';
 import CheckoutModal from '../components/CheckoutModal';
+import ChatWidget from '../components/ChatWidget';
 import './globals.css';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     template: '%s | 10X',
   },
   description:
-    '10X is THE BRAIN BATTERY — engineered nutrition designed to support focused thinking, controlled energy, and clear execution. Engineered with pumpkin seeds, sesame seeds, edamame, matcha, spinach & almonds. Available on 10xdrink.com, Blinkit & Zepto.',
+    '10X is THE BRAIN BATTERY — whole-food nutrition designed to support focused thinking, controlled energy, and clear execution. Made with pumpkin seeds, sesame seeds, edamame, matcha, spinach & almonds. Available on 10xdrink.com, Blinkit & Zepto.',
   keywords: [
     '10X drink',
     'brain battery',
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     siteName: '10X',
     title: '10X — The Brain Battery | Fuel Better Thinking',
     description:
-      'Engineered nutrition designed to support focused thinking, controlled energy, and clear execution. One simple daily protocol.',
+      'Whole-food nutrition designed to support focused thinking, controlled energy, and clear execution. One simple daily protocol.',
     images: [
       {
         url: '/og-image.jpg',
@@ -76,7 +77,7 @@ export const metadata: Metadata = {
     creator: '@10xdrink',
     title: '10X — The Brain Battery',
     description:
-      'Engineered nutrition for focused thinking, controlled energy, and clear execution.',
+      'Whole-food nutrition for focused thinking, controlled energy, and clear execution.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -124,7 +125,7 @@ const organizationJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   description:
-    '10X makes THE BRAIN BATTERY — engineered nutrition designed to support focused thinking, controlled energy, and clear execution.',
+    '10X makes THE BRAIN BATTERY — whole-food nutrition designed to support focused thinking, controlled energy, and clear execution.',
   sameAs: [
     'https://www.instagram.com/10xdrink',
     'https://www.facebook.com/10xdrink',
@@ -150,7 +151,7 @@ const websiteJsonLd = {
   '@id': `${SITE_URL}/#website`,
   name: '10X',
   url: SITE_URL,
-  description: 'THE BRAIN BATTERY — Fuel Better Thinking. Engineered nutrition for focus, energy, and execution.',
+  description: 'THE BRAIN BATTERY — Fuel Better Thinking. Whole-food nutrition for focus, energy, and execution.',
   publisher: {
     '@type': 'Organization',
     name: '10X Formulas',
@@ -199,6 +200,7 @@ export default function RootLayout({
           {children}
           <SiteFooter />
           <CheckoutModal />
+          <ChatWidget />
         </CheckoutProvider>
       </body>
     </html>

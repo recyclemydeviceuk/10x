@@ -29,13 +29,14 @@ export default function HeroMobile() {
         className="object-cover object-[72%_center]"
       />
 
-      {/* White scrim — image reads up top, copy sits on white below */}
+      {/* White scrim — sits under the copy block and clears fast above it, so
+          the photo runs at full strength where the dancer actually is */}
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(to top, rgba(255,255,255,0.99) 0%, rgba(255,255,255,0.97) 44%, rgba(255,255,255,0.85) 58%, rgba(255,255,255,0.35) 74%, rgba(255,255,255,0) 90%)',
+            'linear-gradient(to top, rgba(255,255,255,0.99) 0%, rgba(255,255,255,0.97) 45%, rgba(255,255,255,0.55) 60%, rgba(255,255,255,0.12) 72%, rgba(255,255,255,0) 82%)',
         }}
       />
 
@@ -51,11 +52,14 @@ export default function HeroMobile() {
           Thinking.
         </h1>
 
-        {/* Lede — PT Sans italic (real italic, not the caption cut) */}
-        <p className="mt-4 max-w-md font-pt text-lg italic leading-snug text-ink">
-          No buzz. No crash.
-          <br />
-          Just quietly better thinking.
+        {/* B1 — lede, PT Sans Caption upright (italic is reserved for
+            headlines and pull-quotes) */}
+        {/* The line break only earns its keep once the line fits — below `sm`
+            the copy wraps on its own. */}
+        <p className="type-b1 mt-4 max-w-md text-ink">
+          No buzz. No crash. No moment it &lsquo;kicks in.&rsquo;{' '}
+          <br className="hidden sm:inline" />
+          Just a quietly better afternoon.
         </p>
 
         {/* Primary button (K on green) */}

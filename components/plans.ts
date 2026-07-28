@@ -1,11 +1,16 @@
 // =========================================================
 // 10X DAY TIME — THE BRAIN BATTERY
-// Pricing model: three pack tiers priced off the 10-pack
-// unit rate (₹1,199 per 10 sticks = MRP). Larger packs are
-// discounted on the Subscribe & Save plan:
-//   Single Pack       — 10 sticks · ₹1,199 (one-time only)
-//   Core Daily Pack   — 30 sticks · MRP ₹3,597 → ₹3,299 (Save ₹298 | ~8.3% Off)
-//   Performance Stack — 60 sticks · MRP ₹7,194 → ₹5,999 (Save ₹1,195 | ~16.6% Off)
+//
+// ONLY THE 10-PACK IS ON SALE RIGHT NOW. The 30 and 60 pack
+// tiers are kept here so they can be switched back on later,
+// but `available: false` keeps them out of every selector,
+// price display and structured-data offer on the site — the
+// single source of truth is `TIER_LIST` below.
+//
+//   Single Pack       — 10 sticks · ₹1,199 one-time
+//                       · ₹1,049 every 4 weeks (Save ₹150)
+//   Core Daily Pack   — 30 sticks · not on sale
+//   Performance Stack — 60 sticks · not on sale
 // =========================================================
 
 export type TierId = 'single' | 'core' | 'performance';
@@ -20,12 +25,20 @@ export type Tier = {
   priceLabel: string;
   benefits: string[];
   badge?: string;
-  /** Larger packs can be subscribed; the single trial pack cannot. */
+  /** Whether this pack can be subscribed to (delivered every 4 weeks). */
   subscribable: boolean;
-  /** Recurring price (≈15% off the one-time price). */
+  /** Recurring price, charged every 4 weeks. */
   subscriptionPrice?: number;
   subscriptionLabel?: string;
+  /** Off-sale tiers stay defined but never reach the UI. See TIER_LIST. */
+  available: boolean;
 };
+
+/** How often a subscription ships / bills. */
+export const SUBSCRIPTION_CADENCE = 'Every 4 weeks';
+
+/** Must stay visible next to the subscribe option — never buried in terms. */
+export const SUBSCRIPTION_NOTE = 'Skip or cancel anytime, no login required.';
 
 const inr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
 
@@ -38,7 +51,10 @@ export const TIERS: Record<TierId, Tier> = {
     price: 1199,
     priceLabel: inr(1199),
     benefits: ['Sustained focus support', 'Calm energy delivery', 'Zero Sugar'],
-    subscribable: false,
+    subscribable: true,
+    subscriptionPrice: 1049,
+    subscriptionLabel: inr(1049),
+    available: true,
   },
   core: {
     id: 'core',
@@ -57,6 +73,7 @@ export const TIERS: Record<TierId, Tier> = {
     subscribable: true,
     subscriptionPrice: 3299,
     subscriptionLabel: inr(3299),
+    available: false,
   },
   performance: {
     id: 'performance',
@@ -74,6 +91,7 @@ export const TIERS: Record<TierId, Tier> = {
     subscribable: true,
     subscriptionPrice: 5999,
     subscriptionLabel: inr(5999),
+    available: false,
   },
 };
 
@@ -91,28 +109,35 @@ export const PRODUCT_DESCRIPTION =
   'Premium brain nourishment formula designed to support calm focus, cognitive clarity, and sustained mental performance.';
 export const PRODUCT_PERFECT_FOR = 'Creators, developers, athletes, and directors.';
 
-export const TIER_LIST: Tier[] = [TIERS.single, TIERS.core, TIERS.performance];
+/**
+ * Every pack that is actually on sale. Selectors, price displays and the
+ * Product structured data all read from here, so flipping a tier's
+ * `available` flag is the only change needed to put it back on sale.
+ */
+export const TIER_LIST: Tier[] = [TIERS.single, TIERS.core, TIERS.performance].filter(
+  (t) => t.available,
+);
+
+/** The pack a visitor lands on when nothing else is specified. */
+export const DEFAULT_TIER_ID: TierId = TIER_LIST[0].id;
 
 /**
- * Map a `?pack=` value (the pack size sent from the homepage Buy selector — e.g.
- * "10", "30", "60") or a raw TierId to a TierId. Falls back to 'core' (30-pack)
- * for anything unrecognised, matching the default selection.
+ * Map a `?pack=` value (e.g. "10") or a raw TierId to a TierId. Anything
+ * unrecognised — or pointing at a pack that is no longer on sale, such as an
+ * old `?pack=30` link — falls back to the default pack.
  */
 export function tierIdFromPack(pack?: string | string[] | null): TierId {
   const value = Array.isArray(pack) ? pack[0] : pack;
-  switch (value) {
-    case '10':
-    case 'single':
-      return 'single';
-    case '60':
-    case 'performance':
-      return 'performance';
-    case '30':
-    case 'core':
-      return 'core';
-    default:
-      return 'core';
-  }
+  const byPack: Record<string, TierId> = {
+    '10': 'single',
+    single: 'single',
+    '30': 'core',
+    core: 'core',
+    '60': 'performance',
+    performance: 'performance',
+  };
+  const id = value ? byPack[value] : undefined;
+  return id && TIERS[id].available ? id : DEFAULT_TIER_ID;
 }
 
 // What gets handed to the checkout popup.
@@ -139,7 +164,7 @@ export function buildSelection(tier: Tier, subscribe: boolean): CheckoutSelectio
 }
 
 // ---------------------------------------------------------
-// ENGINEERED WITH — whole-food ingredients
+// MADE WITH — whole-food ingredients
 // ---------------------------------------------------------
 export type Ingredient = { name: string; note: string; image: string };
 
