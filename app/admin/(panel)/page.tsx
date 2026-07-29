@@ -1,5 +1,14 @@
 import Link from 'next/link';
 
+import {
+  AreaLine,
+  BarList,
+  ChartFrame,
+  ColumnChart,
+  Funnel,
+  Ring,
+  ShareBar,
+} from '@/components/admin/charts';
 import RevenueChart from '@/components/admin/RevenueChart';
 import StatTile from '@/components/admin/StatTile';
 import {
@@ -15,20 +24,31 @@ import {
 } from '@/components/admin/ui';
 import {
   DAILY_REVENUE,
+  NEW_CUSTOMERS_BY_WEEK,
   SUBSCRIPTIONS,
   TODAY,
+  averageOrderValueSeries,
+  cumulativeRevenueSeries,
+  deliverySuccessRate,
+  fulfilmentFunnel,
   getCustomer,
   getOverview,
   listOrders,
+  ordersByCity,
+  ordersByWeekday,
+  revenueByMethod,
+  revenueByPurchaseType,
 } from '@/lib/admin/data';
 import {
   fullDate,
   initials,
+  methodLabel,
   money,
   moneyCompact,
   relativeDays,
   timeOnly,
 } from '@/lib/admin/format';
+import { countByStatus } from '@/lib/queries/store';
 
 // Absolute because this page shares a segment with the panel layout, so the
 // layout's "%s — 10X Admin" template doesn't apply to it — only to its children.
@@ -36,38 +56,52 @@ export const metadata = { title: { absolute: 'Overview — 10X Admin' } };
 
 export default function AdminOverviewPage() {
   const overview = getOverview();
-  const recent = listOrders().slice(0, 6);
+  const recent = listOrders().slice(0, 5);
 
   const upcoming = SUBSCRIPTIONS.filter((s) => s.status === 'active' && s.nextChargeAt)
     .sort((a, b) => a.nextChargeAt!.localeCompare(b.nextChargeAt!))
     .slice(0, 4);
 
+  const cities = ordersByCity().slice(0, 5);
+  const methods = revenueByMethod().map((m) => ({ ...m, label: methodLabel(m.label) }));
+  const funnel = fulfilmentFunnel();
+  const split = revenueByPurchaseType();
+  const weekdays = ordersByWeekday();
+  const aov = averageOrderValueSeries();
+  const cumulative = cumulativeRevenueSeries();
+  const successRate = deliverySuccessRate();
+  const openQueries = countByStatus('new');
+
+  const latestAov = aov[aov.length - 1].value;
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <PageHeader
         title="Overview"
         subtitle="Everything that moved in the last seven days."
       />
 
-      {/* The four numbers worth knowing before anything else. */}
+      {/* Headline numbers */}
       <div className="grid gap-px bg-paper-200 sm:grid-cols-2 xl:grid-cols-4">
         <StatTile
           label="Revenue · 7 days"
           value={moneyCompact(overview.revenue)}
           delta={overview.revenueDelta}
           footnote="vs previous 7"
+          spark={DAILY_REVENUE.slice(-7).map((d) => d.revenue)}
         />
         <StatTile
           label="Orders · 7 days"
           value={String(overview.orderCount)}
           delta={overview.orderDelta}
           footnote="vs previous 7"
+          spark={DAILY_REVENUE.slice(-7).map((d) => d.orders)}
         />
         <StatTile
-          label="Awaiting dispatch"
-          value={String(overview.awaitingDispatch)}
-          footnote="needs packing"
-          href="/admin/orders?status=pending"
+          label="Average order"
+          value={money(latestAov)}
+          footnote="today"
+          spark={aov.map((d) => d.value)}
         />
         <StatTile
           label="Active subscriptions"
@@ -81,9 +115,98 @@ export default function AdminOverviewPage() {
         />
       </div>
 
+      {/* Things that need a person */}
+      <div className="grid gap-px bg-paper-200 sm:grid-cols-3">
+        <StatTile
+          label="Awaiting dispatch"
+          value={String(overview.awaitingDispatch)}
+          footnote="needs packing"
+          href="/admin/orders?status=pending"
+        />
+        <StatTile
+          label="Not pushed to Shiprocket"
+          value={String(overview.notPushed)}
+          footnote="won’t reach the courier"
+          href="/admin/orders"
+        />
+        <StatTile
+          label="Unanswered queries"
+          value={String(openQueries)}
+          footnote="waiting on a reply"
+          href="/admin/queries?status=new"
+        />
+      </div>
+
+      {/* Revenue — the daily bars plus the running total */}
       <div className="grid gap-6 lg:grid-cols-3">
-        <Panel title="Net revenue" className="lg:col-span-2">
+        <Panel className="lg:col-span-2">
           <RevenueChart data={DAILY_REVENUE} />
+        </Panel>
+
+        <Panel>
+          <ChartFrame title="Cumulative revenue" hint="Fortnight to date">
+            <AreaLine data={cumulative} format={(v) => moneyCompact(v)} />
+          </ChartFrame>
+        </Panel>
+      </div>
+
+      {/* The three questions a store owner asks next */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Panel>
+          <ChartFrame title="Fulfilment funnel" hint="Live orders">
+            <Funnel data={funnel} />
+          </ChartFrame>
+        </Panel>
+
+        <Panel>
+          <ChartFrame title="Where it sells" hint="Top 5 cities">
+            <BarList data={cities} format={(v) => `${v}`} />
+          </ChartFrame>
+        </Panel>
+
+        <Panel>
+          <ChartFrame title="How they pay" hint="Captured">
+            <BarList data={methods} format={(v) => moneyCompact(v)} />
+          </ChartFrame>
+        </Panel>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Panel>
+          <ChartFrame title="One-time vs subscription" hint="By revenue">
+            <ShareBar data={split} format={(v) => moneyCompact(v)} />
+          </ChartFrame>
+        </Panel>
+
+        <Panel>
+          <ChartFrame title="Orders by weekday" hint="All time">
+            <ColumnChart data={weekdays} format={(v) => `${v} orders`} />
+          </ChartFrame>
+        </Panel>
+
+        <Panel>
+          <ChartFrame
+            title="Delivered first time"
+            hint="Of shipped"
+            footer={
+              <p className="type-b2 text-center text-fg-subtle">
+                The rest came back as RTO. Worth watching — every return is paid
+                for twice.
+              </p>
+            }
+          >
+            <div className="flex h-full items-center justify-center">
+              <Ring percent={successRate} label="Delivered first time" />
+            </div>
+          </ChartFrame>
+        </Panel>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Panel className="lg:col-span-2">
+          <ChartFrame title="New customers" hint="Per week, last six">
+            <ColumnChart data={NEW_CUSTOMERS_BY_WEEK} format={(v) => `${v} new`} />
+          </ChartFrame>
         </Panel>
 
         <Panel title="Next charges">
@@ -94,7 +217,10 @@ export default function AdminOverviewPage() {
               {upcoming.map((sub) => {
                 const customer = getCustomer(sub.customerId);
                 return (
-                  <li key={sub.id} className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+                  <li
+                    key={sub.id}
+                    className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
+                  >
                     <div className="min-w-0">
                       <p className="type-b2 truncate font-bold text-ink">{customer?.name}</p>
                       <p className="type-b2 text-fg-subtle">
@@ -109,16 +235,6 @@ export default function AdminOverviewPage() {
               })}
             </ul>
           )}
-          <Link
-            href="/admin/subscriptions"
-            className="mt-5 inline-flex cursor-pointer items-center gap-1.5 font-quantico text-[10px] font-bold uppercase tracking-[0.14em] text-ink transition-opacity hover:opacity-60"
-          >
-            All subscriptions
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </Link>
         </Panel>
       </div>
 
@@ -157,7 +273,7 @@ export default function AdminOverviewPage() {
                       {order.reference}
                     </Link>
                   </Td>
-                  <Td>
+                  <Td className="max-w-[240px]">
                     <span className="flex items-center gap-3">
                       <Avatar initials={initials(customer?.name ?? '')} />
                       <span className="min-w-0">

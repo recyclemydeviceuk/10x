@@ -324,7 +324,110 @@ export const DAILY_REVENUE: { date: string; revenue: number; orders: number }[] 
   { date: '2026-07-29', revenue: 5594, orders: 5 },
 ];
 
-/* ---------------------------------------------------------------- queries */
+/* ------------------------------------------------------- derived analytics */
+
+/** Orders per city, biggest first — where the demand actually is. */
+export function ordersByCity(): { label: string; value: number }[] {
+  const counts = new Map<string, number>();
+  for (const order of ORDERS) {
+    if (order.status === 'cancelled') continue;
+    const city = getCustomer(order.customerId)?.address.city ?? 'Unknown';
+    counts.set(city, (counts.get(city) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .map(([label, value]) => ({ label, value }))
+    .sort((a, b) => b.value - a.value);
+}
+
+/** How people pay. Failed attempts are excluded — this is captured money. */
+export function revenueByMethod(): { label: string; value: number }[] {
+  const totals = new Map<string, number>();
+  for (const txn of TRANSACTIONS) {
+    if (txn.status !== 'paid') continue;
+    const key = txn.method;
+    totals.set(key, (totals.get(key) ?? 0) + txn.amount);
+  }
+  return [...totals.entries()]
+    .map(([label, value]) => ({ label, value }))
+    .sort((a, b) => b.value - a.value);
+}
+
+/** The fulfilment pipeline, in the order an order actually moves through it. */
+export function fulfilmentFunnel(): { label: string; value: number }[] {
+  const live = ORDERS.filter((o) => o.status !== 'cancelled');
+  const reached = (stages: OrderStatus[]) =>
+    live.filter((o) => stages.includes(o.status)).length;
+
+  return [
+    { label: 'Paid', value: live.length },
+    { label: 'Packed', value: reached(['packed', 'dispatched', 'delivered', 'rto']) },
+    { label: 'Dispatched', value: reached(['dispatched', 'delivered', 'rto']) },
+    { label: 'Delivered', value: reached(['delivered']) },
+  ];
+}
+
+/** One-time vs subscription, by captured revenue. */
+export function revenueByPurchaseType(): { label: string; value: number }[] {
+  const totals = { 'One-time': 0, Subscription: 0 };
+  for (const txn of TRANSACTIONS) {
+    if (txn.status !== 'paid') continue;
+    if (txn.type === 'subscription') totals.Subscription += txn.amount;
+    else totals['One-time'] += txn.amount;
+  }
+  return [
+    { label: 'One-time', value: totals['One-time'] },
+    { label: 'Subscription', value: totals.Subscription },
+  ];
+}
+
+/** Orders by weekday — tells you when to staff the packing bench. */
+export function ordersByWeekday(): { label: string; value: number }[] {
+  const names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const counts = new Array(7).fill(0);
+  for (const order of ORDERS) {
+    counts[new Date(order.placedAt).getDay()] += 1;
+  }
+  // Monday-first reads better for a working week.
+  const order = [1, 2, 3, 4, 5, 6, 0];
+  return order.map((i) => ({ label: names[i], value: counts[i] }));
+}
+
+/** Average order value per day, for the trend line. */
+export function averageOrderValueSeries(): { date: string; value: number }[] {
+  return DAILY_REVENUE.map((d) => ({
+    date: d.date,
+    value: d.orders ? Math.round(d.revenue / d.orders) : 0,
+  }));
+}
+
+/** Running total across the fortnight. */
+export function cumulativeRevenueSeries(): { date: string; value: number }[] {
+  let running = 0;
+  return DAILY_REVENUE.map((d) => {
+    running += d.revenue;
+    return { date: d.date, value: running };
+  });
+}
+
+/** Share of live orders that reached the customer without coming back. */
+export function deliverySuccessRate(): number {
+  const shipped = ORDERS.filter((o) => ['delivered', 'rto'].includes(o.status));
+  if (shipped.length === 0) return 0;
+  const delivered = shipped.filter((o) => o.status === 'delivered').length;
+  return Math.round((delivered / shipped.length) * 100);
+}
+
+/** New customers per week over the last six weeks. */
+export const NEW_CUSTOMERS_BY_WEEK: { label: string; value: number }[] = [
+  { label: '23 Jun', value: 1 },
+  { label: '30 Jun', value: 2 },
+  { label: '07 Jul', value: 2 },
+  { label: '14 Jul', value: 3 },
+  { label: '21 Jul', value: 2 },
+  { label: '28 Jul', value: 4 },
+];
+
+/* ---------------------------------------------------------------- lookups */
 
 export function listOrders(options: { status?: OrderStatus | 'all'; query?: string } = {}): Order[] {
   const { status = 'all', query } = options;

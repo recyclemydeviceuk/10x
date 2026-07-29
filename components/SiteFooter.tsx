@@ -12,6 +12,7 @@ const socials = [
 ];
 
 const legalLinks = [
+  { label: 'Queries', href: '/queries' },
   { label: 'Track Order', href: '/track' },
   { label: 'Terms', href: '/terms' },
   { label: 'Privacy', href: '/privacy' },

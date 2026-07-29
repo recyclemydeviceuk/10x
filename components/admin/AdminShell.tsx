@@ -1,8 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
+
+import logo from '@/10x-Assets/10xLogo.webp';
 
 /**
  * The panel's frame: an ink rail on the left, a thin status bar on top, and a
@@ -37,6 +40,7 @@ const NAV: NavItem[] = [
   { label: 'Customers', href: '/admin/customers', icon: <Icon d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-8 8a8 8 0 0 1 16 0" /> },
   { label: 'Subscriptions', href: '/admin/subscriptions', icon: <Icon d="M4 12a8 8 0 0 1 13.7-5.6M20 12a8 8 0 0 1-13.7 5.6M17 3v4h-4M7 21v-4h4" /> },
   { label: 'Payments', href: '/admin/payments', icon: <Icon d="M3 8h18M3 8v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8M3 8l1-3h16l1 3M7 14h4" /> },
+  { label: 'Queries', href: '/admin/queries', icon: <Icon d="M21 12a8 8 0 0 1-11.7 7.1L4 20.5l1.4-5.3A8 8 0 1 1 21 12Z" /> },
 ];
 
 const SECONDARY: NavItem[] = [
@@ -108,10 +112,18 @@ export default function AdminShell({
   const rail = (
     <div className="flex h-full flex-col bg-ink">
       <div className="flex h-16 items-center px-6">
-        <Link href="/admin" className="flex cursor-pointer items-baseline gap-2.5">
-          <span className="font-quantico text-lg font-bold italic tracking-tight text-white">
-            10X
-          </span>
+        <Link href="/admin" className="flex cursor-pointer items-center gap-2.5">
+          <Image
+            src={logo}
+            alt="10X"
+            width={120}
+            height={48}
+            priority
+            // The mark is knocked out to pure white so it holds on the ink rail
+            // whatever colour the source artwork happens to be.
+            style={{ filter: 'brightness(0) invert(1)' }}
+            className="h-5 w-auto"
+          />
           <span className="font-nebula text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">
             Admin
           </span>

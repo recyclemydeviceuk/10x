@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { Sparkline } from './charts';
+
 /**
  * A headline number. The numeral is the one place the panel uses the brand's
  * display italic — same role it plays in the food equation on the storefront:
@@ -11,6 +13,7 @@ export default function StatTile({
   delta,
   footnote,
   href,
+  spark,
 }: {
   label: string;
   value: string;
@@ -18,6 +21,8 @@ export default function StatTile({
   delta?: number | null;
   footnote?: ReactNode;
   href?: string;
+  /** Optional trend behind the number. Decorative — the value states the fact. */
+  spark?: number[];
 }) {
   const body = (
     <>
@@ -42,6 +47,7 @@ export default function StatTile({
         )}
         {footnote && <span className="type-b2 text-fg-muted">{footnote}</span>}
       </div>
+      {spark && spark.length > 1 && <Sparkline data={spark} className="mt-4" />}
     </>
   );
 

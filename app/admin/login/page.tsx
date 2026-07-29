@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
+
+import logo from '@/10x-Assets/10xLogo.webp';
 
 import LoginForm from './LoginForm';
 
@@ -24,8 +27,17 @@ export default async function AdminLoginPage({
     <div className="flex min-h-screen flex-col bg-white lg:flex-row">
       {/* Brand half */}
       <section className="flex flex-col justify-between bg-ink px-8 py-8 text-white sm:px-12 lg:w-[46%] lg:px-16 lg:py-14">
-        <div className="flex items-baseline gap-3">
-          <span className="font-quantico text-2xl font-bold italic tracking-tight">10X</span>
+        <div className="flex items-center gap-3">
+          <Image
+            src={logo}
+            alt="10X"
+            width={120}
+            height={48}
+            priority
+            // Knocked out to pure white for the ink panel.
+            style={{ filter: 'brightness(0) invert(1)' }}
+            className="h-7 w-auto"
+          />
           <span className="font-nebula text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
             Admin
           </span>
