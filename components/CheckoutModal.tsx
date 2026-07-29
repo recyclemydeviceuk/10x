@@ -3,7 +3,9 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
+import { IdentityGate, ReturningSignIn } from './CheckoutIdentity';
 import { useCheckout } from './CheckoutContext';
+import type { SavedProfile } from '@/lib/checkout/actions';
 import { PRODUCT_IMAGES } from './productMedia';
 
 function fmt(n: number) {
@@ -13,8 +15,10 @@ function fmt(n: number) {
 // ── Shared field styling — light, minimal, green focus ─────────────────
 const labelCls =
   'mb-2 block font-quantico text-[11px] font-bold uppercase tracking-[0.14em] text-fg-muted';
+// One field style across the whole flow — squared, hairline, ink on focus.
+// Matches the sign-in field so the checkout doesn't change character halfway.
 const inputBase =
-  'w-full rounded-2xl bg-paper-100 py-4 font-pt text-body text-ink outline-none ring-2 ring-transparent transition-colors placeholder:text-fg-subtle focus:bg-white focus:ring-accent';
+  'w-full border-2 border-paper-200 bg-white py-4 font-pt text-body text-ink outline-none transition-colors placeholder:text-fg-subtle focus:border-ink read-only:cursor-default read-only:border-paper-200 read-only:bg-paper-50 read-only:text-fg-muted read-only:focus:border-paper-200';
 
 // ── Icons ──────────────────────────────────────────────────────────────
 const IconUser = (
@@ -104,7 +108,11 @@ type GeoState = 'idle' | 'locating' | 'done' | 'error';
 export default function CheckoutModal() {
   const { selection, close } = useCheckout();
 
+  // Checkout opens on the identity gate; the numbered steps only start once
+  // we know whether this is a returning customer.
+  const [phase, setPhase] = useState<'gate' | 'signin' | 'verified' | 'flow'>('gate');
   const [step, setStep] = useState(0); // 0..3 = steps, 4 = confirmation
+  const [recognised, setRecognised] = useState(false);
   const [form, setForm] = useState<Form>(EMPTY);
   const [qty, setQty] = useState(1);
   const [payment, setPayment] = useState('upi');
@@ -121,6 +129,8 @@ export default function CheckoutModal() {
   // Reset everything whenever a new selection opens the sheet.
   useEffect(() => {
     if (selection) {
+      setPhase('gate');
+      setRecognised(false);
       setStep(0);
       setForm(EMPTY);
       setError('');
@@ -150,10 +160,10 @@ export default function CheckoutModal() {
     };
   }, [selection, close]);
 
-  // Scroll to top on every step change.
+  // Scroll to top on every screen change.
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0 });
-  }, [step]);
+  }, [step, phase]);
 
   if (!selection) return null;
 
@@ -219,7 +229,43 @@ export default function CheckoutModal() {
 
   function back() {
     setError('');
+    if (phase === 'signin') return setPhase('gate');
+    if (phase === 'verified') return setPhase('signin');
+    // Payment reached from the locked summary goes back to it, not to a form
+    // the customer never filled in.
+    if (recognised && step === 3) return setPhase('verified');
+    // Step 0 is the first numbered screen, so its "back" returns to the gate.
+    if (step === 0) return setPhase('gate');
     setStep((s) => Math.max(0, s - 1));
+  }
+
+  /**
+   * A verified returning customer lands on Review with everything filled —
+   * one button from paying. If we hold nothing for the address we only carry
+   * the email across and let them fill the rest.
+   */
+  function onVerified(email: string, profile: SavedProfile | null) {
+    setError('');
+    if (profile) {
+      setForm((f) => ({
+        ...f,
+        name: profile.name,
+        phone: profile.phone,
+        email: profile.email,
+        house: profile.house,
+        street: profile.street,
+        city: profile.city,
+        pincode: profile.pincode,
+      }));
+      setRecognised(true);
+      // Straight to the locked summary — everything we hold, on one page,
+      // one button from paying.
+      setPhase('verified');
+      return;
+    }
+    setForm((f) => ({ ...f, email }));
+    setPhase('flow');
+    setStep(0);
   }
 
   function placeOrder() {
@@ -292,8 +338,8 @@ export default function CheckoutModal() {
           <div className="mx-auto flex w-full max-w-xl items-center px-5 py-4 sm:px-8">
             <button
               type="button"
-              onClick={step === 0 ? close : back}
-              aria-label={step === 0 ? 'Close checkout' : 'Go back'}
+              onClick={phase === 'gate' ? close : back}
+              aria-label={phase === 'gate' ? 'Close checkout' : 'Go back'}
               className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-paper-200 text-fg transition-colors hover:border-fg"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -307,8 +353,107 @@ export default function CheckoutModal() {
       {/* ===== Body ===== */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto">
         <div className="mx-auto w-full max-w-xl px-5 py-8 sm:px-8">
+          {/* STEP 0 — New or returning */}
+          {phase === 'gate' && (
+            <IdentityGate
+              onNew={() => setPhase('flow')}
+              onReturning={() => setPhase('signin')}
+            />
+          )}
+
+          {/* STEP 0b — Returning customer verifies an email */}
+          {phase === 'signin' && (
+            <ReturningSignIn
+              onVerified={onVerified}
+              onUseNewInstead={() => setPhase('flow')}
+            />
+          )}
+
+          {/* VERIFIED — everything we hold, on one page, locked. */}
+          {phase === 'verified' && (
+            <div>
+              <h2 className="font-condensed text-[2rem] font-black uppercase italic leading-none tracking-tight text-ink sm:text-4xl">
+                All set,
+                <br />
+                {form.name.split(' ')[0]}
+              </h2>
+              <p className="mt-3 flex items-start gap-2.5 font-pt text-body text-fg-muted">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="mt-1 shrink-0 text-accent-pressed">
+                  <path d="M5 12.5 10 17.5 19 7" />
+                </svg>
+                <span>
+                  Email verified. These are the details from your last order —
+                  nothing to fill in.
+                </span>
+              </p>
+
+              <div className="mt-8">
+                <p className={labelCls}>Contact</p>
+                <div className="space-y-4">
+                  <Field id="v-name" label="Full Name" icon={IconUser} value={form.name} readOnly />
+                  <Field id="v-phone" label="Mobile Number" icon={IconPhone} value={form.phone} readOnly />
+                  <Field id="v-email" label="Email Address" icon={IconMail} value={form.email} readOnly />
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <p className={labelCls}>Delivering to</p>
+                <div className="space-y-4">
+                  <Field id="v-house" label="House / Flat" icon={IconPin} value={form.house} readOnly />
+                  {form.street && (
+                    <Field id="v-street" label="Street / Area" value={form.street} readOnly />
+                  )}
+                  <div className="grid grid-cols-2 gap-4">
+                    <Field id="v-city" label="City" value={form.city} readOnly />
+                    <Field id="v-pin" label="Pin Code" value={form.pincode} readOnly />
+                  </div>
+                </div>
+              </div>
+
+              {/* What they're paying for */}
+              <div className="mt-8 border-2 border-paper-200 p-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="font-quantico text-body-sm font-bold uppercase tracking-wide text-ink">
+                      {selection.tierName}
+                    </p>
+                    <p className="mt-1 font-pt text-caption text-fg-muted">
+                      {selection.packets}
+                      {isSubscription && ' · every 4 weeks'}
+                    </p>
+                  </div>
+                  <p className="shrink-0 font-quantico text-body font-bold text-ink">
+                    {fmt(total)}
+                  </p>
+                </div>
+                <div className="mt-4 flex items-baseline justify-between border-t border-paper-200 pt-4">
+                  <span className="font-quantico text-caption font-bold uppercase tracking-[0.12em] text-fg-muted">
+                    {isSubscription ? 'Recurring total' : 'Total'}
+                  </span>
+                  <span className="font-condensed text-2xl font-black tracking-tight text-ink">
+                    {fmt(total)}
+                  </span>
+                </div>
+              </div>
+
+              {/* A customer who has moved must still be able to order. */}
+              <button
+                type="button"
+                onClick={() => {
+                  setRecognised(false);
+                  setPhase('flow');
+                  setStep(0);
+                }}
+                className="mt-5 w-full cursor-pointer py-2 font-pt text-body-sm text-fg-muted underline decoration-paper-300 underline-offset-4 transition-colors hover:text-ink"
+              >
+                Something changed? Edit these details
+              </button>
+            </div>
+          )}
+
+
           {/* STEP 1 — Contact details */}
-          {step === 0 && (
+          {phase === 'flow' && step === 0 && (
             <div>
               <h2 className="font-condensed text-[2rem] font-black uppercase italic leading-none tracking-tight text-ink sm:text-4xl">
                 Contact Details
@@ -325,7 +470,7 @@ export default function CheckoutModal() {
           )}
 
           {/* STEP 2 — Delivery address */}
-          {step === 1 && (
+          {phase === 'flow' && step === 1 && (
             <div>
               <h2 className="font-condensed text-[2rem] font-black uppercase italic leading-none tracking-tight text-ink sm:text-4xl">
                 Delivery Address
@@ -408,7 +553,7 @@ export default function CheckoutModal() {
           )}
 
           {/* STEP 3 — Review */}
-          {step === 2 && (
+          {phase === 'flow' && step === 2 && (
             <div>
               <h2 className="font-condensed text-[2rem] font-black uppercase italic leading-none tracking-tight text-ink sm:text-4xl">
                 Order Summary
@@ -499,7 +644,7 @@ export default function CheckoutModal() {
           )}
 
           {/* STEP 4 — Payment */}
-          {step === 3 && (
+          {phase === 'flow' && step === 3 && (
             <div>
               <h2 className="font-condensed text-[2rem] font-black uppercase italic leading-none tracking-tight text-ink sm:text-4xl">
                 Payment Method
@@ -641,7 +786,19 @@ export default function CheckoutModal() {
       {/* ===== Footer / CTA ===== */}
       <footer className="shrink-0 border-t border-paper-200 bg-white pb-[env(safe-area-inset-bottom)]">
         <div className="mx-auto w-full max-w-xl px-5 py-4 sm:px-8">
-          {success ? (
+          {phase === 'verified' ? (
+            <button
+              type="button"
+              onClick={() => {
+                setPhase('flow');
+                setStep(3);
+              }}
+              className="flex min-h-[56px] w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 py-4 font-quantico text-body-sm font-bold uppercase tracking-[0.16em] text-ink transition-colors hover:bg-accent-hover"
+            >
+              Proceed to Payment · {fmt(total)}
+              {IconArrow}
+            </button>
+          ) : phase !== 'flow' ? null : success ? (
             <button
               type="button"
               onClick={close}
