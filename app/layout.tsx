@@ -1,11 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { quantico, nebulaSans, ptSans, ptSansCaption } from './fonts';
-import SiteHeader from '../components/SiteHeader';
-import SiteFooter from '../components/SiteFooter';
-import ImageProtection from '../components/ImageProtection';
-import { CheckoutProvider } from '../components/CheckoutContext';
-import CheckoutModal from '../components/CheckoutModal';
-import ChatWidget from '../components/ChatWidget';
 import './globals.css';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
@@ -187,21 +181,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
+      {/* Storefront chrome (header, footer, checkout, support) lives in the
+          `(site)` group layout — the admin panel shares the fonts and the
+          reset, but none of the shopfront furniture. */}
       <body className="font-sans antialiased" suppressHydrationWarning>
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:font-bold focus:text-ink"
-        >
-          Skip to main content
-        </a>
-        <ImageProtection />
-        <CheckoutProvider>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-          <CheckoutModal />
-          <ChatWidget />
-        </CheckoutProvider>
+        {children}
       </body>
     </html>
   );
