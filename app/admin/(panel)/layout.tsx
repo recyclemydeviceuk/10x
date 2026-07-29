@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 
 import AdminShell from '@/components/admin/AdminShell';
-import { requireSession } from '@/lib/admin/session';
+import { SUPER_ADMIN_ROLE_ID } from '@/lib/admin/permissions';
+import { getCurrentRole, requireSession } from '@/lib/admin/session';
+import { countByStatus } from '@/lib/queries/store';
 
 import { logout } from '../actions';
 
@@ -19,10 +21,16 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   // Middleware already gated this route; re-reading here gives the shell the
   // signed-in user and keeps the page honest if the matcher ever changes.
   const session = await requireSession();
+  const role = await getCurrentRole();
+  const waiting = countByStatus('new');
 
   return (
     <AdminShell
       user={{ name: session.name, email: session.email }}
+      roleName={role?.name ?? 'No role'}
+      capabilities={role?.capabilities ?? []}
+      isSuperAdmin={role?.id === SUPER_ADMIN_ROLE_ID}
+      queryCount={waiting}
       signOut={
         <form action={logout}>
           <button

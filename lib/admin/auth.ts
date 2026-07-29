@@ -25,7 +25,10 @@ export type AdminSession = {
   sub: string;
   email: string;
   name: string;
+  /** 'owner' is the env-provisioned super admin; everyone else is 'staff'. */
   role: 'owner' | 'staff';
+  /** Which role from the role store a staff member holds. */
+  roleId?: string;
   /** Unix seconds. */
   exp: number;
 };
