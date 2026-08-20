@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 
 import AuthModal from '@/components/account/AuthModal';
@@ -67,18 +66,18 @@ export default function QueryForm() {
         </dl>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link
+          <a
             href="/"
             className="type-k inline-flex cursor-pointer items-center border border-paper-300 px-6 py-3 text-ink transition-colors hover:border-ink dark:text-white dark:hover:border-white"
           >
             Back to the site
-          </Link>
-          <Link
+          </a>
+          <a
             href="/#before-you-ask"
             className="type-k inline-flex cursor-pointer items-center border border-paper-300 px-6 py-3 text-ink transition-colors hover:border-ink dark:text-white dark:hover:border-white"
           >
             Read the FAQ
-          </Link>
+          </a>
         </div>
       </div>
     );

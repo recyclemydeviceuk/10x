@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState, type ReactNode } from 'react';
 
 import Avatar from './Avatar';
@@ -107,7 +107,6 @@ const PERKS = [
  */
 export default function AccountShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { customer, loading, isAuthed, signOut } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
@@ -227,7 +226,7 @@ export default function AccountShell({ children }: { children: ReactNode }) {
             type="button"
             onClick={() => {
               signOut();
-              router.push('/');
+              window.location.assign('/');
             }}
             className="shrink-0 cursor-pointer font-quantico text-body-sm font-bold uppercase tracking-[0.12em] text-fg-muted underline decoration-paper-300 underline-offset-4 transition-colors hover:text-danger"
           >

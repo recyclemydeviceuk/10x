@@ -64,7 +64,11 @@ export default function SiteHeader() {
         }`}
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-8 md:h-[72px] md:px-14">
-          <Link href="/" aria-label="10X — Home" className="relative z-[10001] flex cursor-pointer items-center">
+          {/* Home uses a document navigation deliberately. If a visitor keeps
+              a tab open across a Vercel deployment, a cached Next.js RSC
+              transition can reference the previous build and fail until a
+              reload. This makes the logo click perform that clean reload. */}
+          <a href="/" aria-label="10X — Home" className="relative z-[10001] flex cursor-pointer items-center">
             <Image
               src={logo}
               alt="10X — The Brain Battery"
@@ -74,7 +78,7 @@ export default function SiteHeader() {
               style={{ filter: menuOpen || theme !== 'light' ? 'brightness(100)' : 'brightness(0)' }}
               className="h-6 w-auto transition-all duration-300 md:h-8"
             />
-          </Link>
+          </a>
 
           {/* Desktop nav */}
           <nav aria-label="Primary" className="hidden md:block">
