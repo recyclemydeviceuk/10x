@@ -1,66 +1,52 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 const PRODUCT_HREF = '/products/10x-daytime';
 
-// Full-bleed hero lifestyle image — the dancing commuter, wedding procession behind.
-const HERO_IMG =
-  'https://res.cloudinary.com/dn2sab6qc/image/upload/v1784875982/Main_JEPG_qmer9f.jpg';
+const HERO_VIDEO =
+  'https://res.cloudinary.com/dwo7y0jxw/video/upload/v1786902123/Natual_clean_slow_dance_202607311223_2_ycdwe1.mp4';
 
-/**
- * Desktop hero (≥ lg). A single full-bleed lifestyle image with the copy
- * overlaid on the left over a soft white scrim — the scrim washes out the
- * procession behind the type so it reads, while the dancing man on the right
- * stays vivid. The mobile hero (`HeroMobile`) takes over below `lg`.
- */
 export default function Hero() {
   return (
     <section
       id="hero"
       aria-label="The Brain Battery"
-      className="relative hidden w-full overflow-hidden bg-white lg:block"
+      className="relative mt-[72px] hidden w-full overflow-hidden bg-ink lg:block"
     >
-      {/* Full-bleed image — sits under the fixed header, framed on the man */}
-      <Image
-        src={HERO_IMG}
-        alt="A man in office wear dancing on a quiet street as a wedding procession passes — 10X, The Brain Battery"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+      {/* Background video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      >
+        <source src={HERO_VIDEO} type="video/mp4" />
+      </video>
 
-      {/* White scrim — heavy on the left so the copy reads, clears by ~70% */}
+      {/* Full dark overlay — low opacity so the video stays visible */}
       <div
         aria-hidden
-        className="absolute inset-0"
-        style={{
-          background:
-            'linear-gradient(to right, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.92) 26%, rgba(255,255,255,0.58) 45%, rgba(255,255,255,0.16) 60%, rgba(255,255,255,0) 72%)',
-        }}
+        className="absolute inset-0 bg-black/40"
       />
 
-      {/* Copy — aligned to the site container so its left edge lines up with the logo */}
-      <div className="relative z-10 mx-auto flex min-h-[620px] max-w-7xl items-center px-5 pb-16 pt-24 sm:px-8 md:px-14 lg:min-h-[82vh] lg:max-h-[860px]">
+      {/* Copy */}
+      <div className="relative z-10 mx-auto flex min-h-[560px] max-w-7xl items-center px-5 py-20 sm:px-8 md:px-14 lg:min-h-[80vh] lg:max-h-[820px]">
         <div className="max-w-[560px]">
-          {/* K — kicker, charcoal */}
-          <p className="type-k text-ink-800">The Brain Battery</p>
+          <p className="type-k text-white/70">The Brain Battery</p>
 
-          {/* D1 — display hero, black (no blue) */}
-          <h1 className="type-d1 mt-5 whitespace-nowrap text-ink">
+          <h1 className="type-d1 mt-5 whitespace-nowrap text-white">
             Fuel Better
             <br />
             Thinking.
           </h1>
 
-          {/* Lede — PT Sans italic (real italic, not the caption cut) */}
-          <p className="mt-6 max-w-[440px] font-pt text-xl italic leading-snug text-ink md:text-[22px]">
-            No buzz. No crash.
+          <p className="type-b1 mt-6 max-w-[540px] text-white/85">
+            No buzz. No crash. No moment it &lsquo;kicks in.&rsquo;
             <br />
-            Just quietly better thinking.
+            Just a quietly better afternoon.
           </p>
 
-          {/* Primary button (K on green) */}
           <div className="mt-8">
             <Link
               href={PRODUCT_HREF}
@@ -74,12 +60,11 @@ export default function Hero() {
             </Link>
           </div>
 
-          {/* Hero testimonial — the review we're proudest of */}
           <figure className="mt-9 max-w-[440px]">
-            <blockquote className="font-pt text-lg font-bold italic leading-snug text-ink md:text-xl">
+            <blockquote className="font-pt text-lg font-bold italic leading-snug text-white md:text-xl">
               &ldquo;I started dancing again. Don&rsquo;t know if it&rsquo;s the 10X.&rdquo;
             </blockquote>
-            <figcaption className="type-b2 mt-2.5 text-fg-muted">
+            <figcaption className="type-b2 mt-2.5 text-white/60">
               — an early user. That&rsquo;s the review we&rsquo;re proudest of.
             </figcaption>
           </figure>

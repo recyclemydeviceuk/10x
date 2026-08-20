@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -19,11 +20,11 @@ const config: Config = {
         },
         charcoal: '#2E2E2E', // direct alias for the brand charcoal
         paper: {
-          DEFAULT: '#FFFFFF',
-          50: '#FAFAFA',
-          100: '#F4F5F7', // neutral section bg
-          200: '#E5E7EB', // dividers / borders
-          300: '#D1D5DB',
+          DEFAULT: 'var(--color-paper)',
+          50: 'var(--color-paper-50)',
+          100: 'var(--color-paper-100)',
+          200: 'var(--color-paper-200)',
+          300: 'var(--color-paper-300)',
         },
         // Brand secondary — Deep Navy / electric royal blue ("BENEFITS OF 10X" section)
         brand: {
@@ -54,9 +55,9 @@ const config: Config = {
         },
         // Text tokens
         fg: {
-          DEFAULT: '#000204',
-          muted: '#6B7280',
-          subtle: '#9CA3AF',
+          DEFAULT: 'var(--color-fg)',
+          muted: 'var(--color-fg-muted)',
+          subtle: 'var(--color-fg-subtle)',
           inverse: '#FFFFFF',
           'inverse-muted': '#B0B5C0',
         },
@@ -114,7 +115,7 @@ const config: Config = {
         elevated: '0 8px 32px rgba(0, 2, 4, 0.10)',
         glow: '0 0 32px rgba(109, 227, 37, 0.40)',
         'glow-soft': '0 0 16px rgba(109, 227, 37, 0.22)',
-        'glow-blue': '0 0 32px rgba(8, 33, 210, 0.35)',
+        'glow-strong': '0 0 32px rgba(109, 227, 37, 0.50)',
       },
       spacing: {
         section: '6rem', // vertical rhythm between major sections

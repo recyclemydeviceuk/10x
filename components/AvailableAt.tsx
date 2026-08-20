@@ -45,7 +45,7 @@ export default function AvailableAt() {
                 alt={p.name}
                 fill
                 sizes="160px"
-                className={`object-contain ${p.scale ?? ''}`}
+                className={`object-contain dark:brightness-90 ${p.scale ?? ''}`}
               />
             </div>
           ))}
@@ -64,7 +64,7 @@ export default function AvailableAt() {
                   alt={p.name}
                   fill
                   sizes="160px"
-                  className={`object-contain ${p.scale ?? ''}`}
+                  className={`object-contain dark:brightness-90 ${p.scale ?? ''}`}
                 />
               </div>
             ))}

@@ -5,7 +5,7 @@ const FAQS = [
   },
   {
     q: 'Is 10X an energy drink?',
-    a: 'No. 10X is engineered nutrition, not a stimulant hit. It supports your brain with real, recognizable ingredients rather than forcing a spike followed by a crash.',
+    a: 'No. 10X is whole-food nutrition, not a stimulant hit. It supports your brain with real, recognizable ingredients rather than forcing a spike followed by a crash.',
   },
   {
     q: 'Does 10X contain caffeine?',
@@ -31,15 +31,15 @@ const FAQS = [
 
 export default function ProductFAQ() {
   return (
-    <section aria-label="Common questions" className="bg-white">
+    <section aria-label="Common questions" className="bg-white dark:bg-paper">
       <div className="mx-auto max-w-3xl px-6 py-20 sm:px-10 md:px-14 md:py-24">
         <p className="type-k text-fg-muted">Before you ask</p>
-        <h2 className="type-d2 mt-4 text-ink">Common questions about 10X</h2>
+        <h2 className="type-d2 mt-4 text-ink dark:text-white">Common questions about 10X</h2>
 
         <div className="mt-10 border-t border-paper-200">
           {FAQS.map((f, i) => (
             <details key={f.q} open={i === 0} className="group border-b border-paper-200">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 text-ink">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 text-ink dark:text-white">
                 <span className="type-d3">{f.q}</span>
                 {/* Green "+" → "−" on open */}
                 <span

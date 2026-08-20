@@ -2,29 +2,35 @@
 
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
-import { type TierId } from './plans';
-
 type ProductConfig = {
-  tierId: TierId;
-  setTierId: (id: TierId) => void;
+  /** The selected pack's id, as the catalogue knows it. */
+  tierId: string | null;
+  setTierId: (id: string) => void;
+  /** false = one-time purchase (the default), true = recurring delivery. */
+  subscribe: boolean;
+  setSubscribe: (v: boolean) => void;
 };
 
 const ProductConfigContext = createContext<ProductConfig | null>(null);
 
-// Holds the selected pack tier so the purchase panel (hero) and the mobile
-// details block (rendered further down the page, after Engineered With) stay
-// in sync from a single source of truth.
+// Holds the selected pack and plan so the purchase panel (hero) and the mobile
+// details block (rendered further down the page, after the ingredients
+// carousel) stay in sync from a single source of truth.
 export function ProductConfigProvider({
   children,
-  initialTierId = 'core',
+  initialTierId = null,
+  initialSubscribe = false,
 }: {
   children: ReactNode;
-  /** Pre-selected pack, e.g. from the homepage Buy selector's `?pack=` param. */
-  initialTierId?: TierId;
+  /** Pre-selected pack — from the `?pack=` param, resolved against the catalogue. */
+  initialTierId?: string | null;
+  /** Pre-selected plan from `?plan=`. One-time unless told otherwise. */
+  initialSubscribe?: boolean;
 }) {
-  const [tierId, setTierId] = useState<TierId>(initialTierId);
+  const [tierId, setTierId] = useState<string | null>(initialTierId);
+  const [subscribe, setSubscribe] = useState(initialSubscribe);
   return (
-    <ProductConfigContext.Provider value={{ tierId, setTierId }}>
+    <ProductConfigContext.Provider value={{ tierId, setTierId, subscribe, setSubscribe }}>
       {children}
     </ProductConfigContext.Provider>
   );

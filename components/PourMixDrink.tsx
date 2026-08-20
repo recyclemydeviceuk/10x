@@ -17,7 +17,7 @@ export default function PourMixDrink() {
             fill
             sizes="(min-width: 1280px) 1200px, 100vw"
             priority={false}
-            className="object-cover"
+            className="object-cover dark:brightness-90"
           />
         </div>
       </div>

@@ -19,7 +19,14 @@ export default function robots(): MetadataRoute.Robots {
         ],
         disallow: [
           '/api/',
-          '/admin/',
+          // Cart, checkout and the account area are per-customer — nothing
+          // here is useful in an index, and order pages are private.
+          '/cart',
+          '/checkout',
+          '/checkout/',
+          '/account',
+          '/account/',
+          '/reset-password',
           '/design-system',
           '/design-system/',
           '/*.php',

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 30" role="img" aria-label="RuPay">
+  <!-- STAND-IN. Replace with the official mark from npci.org.in (RuPay brand assets). -->
+  <text x="24" y="20" text-anchor="middle"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="13" font-weight="700" font-style="italic">
+    <tspan fill="#097DC6">Ru</tspan><tspan fill="#F47920">Pay</tspan>
+  </text>
+</svg>

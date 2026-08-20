@@ -28,11 +28,7 @@ export default function TakeCharge() {
 
             <Link
               href="#collection"
-              className="mt-8 inline-flex cursor-pointer items-center gap-2 px-8 py-3 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] text-white shadow-elevated transition hover:opacity-90"
-              style={{
-                background:
-                  'linear-gradient(90deg, #000204 0%, #02063A 35%, #0821D2 100%)',
-              }}
+              className="btn-accent mt-8 inline-flex cursor-pointer items-center gap-2 px-8 py-3 font-quantico text-body-sm font-bold uppercase tracking-[0.18em] shadow-elevated transition hover:opacity-90"
             >
               Buy Now
             </Link>

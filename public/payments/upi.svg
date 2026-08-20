@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 30" role="img" aria-label="UPI">
+  <!-- STAND-IN. Replace with the official UPI mark from npci.org.in. -->
+  <path d="M6 8h4l-3.2 14H2.8L6 8Z" fill="#0F9D58"/>
+  <path d="M10.5 8h4l-3.2 14H7.3L10.5 8Z" fill="#F47920"/>
+  <text x="30" y="20" text-anchor="middle"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="13" font-weight="700" fill="#0B2B5B">UPI</text>
+</svg>

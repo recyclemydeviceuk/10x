@@ -41,25 +41,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.95,
     },
+    // The two menu pages, in nav order. /hardware is left out because it is
+    // still a noindexed placeholder; /our-story, /formulation and /science are
+    // out too — they run on the retired blue palette and nothing links to them.
     {
-      url: `${SITE_URL}/our-story`,
+      url: `${SITE_URL}/brain-fog`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.80,
+      priority: 0.85,
     },
     {
-      url: `${SITE_URL}/formulation`,
+      url: `${SITE_URL}/whats-in-it`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.80,
+      priority: 0.85,
     },
-    {
-      url: `${SITE_URL}/science`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.80,
-    },
-    { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.5 },
     { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
     { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
     { url: `${SITE_URL}/refunds`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },

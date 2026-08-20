@@ -13,8 +13,27 @@ const nextConfig = {
   },
   images: {
     formats: ['image/avif', 'image/webp'],
+    /**
+     * Where product photography may be loaded from.
+     *
+     * next/image REFUSES any host not listed here, and it fails as a runtime
+     * error on the page rather than a broken image — so this list has to cover
+     * every bucket the catalogue might serve, not just the one configured
+     * today. It covers:
+     *   - Cloudinary, which hosts the static brand photography
+     *   - any S3 bucket in any region, virtual-hosted or path-style, which is
+     *     what the admin panel uploads to
+     *   - an explicit CDN host, when one is put in front of the bucket
+     */
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: '*.s3.amazonaws.com' },
+      { protocol: 'https', hostname: '*.s3.*.amazonaws.com' },
+      { protocol: 'https', hostname: 's3.*.amazonaws.com' },
+      { protocol: 'https', hostname: '*.cloudfront.net' },
+      ...(process.env.NEXT_PUBLIC_MEDIA_HOST
+        ? [{ protocol: 'https', hostname: process.env.NEXT_PUBLIC_MEDIA_HOST }]
+        : []),
     ],
   },
   async headers() {

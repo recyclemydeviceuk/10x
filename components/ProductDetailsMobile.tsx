@@ -1,7 +1,6 @@
 'use client';
 
-import { TIERS, PRODUCT_DESCRIPTION, PRODUCT_PERFECT_FOR } from './plans';
-import { useProductConfig } from './ProductConfigContext';
+import { useProductContent } from './ProductContentContext';
 
 // Pick an icon for a benefit by keyword so the copy stays the source of truth.
 function BenefitIcon({ label }: { label: string }) {
@@ -67,42 +66,47 @@ function BenefitIcon({ label }: { label: string }) {
 // Engineered With carousel, mirroring screen 2 of the design. On desktop this
 // content lives inside the purchase panel instead (see ProductPurchase).
 export default function ProductDetailsMobile() {
-  const { tierId } = useProductConfig();
-  const tier = TIERS[tierId];
+  const { product } = useProductContent();
+
+  // Nothing to describe until the catalogue answers.
+  if (!product) return null;
+  const sf = product.storefront;
+  const benefits = sf.benefits;
 
   return (
-    <section aria-label="Product details" className="bg-white md:hidden">
+    <section aria-label="Product details" className="bg-white dark:bg-paper md:hidden">
       <div className="mx-auto max-w-2xl px-6 pb-10 pt-8 sm:px-10">
         {/* Description */}
-        <div className="rounded-xl border border-paper-200 bg-paper-50 p-5">
-          <p className="type-b2 text-fg-muted">
-            <span className="font-bold text-ink">Premium brain nourishment formula</span>{' '}
-            {PRODUCT_DESCRIPTION.replace('Premium brain nourishment formula ', '')}
-          </p>
-          <p className="mt-3 type-b2 text-fg-muted">
-            <span className="type-k mb-1 block text-ink">
-              Perfect for
-            </span>
-            {PRODUCT_PERFECT_FOR}
-          </p>
+        <div className="rounded-xl border border-paper-200 bg-paper-50 dark:bg-paper-200 p-5">
+          <p className="type-b2 text-fg-muted">{product.description}</p>
+          {sf.perfectFor ? (
+            <p className="mt-3 type-b2 text-fg-muted">
+              <span className="type-k mb-1 block text-ink dark:text-white">
+                Perfect for
+              </span>
+              {sf.perfectFor}
+            </p>
+          ) : null}
         </div>
 
         {/* Benefits — 2×2 icon grid */}
+        {benefits.length > 0 && (
         <ul className="mt-5 grid grid-cols-2 overflow-hidden rounded-xl border border-paper-200">
-          {tier.benefits.map((b, i) => (
+          {benefits.map((b: string, i: number) => (
             <li
               key={b}
               className={`flex items-center gap-3 p-4 ${
                 i % 2 === 0 ? 'border-r border-paper-200' : ''
               } ${i >= 2 ? 'border-t border-paper-200' : ''}`}
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/15 text-ink">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/15 text-ink dark:text-white">
                 <BenefitIcon label={b} />
               </span>
               <span className="type-b2 leading-tight text-fg">{b}</span>
             </li>
           ))}
         </ul>
+        )}
       </div>
     </section>
   );

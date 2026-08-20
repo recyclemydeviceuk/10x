@@ -19,6 +19,7 @@
   --color-paper-50: #FAFAFA;
   --color-paper-100: #F4F5F7;
   --color-paper-200: #E5E7EB;
+  --color-paper-300: #D1D5DB;
 
   /* Brand secondary — Deep Navy / electric royal blue (#0821d2) */
   --color-brand-blue: #0821D2;
@@ -75,6 +76,42 @@
   /* Page defaults */
   --background: var(--color-paper);
   --foreground: var(--color-fg);
+}
+
+/* =========================================================
+   Dark mode overrides
+   ========================================================= */
+.dark {
+  --color-paper: #111318;
+  --color-paper-50: #111318;
+  --color-paper-100: #111318;
+  --color-paper-200: #2A2C38;
+  --color-paper-300: #3A3C48;
+
+  --color-fg: #F0F1F3;
+  --color-fg-muted: #B0B7C3;
+  --color-fg-subtle: #8891A0;
+
+  --background: #111318;
+  --foreground: #F0F1F3;
+}
+
+/* True black — for OLED screens and the brand's ink surfaces.
+   Always paired with .dark (see ThemeProvider), so it only needs to override
+   the surfaces that differ; every other dark token is inherited. */
+.black {
+  --color-paper: #000000;
+  --color-paper-50: #050506;
+  --color-paper-100: #08090B;
+  --color-paper-200: #1C1D21;
+  --color-paper-300: #2A2C31;
+
+  --color-fg: #F5F6F7;
+  --color-fg-muted: #A8AEB8;
+  --color-fg-subtle: #7C8492;
+
+  --background: #000000;
+  --foreground: #F5F6F7;
 }
 
 * {
@@ -211,6 +248,17 @@ body {
     .type-b1 { font-size: 1.375rem; }
     .type-b2 { font-size: 1rem; }
   }
+}
+
+/* A scroll rail with no visible scrollbar — for pill rows that scroll
+   sideways on small screens. Pair with an edge fade so the cut-off content
+   still reads as "there's more". */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* =========================================================

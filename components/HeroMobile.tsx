@@ -1,64 +1,51 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 const PRODUCT_HREF = '/products/10x-daytime';
 
-// Full-bleed hero lifestyle image — shared with the desktop hero.
-const HERO_IMG =
-  'https://res.cloudinary.com/dn2sab6qc/image/upload/v1784875982/Main_JEPG_qmer9f.jpg';
+const HERO_VIDEO_MOBILE =
+  'https://res.cloudinary.com/dwo7y0jxw/video/upload/v1786902122/Hero_Video_rvmu5m.mp4';
 
-/**
- * Mobile hero (< lg). The same full-bleed lifestyle image as the desktop hero,
- * framed on the dancing man, with the copy bottom-anchored over a strong white
- * scrim so it reads. The desktop hero (`Hero`) takes over at `lg`.
- */
 export default function HeroMobile() {
   return (
     <section
       id="hero-mobile"
       aria-label="The Brain Battery"
-      className="relative w-full overflow-hidden bg-white lg:hidden"
+      className="relative mt-14 w-full overflow-hidden bg-ink lg:hidden"
     >
-      {/* Full-bleed image — framed toward the dancing man on the right */}
-      <Image
-        src={HERO_IMG}
-        alt="A man in office wear dancing on a quiet street as a wedding procession passes — 10X, The Brain Battery"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-[72%_center]"
-      />
+      {/* Background video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover object-[72%_center]"
+      >
+        <source src={HERO_VIDEO_MOBILE} type="video/mp4" />
+      </video>
 
-      {/* White scrim — image reads up top, copy sits on white below */}
+      {/* Full dark overlay — low opacity so the video stays visible */}
       <div
         aria-hidden
-        className="absolute inset-0"
-        style={{
-          background:
-            'linear-gradient(to top, rgba(255,255,255,0.99) 0%, rgba(255,255,255,0.97) 44%, rgba(255,255,255,0.85) 58%, rgba(255,255,255,0.35) 74%, rgba(255,255,255,0) 90%)',
-        }}
+        className="absolute inset-0 bg-black/40"
       />
 
       {/* Copy — bottom-anchored, left-aligned */}
-      <div className="relative z-10 flex h-[92svh] max-h-[760px] min-h-[600px] flex-col justify-end px-5 pb-10 pt-24">
-        {/* K — kicker, charcoal */}
-        <p className="type-k text-ink-800">The Brain Battery</p>
+      <div className="relative z-10 flex h-[85svh] max-h-[720px] min-h-[540px] flex-col justify-end px-5 pb-10">
+        <p className="type-k text-white/70">The Brain Battery</p>
 
-        {/* D1 — display hero, black (no blue) */}
-        <h1 className="type-d1 mt-3 text-ink">
+        <h1 className="type-d1 mt-3 text-white">
           Fuel Better
           <br />
           Thinking.
         </h1>
 
-        {/* Lede — PT Sans italic (real italic, not the caption cut) */}
-        <p className="mt-4 max-w-md font-pt text-lg italic leading-snug text-ink">
-          No buzz. No crash.
-          <br />
-          Just quietly better thinking.
+        <p className="type-b1 mt-4 max-w-md text-white/85">
+          No buzz. No crash. No moment it &lsquo;kicks in.&rsquo;{' '}
+          <br className="hidden sm:inline" />
+          Just a quietly better afternoon.
         </p>
 
-        {/* Primary button (K on green) */}
         <div className="mt-5">
           <Link
             href={PRODUCT_HREF}
@@ -72,12 +59,11 @@ export default function HeroMobile() {
           </Link>
         </div>
 
-        {/* Hero testimonial — the review we're proudest of */}
         <figure className="mt-6 max-w-md">
-          <blockquote className="font-pt text-base font-bold italic leading-snug text-ink">
+          <blockquote className="font-pt text-base font-bold italic leading-snug text-white">
             &ldquo;I started dancing again. Don&rsquo;t know if it&rsquo;s the 10X.&rdquo;
           </blockquote>
-          <figcaption className="type-b2 mt-2 text-fg-muted">
+          <figcaption className="type-b2 mt-2 text-white/60">
             — an early user. That&rsquo;s the review we&rsquo;re proudest of.
           </figcaption>
         </figure>

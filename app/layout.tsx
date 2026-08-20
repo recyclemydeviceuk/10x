@@ -1,10 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { quantico, nebulaSans, ptSans, ptSansCaption } from './fonts';
-import SiteHeader from '../components/SiteHeader';
-import SiteFooter from '../components/SiteFooter';
-import ImageProtection from '../components/ImageProtection';
-import { CheckoutProvider } from '../components/CheckoutContext';
-import CheckoutModal from '../components/CheckoutModal';
 import './globals.css';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://10xdrink.com';
@@ -16,7 +11,7 @@ export const metadata: Metadata = {
     template: '%s | 10X',
   },
   description:
-    '10X is THE BRAIN BATTERY — engineered nutrition designed to support focused thinking, controlled energy, and clear execution. Engineered with pumpkin seeds, sesame seeds, edamame, matcha, spinach & almonds. Available on 10xdrink.com, Blinkit & Zepto.',
+    '10X is THE BRAIN BATTERY — whole-food nutrition designed to support focused thinking, controlled energy, and clear execution. Made with pumpkin seeds, sesame seeds, edamame, matcha, spinach & almonds. Available on 10xdrink.com, Blinkit & Zepto.',
   keywords: [
     '10X drink',
     'brain battery',
@@ -52,7 +47,7 @@ export const metadata: Metadata = {
     siteName: '10X',
     title: '10X — The Brain Battery | Fuel Better Thinking',
     description:
-      'Engineered nutrition designed to support focused thinking, controlled energy, and clear execution. One simple daily protocol.',
+      'Whole-food nutrition designed to support focused thinking, controlled energy, and clear execution. One simple daily protocol.',
     images: [
       {
         url: '/og-image.jpg',
@@ -76,7 +71,7 @@ export const metadata: Metadata = {
     creator: '@10xdrink',
     title: '10X — The Brain Battery',
     description:
-      'Engineered nutrition for focused thinking, controlled energy, and clear execution.',
+      'Whole-food nutrition for focused thinking, controlled energy, and clear execution.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -106,10 +101,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0A0E1A' },
-  ],
+  themeColor: '#ffffff',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -124,7 +116,7 @@ const organizationJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   description:
-    '10X makes THE BRAIN BATTERY — engineered nutrition designed to support focused thinking, controlled energy, and clear execution.',
+    '10X makes THE BRAIN BATTERY — whole-food nutrition designed to support focused thinking, controlled energy, and clear execution.',
   sameAs: [
     'https://www.instagram.com/10xdrink',
     'https://www.facebook.com/10xdrink',
@@ -150,7 +142,7 @@ const websiteJsonLd = {
   '@id': `${SITE_URL}/#website`,
   name: '10X',
   url: SITE_URL,
-  description: 'THE BRAIN BATTERY — Fuel Better Thinking. Engineered nutrition for focus, energy, and execution.',
+  description: 'THE BRAIN BATTERY — Fuel Better Thinking. Whole-food nutrition for focus, energy, and execution.',
   publisher: {
     '@type': 'Organization',
     name: '10X Formulas',
@@ -175,8 +167,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" dir="ltr" className={fontClasses} suppressHydrationWarning>
+    <html lang="en" dir="ltr" className={fontClasses} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            // Runs before first paint so a saved choice is applied without a
+              // flash. With no saved choice, the storefront starts in light
+              // mode regardless of the visitor's device colour scheme.
+              __html: `(function(){try{var t=localStorage.getItem('10x-theme');if(t!=='light'&&t!=='dark'&&t!=='black')t='light';var c=document.documentElement.classList;c.toggle('dark',t==='dark'||t==='black');c.toggle('black',t==='black');document.documentElement.dataset.theme=t}catch(e){}})()`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -186,20 +186,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
+      {/* Storefront chrome (header, footer, checkout, support) lives in the
+          `(site)` group layout — the admin panel shares the fonts and the
+          reset, but none of the shopfront furniture. */}
       <body className="font-sans antialiased" suppressHydrationWarning>
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:font-bold focus:text-ink"
-        >
-          Skip to main content
-        </a>
-        <ImageProtection />
-        <CheckoutProvider>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-          <CheckoutModal />
-        </CheckoutProvider>
+        {children}
       </body>
     </html>
   );

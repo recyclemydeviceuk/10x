@@ -45,17 +45,17 @@ export default function BeforeYouAsk() {
     <section
       id="before-you-ask"
       aria-label="Before you ask"
-      className="bg-white py-14 sm:py-20 md:py-28"
+      className="bg-white dark:bg-paper py-10 sm:py-16 md:py-24"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-14">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-16">
           {/* Left — the question + the one-word answer */}
           <div className="lg:w-1/2">
             {/* K — kicker, charcoal */}
-            <p className="type-k text-ink-800">Before you ask</p>
+            <p className="type-k text-ink-800 dark:text-paper-200">Before you ask</p>
 
             {/* D2 — section head, black (no blue) */}
-            <h2 className="type-d2 mt-5 text-ink">
+            <h2 className="type-d2 mt-5 text-ink dark:text-white">
               Is This Just
               <br />
               Another
@@ -66,6 +66,11 @@ export default function BeforeYouAsk() {
             {/* The answer, green — colour on top, not a font change */}
             <p className="mt-7 font-quantico text-4xl font-bold italic text-accent md:text-5xl">
               No
+            </p>
+
+            {/* The follow-through — hands the reader to the accordion */}
+            <p className="type-b2 mt-3 max-w-sm text-fg-muted">
+              Long answer — pick whichever doubt is yours.
             </p>
           </div>
 
@@ -86,7 +91,7 @@ export default function BeforeYouAsk() {
                     <span className="absolute h-[3px] w-4 rounded-full bg-current" />
                     <span className="absolute h-4 w-[3px] rounded-full bg-current transition-transform duration-200 group-open:scale-y-0" />
                   </span>
-                  <span className="font-quantico text-[15px] font-bold uppercase leading-snug text-ink md:text-[17px]">
+                  <span className="font-quantico text-[15px] font-bold uppercase leading-snug text-ink dark:text-white md:text-[17px]">
                     {f.q}
                   </span>
                 </summary>

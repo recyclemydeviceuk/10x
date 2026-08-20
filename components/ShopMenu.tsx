@@ -5,8 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { PRODUCT_IMAGES } from './productMedia';
-
-const DAYTIME_IMG = PRODUCT_IMAGES.front;
+import { useTheme } from './ThemeProvider';
 const NIGHT_IMG =
   'https://res.cloudinary.com/dyxxkrq8r/image/upload/v1780496210/Night_Time_qhfuds.jpg';
 
@@ -14,6 +13,8 @@ export default function ShopMenu() {
   const [open, setOpen] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const pathname = usePathname();
+  const { theme } = useTheme();
+  const daytimeImg = theme === 'dark' ? PRODUCT_IMAGES.front.dark : PRODUCT_IMAGES.front.light;
 
   useEffect(() => {
     setOpen(false);
@@ -78,7 +79,7 @@ export default function ShopMenu() {
             : 'invisible -translate-y-2 opacity-0'
         }`}
       >
-        <div className="w-[min(92vw,360px)] border border-paper-200 bg-white p-2.5 text-ink shadow-elevated">
+        <div className="w-[min(92vw,360px)] border border-paper-200 bg-white dark:bg-paper p-2.5 text-ink dark:text-white shadow-elevated dark:shadow-none">
           <p className="mb-2 px-1 font-quantico text-[10px] font-bold uppercase tracking-[0.18em] text-fg-subtle">
             Shop 10X
           </p>
@@ -86,21 +87,21 @@ export default function ShopMenu() {
             {/* Daytime — available */}
             <Link
               href="/products/10x-daytime"
-              className="group flex items-center gap-3 border border-paper-200 p-2 transition-colors hover:border-brand-blue hover:bg-paper-50"
+              className="group flex items-center gap-3 border border-paper-200 p-2 transition-colors hover:border-accent dark:hover:border-accent hover:bg-paper-50"
             >
               <div className="relative h-20 w-20 shrink-0 overflow-hidden bg-paper-100">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={DAYTIME_IMG}
+                  src={daytimeImg}
                   alt="10X Daytime"
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
-              <span className="flex-1 font-quantico text-body-sm font-bold uppercase tracking-wide text-ink">
+              <span className="flex-1 font-quantico text-body-sm font-bold uppercase tracking-wide text-ink dark:text-white">
                 10X Daytime
               </span>
-              <span className="inline-flex shrink-0 items-center gap-1 font-quantico text-[10px] font-bold uppercase tracking-wider text-brand-blue">
+              <span className="inline-flex shrink-0 items-center gap-1 font-quantico text-[10px] font-bold uppercase tracking-wider text-accent dark:text-accent">
                 Shop Now
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform group-hover:translate-x-0.5">
                   <line x1="5" y1="12" x2="19" y2="12" />
@@ -120,7 +121,7 @@ export default function ShopMenu() {
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
-              <span className="flex-1 font-quantico text-body-sm font-bold uppercase tracking-wide text-ink">
+              <span className="flex-1 font-quantico text-body-sm font-bold uppercase tracking-wide text-ink dark:text-white">
                 10X Nighttime
               </span>
               <span className="shrink-0 font-quantico text-[10px] font-bold uppercase tracking-wider text-fg-subtle">
