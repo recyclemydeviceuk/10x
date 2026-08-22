@@ -270,7 +270,7 @@ export default function CheckoutView() {
 
               <p className="mt-3.5 text-center font-pt text-caption text-fg-subtle">
                 {payment === 'cod'
-                  ? 'Pay in cash when your order arrives.'
+                  ? 'Payment is collected on delivery.'
                   : 'You’ll be taken to a secure Cashfree window.'}
               </p>
             </div>

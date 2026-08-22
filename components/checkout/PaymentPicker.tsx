@@ -55,18 +55,18 @@ export default function PaymentPicker({
         )}
       </div>
 
+      {value === 'online' && (
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-        {value === 'online' && <PaymentLogos />}
+        <PaymentLogos />
         <p className="font-pt text-caption text-fg-subtle">
-          {value === 'cod'
-            ? 'Keep the cash ready — you pay the courier at the door.'
-            : isSubscription
+          {isSubscription
               ? 'One approval on the secure Cashfree window pays for this box and sets auto-pay for every box after it. Switch it off any time from your account.'
               : !codEnabled
                 ? 'Cash on delivery is paused right now. You’ll pick your exact method on the secure Cashfree window.'
                 : 'You’ll pick your exact method on the secure Cashfree window after placing the order.'}
         </p>
       </div>
+      )}
     </div>
   );
 }
