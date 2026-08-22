@@ -26,6 +26,11 @@ export default function FloatingCart() {
   const pathname = usePathname();
   const { line, itemCount, total, loading } = useCart();
   const [mounted, setMounted] = useState(false);
+  // Every hook runs on every render, BEFORE any early return. Calling one
+  // after `return null` changes the hook order the moment the bar hides
+  // (e.g. stepping into /checkout) — React then throws, and production
+  // shows the generic "something went wrong" card.
+  const { theme } = useTheme();
 
   // Drives the entrance transition — without a frame at the start state the
   // bar would snap in rather than rise.
@@ -47,7 +52,6 @@ export default function FloatingCart() {
 
   // The cart line carries the product's own photo from the catalogue, in both
   // looks — so the thumbnail matches the theme and the pack that ships.
-  const { theme } = useTheme();
   const thumb = (theme === 'light' ? line?.image : line?.imageDark || line?.image) || '';
 
   return (

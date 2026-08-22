@@ -32,6 +32,21 @@ type Options = {
 
 const UNREACHABLE = 'We can’t reach the store right now. Try again in a moment.';
 
+/**
+ * Requests that are safe to repeat. A read, a cart save, a price quote — if
+ * the first attempt never reached the server (the API was waking up, a
+ * flaky connection), sending it again changes nothing. Placing an order or
+ * confirming a payment is NOT on this list: those must go once.
+ */
+function isRetryable(method: string, path: string): boolean {
+  if (method === 'GET') return true;
+  if (method === 'PUT' && path === '/api/v1/cart') return true;
+  return method === 'POST' && ['/api/v1/delivery/quote', '/api/v1/coupons/validate', '/api/v1/settings'].includes(path);
+}
+
+const RETRY_DELAYS_MS = [1200, 2500, 5000];
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 export async function api<T = Record<string, unknown>>(
   path: string,
   options: Options = {},
@@ -43,18 +58,29 @@ export async function api<T = Record<string, unknown>>(
   if (body !== undefined && !form) headers['Content-Type'] = 'application/json';
   void auth;
 
-  let response: Response;
-  try {
-    response = await fetch(`${API_URL}${path}`, {
-      method,
-      headers,
-      credentials: 'include',
-      ...(form ? { body: form } : body !== undefined ? { body: JSON.stringify(body) } : {}),
-      ...(revalidate !== undefined ? { next: { revalidate } } : { cache: 'no-store' as RequestCache }),
-    });
-  } catch {
-    return { ok: false, status: 503, message: UNREACHABLE };
+  // The API runs on a host that can be asleep: the first request after a
+  // quiet spell may fail or answer 502/503 while it wakes. Safe requests
+  // simply try again a few times instead of showing an error (or, worse,
+  // an empty cart) to someone who did nothing wrong.
+  const retryable = isRetryable(method, path);
+  let response: Response | null = null;
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      response = await fetch(`${API_URL}${path}`, {
+        method,
+        headers,
+        credentials: 'include',
+        ...(form ? { body: form } : body !== undefined ? { body: JSON.stringify(body) } : {}),
+        ...(revalidate !== undefined ? { next: { revalidate } } : { cache: 'no-store' as RequestCache }),
+      });
+    } catch {
+      response = null;
+    }
+    const wakingUp = !response || [502, 503, 504].includes(response.status);
+    if (!wakingUp || !retryable || attempt >= RETRY_DELAYS_MS.length) break;
+    await sleep(RETRY_DELAYS_MS[attempt]);
   }
+  if (!response) return { ok: false, status: 503, message: UNREACHABLE };
 
   const text = await response.text();
   let payload: Record<string, unknown> = {};

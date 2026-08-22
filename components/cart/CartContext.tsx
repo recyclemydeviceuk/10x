@@ -48,6 +48,10 @@ type CartContextValue = {
   line: CartLine | null;
   /** True until storage has been read — stops an empty-cart flash on load. */
   loading: boolean;
+  /** Set when the cart could not be read at all — never shown as "empty". */
+  loadError: string | null;
+  /** Try reading the cart again. */
+  reload: () => void;
   itemCount: number;
   subtotal: number;
   /** Delivery fee. In live mode this is the Shiprocket rate for `deliveryPincode`. */
@@ -95,6 +99,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const { customer, loading: authLoading } = useAuth();
   const [featuredCoupons, setFeaturedCoupons] = useState<FeaturedCoupon[]>([]);
   const [pincode, setPincode] = useState('');
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [reloadTick, setReloadTick] = useState(0);
   const [delivery, setDelivery] = useState<DeliveryQuote | null>(null);
   const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -111,16 +117,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (authLoading) return;
     let alive = true;
     setLoading(true);
+    setLoadError(null);
     api<{ cart: { line: CartLine | null; couponCode: string; pincode?: string } }>('/api/v1/cart', { auth: false })
       .then((result) => {
-        if (!alive || !result.ok) return;
+        if (!alive) return;
+        if (!result.ok) {
+          // A cart we couldn't read is not an empty cart. Say so.
+          setLoadError(result.message);
+          return;
+        }
         setLine(result.data.cart.line);
         setCoupon(result.data.cart.couponCode ? { code: result.data.cart.couponCode, label: '' } : null);
         if (result.data.cart.pincode) setPincode(result.data.cart.pincode);
       })
       .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
-  }, [authLoading, customer?.id]);
+  }, [authLoading, customer?.id, reloadTick]);
+
+  const reload = useCallback(() => setReloadTick((t) => t + 1), []);
 
   /* --------------------------------------------------------------- promos */
 
@@ -312,6 +326,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return {
       line,
       loading,
+      loadError,
+      reload,
       itemCount,
       subtotal,
       shipping,
@@ -337,7 +353,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [
     line, subtotal, discount, coupon, couponNotice, featuredCoupons, settings,
     maxQuantity, loading, addLine, setQuantity, applyCoupon, removeCoupon, clear,
-    delivery, deliveryLoading, pincode, setDeliveryPincode,
+    delivery, deliveryLoading, pincode, setDeliveryPincode, loadError, reload,
   ]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

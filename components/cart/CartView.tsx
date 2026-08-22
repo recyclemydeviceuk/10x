@@ -26,7 +26,7 @@ const PRODUCT_HREF = '/products/10x-daytime';
 export default function CartView() {
   const router = useRouter();
   const {
-    line, loading, subtotal, shipping, shippingKnown, delivery, deliveryLoading, deliveryPincode, setDeliveryPincode,
+    line, loading, loadError, reload, subtotal, shipping, shippingKnown, delivery, deliveryLoading, deliveryPincode, setDeliveryPincode,
     total, savings, discount, coupon,
     settings, setQuantity, clear,
   } = useCart();
@@ -50,6 +50,30 @@ export default function CartView() {
         <div className="mx-auto max-w-5xl px-6 pb-20 pt-28 sm:px-10 md:pt-36">
           <div className="h-10 w-40 animate-pulse bg-paper-200" />
           <div className="mt-10 h-32 w-full animate-pulse bg-paper-200" />
+        </div>
+      </main>
+    );
+  }
+
+  /* ------------------------------------------------------- unreachable */
+  // The cart could not be read — which is NOT the same as empty. Say what
+  // happened and offer one button, rather than telling someone who just
+  // added a pack that they have nothing.
+  if (!line && loadError) {
+    return (
+      <main id="main" className="min-h-[70vh] bg-paper">
+        <div className="mx-auto max-w-md px-6 pb-24 pt-32 text-center sm:px-10 md:pt-44">
+          <h1 className="font-condensed text-[clamp(1.75rem,5vw,2.5rem)] font-black uppercase italic leading-[0.95] tracking-tight text-fg">
+            One moment
+          </h1>
+          <p className="mt-3 font-pt text-body text-fg-muted">{loadError}</p>
+          <button
+            type="button"
+            onClick={reload}
+            className="mt-8 inline-flex cursor-pointer items-center gap-2 bg-accent px-7 py-4 font-quantico text-body-sm font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-accent-hover"
+          >
+            Try again
+          </button>
         </div>
       </main>
     );

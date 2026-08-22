@@ -26,7 +26,7 @@ export default function CheckoutView() {
   const router = useRouter();
   const { customer, loading: authLoading, isAuthed } = useAuth();
   const {
-    line, loading: cartLoading, subtotal, shipping, shippingKnown, delivery, deliveryLoading, setDeliveryPincode,
+    line, loading: cartLoading, loadError: cartError, subtotal, shipping, shippingKnown, delivery, deliveryLoading, setDeliveryPincode,
     total, savings, discount, coupon, settings,
     clear,
   } = useCart();
@@ -62,8 +62,10 @@ export default function CheckoutView() {
   // confirmation page load.
   useEffect(() => {
     if (authLoading || cartLoading || submitted.current) return;
-    if (!isAuthed || !line) router.replace('/cart');
-  }, [authLoading, cartLoading, isAuthed, line, router]);
+    // A cart we couldn't read is sent back to the cart page, which explains
+    // and retries — never to a checkout with nothing in it.
+    if (!isAuthed || !line || cartError) router.replace('/cart');
+  }, [authLoading, cartLoading, cartError, isAuthed, line, router]);
 
   if (submitted.current || authLoading || cartLoading || dataLoading || !line || !isAuthed) {
     return (
