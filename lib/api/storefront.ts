@@ -16,7 +16,7 @@ export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:400
 
 export type ApiResult<T> =
   | { ok: true; status: number; data: T }
-  | { ok: false; status: number; message: string; details?: Record<string, string> };
+  | { ok: false; status: number; message: string; details?: Record<string, string>; data?: T };
 
 type Options = {
   method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
@@ -62,6 +62,19 @@ export async function api<T = Record<string, unknown>>(
     payload = text ? (JSON.parse(text) as Record<string, unknown>) : {};
   } catch {
     payload = {};
+  }
+
+  // 202 means "accepted, not settled yet" — the caller decides what to do,
+  // so it must NOT read as success. The body carries the state.
+  if (response.status === 202) {
+    return { ok: false, status: 202, message: (payload.message as string) ?? 'Still processing.', data: payload as T };
+  }
+
+  // A dead session shows up as a 401 on any signed-in call. Tell the auth
+  // layer once so the whole UI signs out cleanly instead of rendering empty
+  // account pages to someone who thinks they are logged in.
+  if (response.status === 401 && auth && typeof window !== 'undefined' && !path.startsWith('/api/v1/auth/login')) {
+    window.dispatchEvent(new CustomEvent('10x:session-expired'));
   }
 
   if (!response.ok) {

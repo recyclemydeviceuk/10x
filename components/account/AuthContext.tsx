@@ -72,7 +72,7 @@ type AuthContextValue = {
   confirmEmailChange: (newEmail: string, code: string) => Promise<AuthResult>;
   /** Set a new password from an emailed reset token. */
   resetPassword: (token: string, next: string) => Promise<AuthResult>;
-  signOut: () => void;
+  signOut: () => Promise<void>;
   updateProfile: (patch: { name?: string; phone?: string; marketingOptIn?: boolean }) => Promise<AuthResult>;
   /** Upload or remove the S3-backed profile photo. */
   setAvatar: (file: File | null) => Promise<AuthResult>;
@@ -142,6 +142,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     load().finally(() => setLoading(false));
   }, [load]);
+
+  // The API layer raises this on any 401 from a signed-in call. Drop the
+  // profile so the UI stops pretending, and re-check when the tab comes back
+  // (a cookie that expired while the laptop was closed is noticed at once).
+  useEffect(() => {
+    const expired = () => adopt(null);
+    const revisit = () => {
+      if (document.visibilityState === 'visible') void load();
+    };
+    window.addEventListener('10x:session-expired', expired);
+    document.addEventListener('visibilitychange', revisit);
+    return () => {
+      window.removeEventListener('10x:session-expired', expired);
+      document.removeEventListener('visibilitychange', revisit);
+    };
+  }, [adopt, load]);
 
   /* --------------------------------------------------------------- auth */
 
@@ -232,9 +248,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [adopt],
   );
 
-  const signOut = useCallback(() => {
+  const signOut = useCallback(async () => {
     adopt(null);
-    void api('/api/v1/auth/logout', { method: 'POST', auth: false });
+    // Awaited by callers before navigating — the server clears the session
+    // AND the cart cookie in this call, so the next person on this browser
+    // doesn't inherit either.
+    await api('/api/v1/auth/logout', { method: 'POST', auth: false });
   }, [adopt]);
 
   /* ------------------------------------------------------------ profile */

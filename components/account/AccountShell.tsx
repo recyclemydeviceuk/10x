@@ -224,8 +224,8 @@ export default function AccountShell({ children }: { children: ReactNode }) {
           </div>
           <button
             type="button"
-            onClick={() => {
-              signOut();
+            onClick={async () => {
+              await signOut();
               window.location.assign('/');
             }}
             className="shrink-0 cursor-pointer font-quantico text-body-sm font-bold uppercase tracking-[0.12em] text-fg-muted underline decoration-paper-300 underline-offset-4 transition-colors hover:text-danger"

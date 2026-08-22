@@ -75,11 +75,10 @@ export default function OrderSuccess() {
 
       // 202 — the gateway hasn't settled. Keep asking for a little while.
       if (result.status === 202) {
-        const body = result as unknown as { data?: { state?: string; message?: string } };
-        const state = body.data?.state;
+        const state = result.data?.state;
         if (state === 'failed') {
           setSettling(false);
-          setFailed(body.data?.message ?? 'That payment didn’t go through, so no order was created.');
+          setFailed(result.data?.message ?? 'That payment didn’t go through, so no order was created.');
           return;
         }
         if (attempts < CONFIRM_ATTEMPTS) {

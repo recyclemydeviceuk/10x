@@ -6,9 +6,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react';
+import { usePathname } from 'next/navigation';
 
 import { api, firstMessage } from '@/lib/api/storefront';
 import {
@@ -281,6 +283,36 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     void load();
   }, [load]);
+
+  // Orders move without the customer doing anything (packed, shipped,
+  // delivered). Re-read whenever they come back to the tab or move between
+  // account pages, so what they see is what the warehouse sees.
+  const pathname = usePathname();
+  const lastLoad = useRef(0);
+  useEffect(() => {
+    if (!customerId) return;
+    const now = Date.now();
+    if (now - lastLoad.current > 5_000) {
+      lastLoad.current = now;
+      void load();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+  useEffect(() => {
+    if (!customerId) return;
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') {
+        lastLoad.current = Date.now();
+        void load();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('focus', onVisible);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('focus', onVisible);
+    };
+  }, [customerId, load]);
 
   /* ------------------------------------------------------------ addresses */
 
