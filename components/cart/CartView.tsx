@@ -370,10 +370,6 @@ export default function CartView() {
                 </p>
               )}
 
-              <ul className="mt-7 space-y-2 border-t border-paper-200 pt-6 font-pt text-caption text-fg-subtle">
-                <li>Secure payment · 256-bit SSL</li>
-                <li>FSSAI licensed · GMP manufactured</li>
-              </ul>
             </div>
           </aside>
         </div>

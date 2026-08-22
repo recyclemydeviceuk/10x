@@ -24,7 +24,7 @@ import PaymentPicker from './PaymentPicker';
  */
 export default function CheckoutView() {
   const router = useRouter();
-  const { customer, loading: authLoading, isAuthed } = useAuth();
+  const { loading: authLoading, isAuthed } = useAuth();
   const {
     line, loading: cartLoading, loadError: cartError, subtotal, shipping, shippingKnown, delivery, deliveryLoading, setDeliveryPincode,
     total, savings, discount, coupon, settings,
@@ -67,6 +67,17 @@ export default function CheckoutView() {
     if (!isAuthed || !line || cartError) router.replace('/cart');
   }, [authLoading, cartLoading, cartError, isAuthed, line, router]);
 
+  // Every hook above this line, none below: the skeleton early-return must
+  // not change the hook count between renders (that is what threw when the
+  // tab came back and account data reloaded).
+  const selectedAddress = addresses.find((a) => a.id === addressId) ?? null;
+  // The delivery fee follows the address: the moment one is chosen, the cart
+  // re-quotes for that pincode (instant for rule modes, Shiprocket for live).
+  const selectedPincode = selectedAddress?.pincode ?? '';
+  useEffect(() => {
+    if (selectedPincode) setDeliveryPincode(selectedPincode);
+  }, [selectedPincode, setDeliveryPincode]);
+
   if (submitted.current || authLoading || cartLoading || dataLoading || !line || !isAuthed) {
     return (
       <main id="main" className="min-h-[70vh] bg-paper">
@@ -77,15 +88,6 @@ export default function CheckoutView() {
       </main>
     );
   }
-
-  const selectedAddress = addresses.find((a) => a.id === addressId) ?? null;
-
-  // The delivery fee follows the address: the moment one is chosen, the cart
-  // re-quotes for that pincode (instant for rule modes, Shiprocket for live).
-  const selectedPincode = selectedAddress?.pincode ?? '';
-  useEffect(() => {
-    if (selectedPincode) setDeliveryPincode(selectedPincode);
-  }, [selectedPincode, setDeliveryPincode]);
 
   async function submit() {
     setError('');
@@ -127,14 +129,9 @@ export default function CheckoutView() {
       <div className="mx-auto max-w-6xl px-6 pb-24 pt-28 sm:px-10 md:px-14 md:pt-36">
         {/* Heading */}
         <div className="flex items-end justify-between gap-6">
-          <div>
-            <p className="font-quantico text-caption font-bold uppercase tracking-[0.2em] text-accent">
-              Step 2 of 2
-            </p>
-            <h1 className="mt-3 font-condensed text-[clamp(2.25rem,6vw,4rem)] font-black uppercase italic leading-[0.9] tracking-tight text-fg">
-              Checkout
-            </h1>
-          </div>
+          <h1 className="font-condensed text-[clamp(2.25rem,6vw,4rem)] font-black uppercase italic leading-[0.9] tracking-tight text-fg">
+            Checkout
+          </h1>
           <Link
             href="/cart"
             className="hidden shrink-0 font-quantico text-body-sm font-bold uppercase tracking-[0.12em] text-fg-muted underline decoration-paper-300 underline-offset-4 transition-colors hover:text-fg sm:block"
@@ -143,46 +140,21 @@ export default function CheckoutView() {
           </Link>
         </div>
 
-        {/* Signed in as */}
-        <p className="mt-6 inline-flex flex-wrap items-center gap-2 border border-paper-200 bg-paper-50 px-4 py-2.5 font-pt text-body-sm text-fg-muted dark:bg-paper-200">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="text-accent-pressed dark:text-accent">
-            <path d="M5 12.5 10 17.5 19 7" />
-          </svg>
-          Signed in as <span className="font-bold text-fg">{customer?.email}</span>
-        </p>
-
-        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-14">
-          {/* ============================ STEPS ============================ */}
+        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-14">
           <div className="space-y-10">
             {/* Address */}
             <section aria-labelledby="ck-address">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center bg-fg font-quantico text-caption font-bold text-paper">
-                  1
-                </span>
-                <h2
-                  id="ck-address"
-                  className="font-condensed text-2xl font-black uppercase italic tracking-tight text-fg"
-                >
-                  Delivery Address
-                </h2>
-              </div>
+              <h2 id="ck-address" className="mb-4 font-quantico text-caption font-bold uppercase tracking-[0.16em] text-fg-muted">
+                Deliver to
+              </h2>
               <AddressPicker selectedId={addressId} onSelect={setAddressId} />
             </section>
 
             {/* Payment */}
             <section aria-labelledby="ck-payment">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center bg-fg font-quantico text-caption font-bold text-paper">
-                  2
-                </span>
-                <h2
-                  id="ck-payment"
-                  className="font-condensed text-2xl font-black uppercase italic tracking-tight text-fg"
-                >
-                  Payment Method
-                </h2>
-              </div>
+              <h2 id="ck-payment" className="mb-4 font-quantico text-caption font-bold uppercase tracking-[0.16em] text-fg-muted">
+                Pay with
+              </h2>
               <PaymentPicker
                 value={payment}
                 onChange={setPayment}

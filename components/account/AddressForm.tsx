@@ -50,7 +50,8 @@ export default function AddressForm({
 }: {
   initial?: Address;
   onSave: (draft: AddressDraft) => void;
-  onCancel: () => void;
+  /** Omit when there is nothing to go back to (first address at checkout). */
+  onCancel?: () => void;
   saveLabel?: string;
   prefill?: { name?: string; phone?: string };
 }) {
@@ -224,13 +225,15 @@ export default function AddressForm({
         >
           {saveLabel}
         </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="cursor-pointer border-2 border-paper-200 px-7 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.14em] text-fg-muted transition-colors hover:border-fg hover:text-fg"
-        >
-          Cancel
-        </button>
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="cursor-pointer border-2 border-paper-200 px-7 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.14em] text-fg-muted transition-colors hover:border-fg hover:text-fg"
+          >
+            Cancel
+          </button>
+        )}
       </div>
     </form>
   );
