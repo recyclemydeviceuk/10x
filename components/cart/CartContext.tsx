@@ -13,7 +13,7 @@ import {
 
 import { api } from '@/lib/api/storefront';
 import type { StoreSettings } from '@/lib/catalog';
-import { shippingFor, type CartLine } from '@/lib/store/types';
+import { shippingFor, type CartLine, type DeliveryQuote } from '@/lib/store/types';
 
 import { useStoreSettings } from '../StoreSettingsContext';
 import { useAuth } from '../account/AuthContext';
@@ -50,7 +50,16 @@ type CartContextValue = {
   loading: boolean;
   itemCount: number;
   subtotal: number;
+  /** Delivery fee. In live mode this is the Shiprocket rate for `deliveryPincode`. */
   shipping: number;
+  /** False while a live quote is still being fetched, or no pincode is known yet. */
+  shippingKnown: boolean;
+  /** The last quote from the API — courier and ETA for live mode. */
+  delivery: DeliveryQuote | null;
+  deliveryLoading: boolean;
+  /** The pincode the cart is quoting delivery for (typed in the cart, or the checkout address). */
+  deliveryPincode: string;
+  setDeliveryPincode: (pincode: string) => void;
   total: number;
   /** Savings versus buying the same thing one-time. Zero for one-time carts. */
   savings: number;
@@ -85,6 +94,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const settings = useStoreSettings();
   const { customer, loading: authLoading } = useAuth();
   const [featuredCoupons, setFeaturedCoupons] = useState<FeaturedCoupon[]>([]);
+  const [pincode, setPincode] = useState('');
+  const [delivery, setDelivery] = useState<DeliveryQuote | null>(null);
+  const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   /** The code we last asked the API about, so re-checks don't loop. */
   const pendingCode = useRef<string | null>(null);
@@ -99,11 +111,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (authLoading) return;
     let alive = true;
     setLoading(true);
-    api<{ cart: { line: CartLine | null; couponCode: string } }>('/api/v1/cart', { auth: false })
+    api<{ cart: { line: CartLine | null; couponCode: string; pincode?: string } }>('/api/v1/cart', { auth: false })
       .then((result) => {
         if (!alive || !result.ok) return;
         setLine(result.data.cart.line);
         setCoupon(result.data.cart.couponCode ? { code: result.data.cart.couponCode, label: '' } : null);
+        if (result.data.cart.pincode) setPincode(result.data.cart.pincode);
       })
       .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
@@ -123,8 +136,52 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const persist = useCallback((next: CartLine | null, couponCode = coupon?.code ?? '') => {
     setLine(next);
-    void api('/api/v1/cart', { method: 'PUT', auth: false, body: { line: next, couponCode } });
-  }, [coupon]);
+    void api('/api/v1/cart', { method: 'PUT', auth: false, body: { line: next, couponCode, pincode } });
+  }, [coupon, pincode]);
+
+  /* ------------------------------------------------------------ delivery */
+
+  const setDeliveryPincode = useCallback(
+    (value: string) => {
+      const clean = value.replace(/\D/g, '').slice(0, 6);
+      setPincode(clean);
+      // Remember a complete pincode with the cart so it survives a reload.
+      if (clean.length === 6 || clean.length === 0) {
+        void api('/api/v1/cart', { method: 'PUT', auth: false, body: { line, couponCode: coupon?.code ?? '', pincode: clean } });
+      }
+    },
+    [line, coupon],
+  );
+
+  // Ask the API what delivery costs whenever the inputs change. The API is
+  // the only place the rule lives (and, in live mode, the only thing that
+  // talks to Shiprocket), so the cart can never promise a fee the checkout
+  // won't charge.
+  useEffect(() => {
+    if (!line) {
+      setDelivery(null);
+      return;
+    }
+    let alive = true;
+    const amount = Math.max(0, subtotal - discount);
+    const pin = pincode.length === 6 ? pincode : undefined;
+    setDeliveryLoading(true);
+    const timer = window.setTimeout(() => {
+      api<{ quote: DeliveryQuote }>('/api/v1/delivery/quote', {
+        method: 'POST',
+        auth: false,
+        body: { amount, quantity: line.quantity, pincode: pin },
+      }).then((result) => {
+        if (!alive) return;
+        if (result.ok) setDelivery(result.data.quote);
+        setDeliveryLoading(false);
+      });
+    }, 250);
+    return () => {
+      alive = false;
+      window.clearTimeout(timer);
+    };
+  }, [line, subtotal, discount, pincode, settings.deliveryMode, settings.flatShipping, settings.freeShippingOver]);
 
   /* ------------------------------------------------------------- coupons */
 
@@ -240,9 +297,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(() => {
     const itemCount = line ? line.quantity : 0;
-    const shipping = line
+    // Rule modes are answered locally from the live settings (instant); live
+    // mode waits for the API's Shiprocket quote.
+    const ruleFee = line
       ? shippingFor(Math.max(0, subtotal - discount), settings.freeShippingOver, settings.flatShipping, settings.deliveryMode)
       : 0;
+    const live = settings.deliveryMode === 'live';
+    // Until a live quote exists for a real pincode, delivery is simply not
+    // part of the total yet — never a guessed number the checkout replaces.
+    const shipping = !line ? 0 : live ? (delivery && !delivery.needsPincode ? delivery.fee : 0) : ruleFee;
+    const shippingKnown = !line || !live || (Boolean(delivery) && !deliveryLoading && !delivery?.needsPincode);
     const savings = line ? Math.max(0, (line.oneTimePrice - line.price) * line.quantity) : 0;
 
     return {
@@ -251,6 +315,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       itemCount,
       subtotal,
       shipping,
+      shippingKnown,
+      delivery,
+      deliveryLoading,
+      deliveryPincode: pincode,
+      setDeliveryPincode,
       total: Math.max(0, subtotal - discount) + shipping,
       savings,
       settings,
@@ -268,6 +337,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [
     line, subtotal, discount, coupon, couponNotice, featuredCoupons, settings,
     maxQuantity, loading, addLine, setQuantity, applyCoupon, removeCoupon, clear,
+    delivery, deliveryLoading, pincode, setDeliveryPincode,
   ]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

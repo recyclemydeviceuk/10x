@@ -53,7 +53,7 @@ export type StoreSettings = {
   supportEmail: string;
   supportPhone: string;
   /** 'free' waives delivery on every order; 'priced' uses the two numbers below. */
-  deliveryMode: 'free' | 'priced';
+  deliveryMode: 'free' | 'priced' | 'live';
   freeShippingOver: number;
   flatShipping: number;
   codEnabled: boolean;

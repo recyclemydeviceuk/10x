@@ -26,7 +26,8 @@ const PRODUCT_HREF = '/products/10x-daytime';
 export default function CartView() {
   const router = useRouter();
   const {
-    line, loading, subtotal, shipping, total, savings, discount, coupon,
+    line, loading, subtotal, shipping, shippingKnown, delivery, deliveryLoading, deliveryPincode, setDeliveryPincode,
+    total, savings, discount, coupon,
     settings, setQuantity, clear,
   } = useCart();
   const { isAuthed } = useAuth();
@@ -198,8 +199,40 @@ export default function CartView() {
               <CouponField />
             </div>
 
+            {/* Live delivery: the rate depends on where it's going. */}
+            {settings.deliveryMode === 'live' && (
+              <div className="mt-8 border-t border-paper-200 pt-8">
+                <label htmlFor="cart-pincode" className="font-quantico text-[10px] font-bold uppercase tracking-[0.16em] text-fg-subtle">
+                  Delivery pincode
+                </label>
+                <div className="mt-2.5 flex items-center gap-3">
+                  <input
+                    id="cart-pincode"
+                    inputMode="numeric"
+                    autoComplete="postal-code"
+                    maxLength={6}
+                    value={deliveryPincode}
+                    onChange={(e) => setDeliveryPincode(e.target.value)}
+                    placeholder="6-digit pincode"
+                    className="w-40 border-2 border-paper-200 bg-paper px-4 py-3 font-pt text-body-sm text-fg outline-none transition-colors focus:border-accent"
+                  />
+                  <p className="font-pt text-caption text-fg-muted">
+                    {deliveryPincode.length < 6
+                      ? 'We quote the real courier rate for your area.'
+                      : deliveryLoading
+                        ? 'Checking courier rates…'
+                        : delivery?.source === 'shiprocket'
+                          ? `${delivery.courier}${delivery.days ? ` · ${delivery.days} day${delivery.days === 1 ? '' : 's'}` : delivery.etd ? ` · by ${delivery.etd}` : ''}`
+                          : delivery?.fee === 0
+                            ? 'Free delivery on this order.'
+                            : 'Standard rate — we’ll confirm the courier once you order.'}
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Free shipping progress */}
-            {shipping > 0 && freeShippingGap > 0 && (
+            {shipping > 0 && freeShippingOver > 0 && freeShippingGap > 0 && (
               <div className="mt-6">
                 <p className="font-pt text-body-sm text-fg-muted">
                   <span className="font-bold text-fg">{inr(freeShippingGap)}</span> away
@@ -261,10 +294,16 @@ export default function CartView() {
                       quoted until it has been read. */}
                   <dd
                     className={`font-quantico font-bold uppercase tracking-wide ${
-                      shipping === 0 ? 'text-accent-pressed dark:text-accent' : 'text-fg'
+                      shippingKnown && shipping === 0 ? 'text-accent-pressed dark:text-accent' : 'text-fg'
                     }`}
                   >
-                    {shipping === 0 ? 'Free' : inr(shipping)}
+                    {!shippingKnown
+                      ? deliveryLoading
+                        ? 'Checking…'
+                        : 'Enter pincode'
+                      : shipping === 0
+                        ? 'Free'
+                        : inr(shipping)}
                   </dd>
                 </div>
               </dl>
@@ -285,7 +324,7 @@ export default function CartView() {
               )}
 
               <p className="mt-1.5 text-right font-pt text-caption text-fg-subtle">
-                Inclusive of all taxes
+                {!shippingKnown ? 'Plus delivery · inclusive of all taxes' : 'Inclusive of all taxes'}
               </p>
 
               {/* Desktop CTA — mobile gets the sticky bar below */}

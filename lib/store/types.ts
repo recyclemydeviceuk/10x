@@ -206,12 +206,25 @@ export function inr(n: number) {
  * beat to say. Callers pass the fetched values, and hold the line until they
  * have them (see `settingsLoaded` on the cart).
  */
+/** The rule-based fee. Live mode is answered by the API per pincode. */
 export function shippingFor(
   subtotal: number,
   freeOver: number,
   flat: number,
-  mode: 'free' | 'priced' = 'priced',
+  mode: 'free' | 'priced' | 'live' = 'priced',
 ) {
   if (mode === 'free') return 0;
-  return subtotal >= freeOver ? 0 : flat;
+  return freeOver > 0 && subtotal >= freeOver ? 0 : flat;
 }
+
+/** What the API says delivery costs — see POST /delivery/quote. */
+export type DeliveryQuote = {
+  mode: 'free' | 'priced' | 'live';
+  fee: number;
+  source: 'rule' | 'shiprocket' | 'fallback';
+  courier?: string;
+  etd?: string;
+  days?: number | null;
+  freeOver: number;
+  needsPincode: boolean;
+};

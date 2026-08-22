@@ -26,7 +26,8 @@ export default function CheckoutView() {
   const router = useRouter();
   const { customer, loading: authLoading, isAuthed } = useAuth();
   const {
-    line, loading: cartLoading, subtotal, shipping, total, savings, discount, coupon, settings,
+    line, loading: cartLoading, subtotal, shipping, shippingKnown, delivery, deliveryLoading, setDeliveryPincode,
+    total, savings, discount, coupon, settings,
     clear,
   } = useCart();
   const { addresses, defaultAddress, loading: dataLoading, refresh } = useAccountData();
@@ -76,6 +77,13 @@ export default function CheckoutView() {
   }
 
   const selectedAddress = addresses.find((a) => a.id === addressId) ?? null;
+
+  // The delivery fee follows the address: the moment one is chosen, the cart
+  // re-quotes for that pincode (instant for rule modes, Shiprocket for live).
+  const selectedPincode = selectedAddress?.pincode ?? '';
+  useEffect(() => {
+    if (selectedPincode) setDeliveryPincode(selectedPincode);
+  }, [selectedPincode, setDeliveryPincode]);
 
   async function submit() {
     setError('');
@@ -234,13 +242,22 @@ export default function CheckoutView() {
                 <div className="flex justify-between">
                   <dt className="text-fg-muted">Delivery</dt>
                   <dd
-                    className={`font-quantico font-bold uppercase tracking-wide ${
-                      shipping === 0 ? 'text-accent-pressed dark:text-accent' : 'text-fg'
+                    className={`text-right font-quantico font-bold uppercase tracking-wide ${
+                      shippingKnown && shipping === 0 ? 'text-accent-pressed dark:text-accent' : 'text-fg'
                     }`}
                   >
-                    {shipping === 0 ? 'Free Express' : inr(shipping)}
+                    {!shippingKnown ? (deliveryLoading ? 'Checking…' : 'Choose address') : shipping === 0 ? 'Free' : inr(shipping)}
                   </dd>
                 </div>
+                {delivery?.source === 'shiprocket' && delivery.courier && (
+                  <div className="flex justify-between">
+                    <dt className="text-fg-muted">Courier</dt>
+                    <dd className="text-right text-fg">
+                      {delivery.courier}
+                      {delivery.days ? ` · ${delivery.days} day${delivery.days === 1 ? '' : 's'}` : delivery.etd ? ` · by ${delivery.etd}` : ''}
+                    </dd>
+                  </div>
+                )}
               </dl>
 
               <div className="mt-5 flex items-baseline justify-between border-t-2 border-paper-200 pt-5">
@@ -261,7 +278,7 @@ export default function CheckoutView() {
               <button
                 type="button"
                 onClick={submit}
-                disabled={placing}
+                disabled={placing || (Boolean(selectedAddress) && !shippingKnown)}
                 className="mt-6 flex min-h-[56px] w-full cursor-pointer items-center justify-center gap-2 bg-accent px-6 py-4 font-quantico text-body-sm font-bold uppercase tracking-[0.16em] text-ink transition-colors hover:bg-accent-hover disabled:opacity-70"
               >
                 {placing ? (
