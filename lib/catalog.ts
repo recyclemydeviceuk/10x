@@ -11,6 +11,7 @@
 // copy, it just can't take an order (the purchase panel says so).
 // =========================================================
 
+import type { SocialLink } from '@/lib/social-icons';
 import { api } from '@/lib/api/storefront';
 
 export type CatalogTier = {
@@ -59,6 +60,8 @@ export type StoreSettings = {
   codEnabled: boolean;
   /** Days between subscription deliveries. Drives every cadence label. */
   subscriptionIntervalDays: number;
+  /** Footer social links, in order, from the admin panel. */
+  socialLinks?: SocialLink[];
 };
 
 /**
