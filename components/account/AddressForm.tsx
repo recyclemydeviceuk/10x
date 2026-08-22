@@ -66,7 +66,6 @@ export default function AddressForm({
     };
   });
   const [errors, setErrors] = useState<Errors>({});
-  const [geo, setGeo] = useState<'idle' | 'locating' | 'error'>('idle');
 
   function set<K extends keyof AddressDraft>(key: K, value: AddressDraft[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -90,38 +89,6 @@ export default function AddressForm({
     e.preventDefault();
     if (!validate()) return;
     onSave(form);
-  }
-
-  /** Fill city / pincode / area from the browser's location. */
-  function detect() {
-    if (typeof navigator === 'undefined' || !navigator.geolocation) return setGeo('error');
-    setGeo('locating');
-    navigator.geolocation.getCurrentPosition(
-      async ({ coords }) => {
-        try {
-          const res = await fetch(
-            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`,
-          );
-          const d = await res.json();
-          setForm((f) => ({
-            ...f,
-            street: f.street || [d.locality, d.city].filter(Boolean).join(', '),
-            city: f.city || d.city || d.locality || '',
-            state: d.principalSubdivision && STATES.includes(d.principalSubdivision)
-              ? d.principalSubdivision
-              : f.state,
-            pincode:
-              f.pincode || (d.postcode ? String(d.postcode).replace(/\D/g, '').slice(0, 6) : ''),
-          }));
-          setGeo('idle');
-        } catch {
-          // Coordinates resolved but the lookup failed — let them type it in.
-          setGeo('idle');
-        }
-      },
-      () => setGeo('error'),
-      { enableHighAccuracy: true, timeout: 10000 },
-    );
   }
 
   return (
@@ -176,34 +143,6 @@ export default function AddressForm({
           onChange={(e) => set('phone', e.target.value)}
         />
       </div>
-
-      {/* Use my location */}
-      <button
-        type="button"
-        onClick={detect}
-        disabled={geo === 'locating'}
-        className="inline-flex cursor-pointer items-center gap-2 border-2 border-paper-200 px-4 py-2.5 font-quantico text-caption font-bold uppercase tracking-[0.12em] text-fg transition-colors hover:border-accent disabled:opacity-60"
-      >
-        {geo === 'locating' ? (
-          <>
-            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-fg-subtle border-t-fg" />
-            Locating…
-          </>
-        ) : (
-          <>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <line x1="22" y1="2" x2="11" y2="13" />
-              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-            </svg>
-            Use my location
-          </>
-        )}
-      </button>
-      {geo === 'error' && (
-        <p className="font-pt text-caption font-bold text-danger">
-          Couldn&rsquo;t access your location. Please fill the address in below.
-        </p>
-      )}
 
       <Field
         id="ad-house"
