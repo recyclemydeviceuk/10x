@@ -152,6 +152,8 @@ export type Subscription = {
   savingsPerCycle: number;
   /** Auto-pay mandate state — '' means never set up. */
   autopayStatus: '' | 'initialized' | 'active' | 'paused' | 'cancelled' | 'failed';
+  /** The customer chose pay-on-delivery — reminder emails stop. */
+  autopayDeclined: boolean;
 };
 
 /* --------------------------------------------------------------- cart */

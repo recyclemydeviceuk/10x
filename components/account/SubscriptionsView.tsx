@@ -39,22 +39,35 @@ export default function SubscriptionsView() {
     restartSubscription,
     enableAutopay,
     refreshAutopay,
+    declineAutopay,
   } = useAccountData();
   const [confirmCancel, setConfirmCancel] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Coming back from the bank's authorisation page lands here with
-  // ?autopay=<reference> — ask the server what the mandate actually says.
+  // Deep links:
+  //   ?autopay=<ref>          back from the bank's authorisation page — re-check the mandate
+  //   ?autopay-setup=<ref>    the reminder email's "Set up auto-pay" button — open the mandate window
+  //   ?autopay-decline=<ref>  the reminder email's "pay on delivery" link — stop the reminders
+  // Each is consumed once and scrubbed from the URL so a refresh doesn't repeat it.
   useEffect(() => {
+    if (loading) return;
     const params = new URLSearchParams(window.location.search);
-    const reference = params.get('autopay');
-    if (!reference) return;
+    const refresh = params.get('autopay');
+    const setup = params.get('autopay-setup');
+    const decline = params.get('autopay-decline');
+    if (!refresh && !setup && !decline) return;
     params.delete('autopay');
+    params.delete('autopay-setup');
+    params.delete('autopay-decline');
     const query = params.toString();
     window.history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}`);
-    void refreshAutopay(reference);
-  }, [refreshAutopay]);
+    if (refresh) void refreshAutopay(refresh);
+    else if (decline) void run(decline, () => declineAutopay(decline));
+    else if (setup) void run(setup, () => enableAutopay(setup));
+    // `run` is stable for the component's life; the deep link should fire once data is in.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, refreshAutopay, declineAutopay, enableAutopay]);
 
   /** Run a plan action and surface anything the API refuses. */
   async function run(id: string, action: () => Promise<{ ok: boolean; message?: string }>) {
@@ -160,7 +173,9 @@ export default function SubscriptionsView() {
                               ? 'Waiting for your bank to confirm.'
                               : sub.autopayStatus === 'failed'
                                 ? 'The last set-up attempt didn’t go through.'
-                                : 'Approve once, skip paying on every delivery.'}
+                                : sub.autopayDeclined
+                                  ? 'Off — you pay on delivery for each box. Switch any time.'
+                                  : 'Approve once (UPI Autopay, card or bank) and skip paying on every delivery. Until then each box is pay-on-delivery.'}
                         </p>
                       </div>
                       {sub.autopayStatus === 'active' ? (
@@ -191,6 +206,32 @@ export default function SubscriptionsView() {
                         </button>
                       )}
                     </div>
+                    {sub.autopayStatus !== 'active' && sub.autopayStatus !== 'initialized' && (
+                      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-pt text-caption text-fg-subtle">
+                        {sub.autopayDeclined ? (
+                          <button
+                            type="button"
+                            disabled={busy === sub.id}
+                            onClick={() => run(sub.id, () => declineAutopay(sub.id, true))}
+                            className="cursor-pointer underline underline-offset-2 hover:text-fg disabled:opacity-50"
+                          >
+                            Remind me about auto-pay again
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            disabled={busy === sub.id}
+                            onClick={() => run(sub.id, () => declineAutopay(sub.id))}
+                            className="cursor-pointer underline underline-offset-2 hover:text-fg disabled:opacity-50"
+                          >
+                            No thanks — I’ll pay on delivery
+                          </button>
+                        )}
+                        <Link href="/queries" className="underline underline-offset-2 hover:text-fg">
+                          Need help? Raise a ticket
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 )}
 

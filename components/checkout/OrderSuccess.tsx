@@ -255,6 +255,32 @@ export default function OrderSuccess() {
           </>
         )}
 
+        {/* Subscribe orders: offer auto-pay right here, while the card is out.
+            The subscription exists only once payment settled, so this shows
+            exactly when there is a plan to set it up on. */}
+        {order?.subscriptionId && order.paymentStatus !== 'pending' && (
+          <div className="mt-5 border-2 border-accent p-6">
+            <p className="font-quantico text-[10px] font-bold uppercase tracking-[0.18em] text-fg-subtle">
+              Your Subscription
+            </p>
+            <p className="mt-2.5 font-condensed text-xl font-black uppercase italic tracking-tight text-fg">
+              Skip paying on every delivery
+            </p>
+            <p className="mt-2 font-pt text-body-sm leading-relaxed text-fg-muted">
+              Your plan is live. Right now each future box is pay-on-delivery. Approve auto-pay once
+              (UPI Autopay, card or bank) and every box after this is charged automatically — pause
+              or cancel any time. Prefer cash at the door? Just leave it off.
+            </p>
+            <Link
+              href="/account/subscriptions"
+              className="mt-5 inline-flex cursor-pointer items-center gap-2 bg-accent px-6 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-accent-hover"
+            >
+              Set Up Auto-Pay
+              {IconArrow}
+            </Link>
+          </div>
+        )}
+
         {/* Actions */}
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link

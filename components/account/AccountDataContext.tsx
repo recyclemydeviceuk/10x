@@ -64,6 +64,8 @@ type AccountDataValue = {
   enableAutopay: (id: string) => Promise<ActionResult>;
   /** Ask the server to re-check the mandate with Cashfree. */
   refreshAutopay: (id: string) => Promise<ActionResult>;
+  /** "I'll pay on delivery" — stops the auto-pay reminders (undo re-enables them). */
+  declineAutopay: (id: string, undo?: boolean) => Promise<ActionResult>;
   /** Pull orders and subscriptions again — used after checkout. */
   refresh: () => Promise<void>;
 };
@@ -127,7 +129,7 @@ type ApiSubscription = {
   startedAt: string;
   address: { fullName?: string; line1: string; line2: string; landmark?: string; city: string; state: string; pincode: string; phone: string };
   savingsPerCycle: number;
-  autopay?: { status: string; authorizedAt: string | null };
+  autopay?: { status: string; authorizedAt: string | null; declined?: boolean };
 };
 
 /* --------------------------------------------------------------- mapping */
@@ -224,6 +226,7 @@ function toSubscription(s: ApiSubscription): Subscription {
     },
     savingsPerCycle: s.savingsPerCycle,
     autopayStatus: (s.autopay?.status ?? '') as Subscription['autopayStatus'],
+    autopayDeclined: Boolean(s.autopay?.declined),
   };
 }
 
@@ -381,6 +384,17 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
     return { ok: true };
   }, []);
 
+  const declineAutopay = useCallback(async (reference: string, undo = false): Promise<ActionResult> => {
+    const result = await api<{ subscription: ApiSubscription }>(
+      `/api/v1/me/subscriptions/${encodeURIComponent(reference)}/autopay/decline`,
+      { method: 'POST', body: { undo } },
+    );
+    if (!result.ok) return { ok: false, message: firstMessage(result) };
+    const updated = toSubscription(result.data.subscription);
+    setSubscriptions((current) => current.map((s) => (s.id === updated.id ? updated : s)));
+    return { ok: true };
+  }, []);
+
   const enableAutopay = useCallback(
     async (reference: string): Promise<ActionResult> => {
       const setup = await api<{
@@ -422,12 +436,13 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
       restartSubscription,
       enableAutopay,
       refreshAutopay,
+      declineAutopay,
       refresh: load,
     }),
     [
       addresses, orders, subscriptions, loading, error, addAddress, updateAddress, removeAddress,
       makeDefaultAddress, cancelOrder, cancelSubscription, pauseSubscription, restartSubscription,
-      enableAutopay, refreshAutopay, load,
+      enableAutopay, refreshAutopay, declineAutopay, load,
     ],
   );
 
