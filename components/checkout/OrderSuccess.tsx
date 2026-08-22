@@ -179,7 +179,7 @@ export default function OrderSuccess() {
               ? 'Your order is placed. Payment is collected on delivery.'
               : order?.paymentStatus === 'pending'
                 ? 'Your order is saved. We’re still confirming the payment with the bank — this page updates on its own, and we’ll email you either way.'
-                : 'Payment received. Your order is registered for express dispatch.'}
+                : 'Payment received. We’ll email you the moment it ships.'}
           </p>
         </div>
 

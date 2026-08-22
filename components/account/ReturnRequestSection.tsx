@@ -46,7 +46,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const STATUS_COPY: Record<string, string> = {
-  requested: 'We’ve received your request and will review it within 24 hours.',
+  requested: 'We’ve received your request. It’s usually approved within a day, and a courier pickup is booked for you.',
   approved: 'Approved — our courier partner will pick the parcel up from your delivery address. Keep it packed.',
   received: 'Your parcel has reached our warehouse. The refund is being processed.',
   refunded: 'Refunded. Money returns to your original payment method within 5–7 working days.',
@@ -167,7 +167,7 @@ export default function ReturnRequestSection({
       {!open ? (
         <div className="mt-4">
           <p className="font-pt text-body-sm text-fg-muted">
-            Something wrong with this order? Request a return — we review within 24 hours, arrange a doorstep
+            Something wrong with this order? Request a return — it’s usually approved within a day; we arrange a doorstep
             pickup, and refund {inr(orderTotal)}{' '}
             {paymentMethod === 'online' ? 'to your original payment method' : 'once the parcel reaches us'}.
           </p>

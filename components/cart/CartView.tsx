@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { useAuth } from '@/components/account/AuthContext';
 import AuthModal from '@/components/account/AuthModal';
+import { cadenceLabel } from '@/lib/catalog';
 import { inr } from '@/lib/store/types';
 
 import CouponField from './CouponField';
@@ -153,7 +154,7 @@ export default function CartView() {
                     <p className="mt-1 font-pt text-body-sm text-fg-muted">{line.packets}</p>
                     {line.isSubscription && (
                       <span className="mt-3 inline-block bg-accent px-2.5 py-1 font-quantico text-[10px] font-bold uppercase tracking-[0.12em] text-ink">
-                        Every 4 weeks
+                        {cadenceLabel(settings.subscriptionIntervalDays)}
                       </span>
                     )}
                   </div>
@@ -260,7 +261,7 @@ export default function CartView() {
               <div className="mt-6">
                 <p className="font-pt text-body-sm text-fg-muted">
                   <span className="font-bold text-fg">{inr(freeShippingGap)}</span> away
-                  from free express delivery
+                  from free delivery
                 </p>
                 <div
                   className="mt-2.5 h-1 w-full bg-paper-200"

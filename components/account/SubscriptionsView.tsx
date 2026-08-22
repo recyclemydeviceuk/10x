@@ -36,6 +36,7 @@ export default function SubscriptionsView() {
     loading,
     cancelSubscription,
     pauseSubscription,
+    skipSubscription,
     restartSubscription,
     enableAutopay,
     refreshAutopay,
@@ -253,6 +254,14 @@ export default function SubscriptionsView() {
                   {active ? (
                     confirmCancel !== sub.id && (
                       <div className="flex flex-wrap gap-3">
+                        <button
+                          type="button"
+                          disabled={busy === sub.id}
+                          onClick={() => run(sub.id, () => skipSubscription(sub.id))}
+                          className="cursor-pointer border-2 border-paper-200 px-6 py-3.5 font-quantico text-caption font-bold uppercase tracking-[0.12em] text-fg transition-colors hover:border-accent disabled:opacity-50"
+                        >
+                          {busy === sub.id ? 'Working…' : 'Skip next box'}
+                        </button>
                         <button
                           type="button"
                           disabled={busy === sub.id}

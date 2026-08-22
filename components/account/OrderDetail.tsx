@@ -270,7 +270,7 @@ export default function OrderDetail({ orderId }: { orderId: string }) {
                 order.shipping === 0 ? 'text-accent-pressed dark:text-accent' : 'text-fg'
               }`}
             >
-              {order.shipping === 0 ? 'Free Express' : inr(order.shipping)}
+              {order.shipping === 0 ? 'Free' : inr(order.shipping)}
             </dd>
           </div>
           <div className="flex items-baseline justify-between border-t border-paper-200 pt-3">

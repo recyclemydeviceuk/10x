@@ -60,6 +60,8 @@ type AccountDataValue = {
   cancelSubscription: (id: string) => Promise<ActionResult>;
   /** Pause a plan without ending it. */
   pauseSubscription: (id: string) => Promise<ActionResult>;
+  /** Move the next delivery one cycle out; the plan stays active. */
+  skipSubscription: (id: string) => Promise<ActionResult>;
   /** Start a stopped plan again, with the next box on the way. */
   restartSubscription: (id: string) => Promise<ActionResult>;
   /** Set up auto-pay: opens Cashfree's mandate window, then re-syncs. */
@@ -390,7 +392,7 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
   /* -------------------------------------------------------- subscriptions */
 
   const act = useCallback(
-    async (reference: string, action: 'pause' | 'resume' | 'restart' | 'cancel'): Promise<ActionResult> => {
+    async (reference: string, action: 'skip' | 'pause' | 'resume' | 'restart' | 'cancel'): Promise<ActionResult> => {
       const result = await api<{ subscription: ApiSubscription }>(
         `/api/v1/me/subscriptions/${encodeURIComponent(reference)}/action`,
         { method: 'POST', body: { action } },
@@ -407,6 +409,7 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
 
   const cancelSubscription = useCallback((id: string) => act(id, 'cancel'), [act]);
   const pauseSubscription = useCallback((id: string) => act(id, 'pause'), [act]);
+  const skipSubscription = useCallback((id: string) => act(id, 'skip'), [act]);
   const restartSubscription = useCallback((id: string) => act(id, 'restart'), [act]);
 
   const refreshAutopay = useCallback(async (reference: string): Promise<ActionResult> => {
@@ -480,6 +483,7 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
       cancelOrder,
       cancelSubscription,
       pauseSubscription,
+      skipSubscription,
       restartSubscription,
       enableAutopay,
       refreshAutopay,
@@ -489,7 +493,7 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
     }),
     [
       addresses, orders, subscriptions, loading, error, addAddress, updateAddress, removeAddress,
-      makeDefaultAddress, cancelOrder, cancelSubscription, pauseSubscription, restartSubscription,
+      makeDefaultAddress, cancelOrder, cancelSubscription, pauseSubscription, skipSubscription, restartSubscription,
       enableAutopay, refreshAutopay, declineAutopay, disableAutopay, load,
     ],
   );

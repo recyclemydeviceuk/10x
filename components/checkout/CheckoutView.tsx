@@ -11,6 +11,7 @@ import { useTheme } from '@/components/ThemeProvider';
 import { useCart } from '@/components/cart/CartContext';
 import { IconArrow } from '@/components/ui/Field';
 import { placeOrder } from '@/lib/checkout/place-order';
+import { cadenceLabel } from '@/lib/catalog';
 import { inr, type PaymentMethod } from '@/lib/store/types';
 
 import AddressPicker from './AddressPicker';
@@ -182,7 +183,7 @@ export default function CheckoutView() {
                   </p>
                   <p className="mt-0.5 font-pt text-caption text-fg-muted">
                     {line.packets}
-                    {isSubscription ? ' · every 4 weeks' : ` · qty ${line.quantity}`}
+                    {isSubscription ? ` · ${cadenceLabel(settings.subscriptionIntervalDays).toLowerCase()}` : ` · qty ${line.quantity}`}
                   </p>
                 </div>
                 <p className="shrink-0 font-quantico text-body-sm font-bold text-fg">
