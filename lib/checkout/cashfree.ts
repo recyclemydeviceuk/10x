@@ -117,10 +117,10 @@ export async function payWithCashfree(
 export async function subscribeWithCashfree(
   subscriptionSessionId: string,
   mode: CashfreeMode,
-): Promise<{ ok: boolean; message?: string }> {
+): Promise<{ ok: boolean; message?: string; setupIssue?: string }> {
   const ready = await loadCashfree();
   if (!ready || !window.Cashfree) {
-    return { ok: false, message: 'We couldn’t open the authorisation window. Check your connection and try again.' };
+    return { ok: false, message: 'We couldn’t open the approval window. Check your connection and try again.' };
   }
 
   const result = await window.Cashfree({ mode }).subscriptionsCheckout({
@@ -130,7 +130,14 @@ export async function subscribeWithCashfree(
 
   if (result?.error) {
     const raw = result.error.message ?? '';
-    return { ok: false, message: raw || 'Auto-pay wasn’t set up. You can try again anytime.' };
+    if (/not enabled or approved|whitelist/i.test(raw)) {
+      return {
+        ok: false,
+        message: 'Online payment isn’t available from this address yet. Nothing has been charged — use cash on delivery, or try again shortly.',
+        setupIssue: raw,
+      };
+    }
+    return { ok: false, message: raw || 'The approval didn’t go through. Nothing has been charged — you can try again.' };
   }
   return { ok: true };
 }

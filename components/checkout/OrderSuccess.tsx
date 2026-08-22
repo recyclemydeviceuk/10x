@@ -263,18 +263,18 @@ export default function OrderSuccess() {
               Your Subscription
             </p>
             <p className="mt-2.5 font-condensed text-xl font-black uppercase italic tracking-tight text-fg">
-              Skip paying on every delivery
+              {order.autopay ? 'Auto-pay is on' : 'Your plan is live'}
             </p>
             <p className="mt-2 font-pt text-body-sm leading-relaxed text-fg-muted">
-              Your plan is live. Right now each future box is pay-on-delivery. Approve auto-pay once
-              (UPI Autopay, card or bank) and every box after this is charged automatically — pause
-              or cancel any time. Prefer cash at the door? Just leave it off.
+              {order.autopay
+                ? 'The approval you just gave covers every box after this — nothing to do at the door. Pause, switch auto-pay off, or cancel any time from your account.'
+                : 'Each box ships pay-on-delivery for now. Turn on auto-pay from your account to have every box paid automatically.'}
             </p>
             <Link
               href="/account/subscriptions"
               className="mt-5 inline-flex cursor-pointer items-center gap-2 bg-accent px-6 py-3.5 font-quantico text-body-sm font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-accent-hover"
             >
-              Set Up Auto-Pay
+              Manage Subscription
               {IconArrow}
             </Link>
           </div>

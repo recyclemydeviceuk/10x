@@ -68,6 +68,8 @@ type AccountDataValue = {
   refreshAutopay: (id: string) => Promise<ActionResult>;
   /** "I'll pay on delivery" — stops the auto-pay reminders (undo re-enables them). */
   declineAutopay: (id: string, undo?: boolean) => Promise<ActionResult>;
+  /** Switch auto-pay off: cancels the mandate; later boxes are pay-on-delivery. */
+  disableAutopay: (id: string) => Promise<ActionResult>;
   /** Pull orders and subscriptions again — used after checkout. */
   refresh: () => Promise<void>;
 };
@@ -114,6 +116,7 @@ type ApiOrder = {
   invoiceNo: string;
   estimatedDelivery: string | null;
   subscriptionId: string | null;
+  autopay?: boolean;
   placedAt: string;
 };
 
@@ -187,6 +190,7 @@ function toOrder(o: ApiOrder): Order {
     courierStatus: o.courierStatus || undefined,
     estimatedDelivery: o.estimatedDelivery ?? undefined,
     subscriptionId: o.subscriptionId ?? undefined,
+    autopay: Boolean(o.autopay),
   };
 }
 
@@ -427,6 +431,17 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
     return { ok: true };
   }, []);
 
+  const disableAutopay = useCallback(async (reference: string): Promise<ActionResult> => {
+    const result = await api<{ subscription: ApiSubscription }>(
+      `/api/v1/me/subscriptions/${encodeURIComponent(reference)}/autopay/disable`,
+      { method: 'POST' },
+    );
+    if (!result.ok) return { ok: false, message: firstMessage(result) };
+    const updated = toSubscription(result.data.subscription);
+    setSubscriptions((current) => current.map((s) => (s.id === updated.id ? updated : s)));
+    return { ok: true };
+  }, []);
+
   const enableAutopay = useCallback(
     async (reference: string): Promise<ActionResult> => {
       const setup = await api<{
@@ -469,12 +484,13 @@ export function AccountDataProvider({ children }: { children: ReactNode }) {
       enableAutopay,
       refreshAutopay,
       declineAutopay,
+      disableAutopay,
       refresh: load,
     }),
     [
       addresses, orders, subscriptions, loading, error, addAddress, updateAddress, removeAddress,
       makeDefaultAddress, cancelOrder, cancelSubscription, pauseSubscription, restartSubscription,
-      enableAutopay, refreshAutopay, declineAutopay, load,
+      enableAutopay, refreshAutopay, declineAutopay, disableAutopay, load,
     ],
   );
 

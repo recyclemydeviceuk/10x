@@ -3,7 +3,7 @@
 import { api, firstMessage } from '@/lib/api/storefront';
 import type { Address, CartLine, PaymentMethod } from '@/lib/store/types';
 
-import { payWithCashfree, type CashfreeMode } from './cashfree';
+import { payWithCashfree, subscribeWithCashfree, type CashfreeMode } from './cashfree';
 
 /**
  * Placing an order.
@@ -64,7 +64,7 @@ export async function placeOrder(input: {
 
   const created = await api<{
     order: PlacedOrder;
-    payment?: { gateway: string; environment: CashfreeMode; paymentSessionId: string };
+    payment?: { gateway: string; environment: CashfreeMode; paymentSessionId?: string; subscriptionSessionId?: string };
   }>('/api/v1/checkout', {
     method: 'POST',
     body: {
@@ -87,11 +87,15 @@ export async function placeOrder(input: {
   const { order, payment } = created.data;
 
   // Cash on delivery is confirmed the moment it's placed.
-  if (paymentMethod === 'cod' || !payment?.paymentSessionId) {
+  if (paymentMethod === 'cod' || !(payment?.paymentSessionId || payment?.subscriptionSessionId)) {
     return { ok: true, order, paid: false };
   }
 
-  const paid = await payWithCashfree(payment.paymentSessionId, payment.environment);
+  // A subscribe pack opens the auto-pay approval instead of a plain payment:
+  // one approval charges this box AND sets up every box after it.
+  const paid = payment.subscriptionSessionId
+    ? await subscribeWithCashfree(payment.subscriptionSessionId, payment.environment)
+    : await payWithCashfree(payment.paymentSessionId!, payment.environment);
   if (!paid.ok) {
     // Surface gateway setup problems in the console for whoever is running
     // the store — the customer only sees the plain message.

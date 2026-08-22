@@ -40,6 +40,7 @@ export default function SubscriptionsView() {
     enableAutopay,
     refreshAutopay,
     declineAutopay,
+    disableAutopay,
   } = useAccountData();
   const [confirmCancel, setConfirmCancel] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -168,20 +169,32 @@ export default function SubscriptionsView() {
                         </p>
                         <p className="mt-2 font-pt text-body-sm text-fg-muted">
                           {sub.autopayStatus === 'active'
-                            ? 'On — each box is charged automatically.'
+                            ? 'On — each box is paid automatically. Switch it off any time.'
                             : sub.autopayStatus === 'initialized'
                               ? 'Waiting for your bank to confirm.'
                               : sub.autopayStatus === 'failed'
-                                ? 'The last set-up attempt didn’t go through.'
-                                : sub.autopayDeclined
-                                  ? 'Off — you pay on delivery for each box. Switch any time.'
-                                  : 'Approve once (UPI Autopay, card or bank) and skip paying on every delivery. Until then each box is pay-on-delivery.'}
+                                ? 'The last approval didn’t go through.'
+                                : 'Off — you pay for each box on delivery. Turn it on and approve once (UPI Autopay, card or bank).'}
                         </p>
                       </div>
                       {sub.autopayStatus === 'active' ? (
-                        <span className="shrink-0 bg-accent px-3 py-1 font-quantico text-[10px] font-bold uppercase tracking-[0.12em] text-ink">
-                          On
-                        </span>
+                        <div className="flex shrink-0 items-center gap-3">
+                          <span className="bg-accent px-3 py-1 font-quantico text-[10px] font-bold uppercase tracking-[0.12em] text-ink">
+                            On
+                          </span>
+                          <button
+                            type="button"
+                            disabled={busy === sub.id}
+                            onClick={() => {
+                              if (window.confirm('Turn off auto-pay? Future boxes will be pay-on-delivery. You can turn it back on any time.')) {
+                                void run(sub.id, () => disableAutopay(sub.id));
+                              }
+                            }}
+                            className="cursor-pointer border-2 border-paper-200 px-4 py-2 font-quantico text-caption font-bold uppercase tracking-[0.12em] text-fg transition-colors hover:border-danger hover:text-danger disabled:opacity-50"
+                          >
+                            {busy === sub.id ? 'Turning off…' : 'Turn off'}
+                          </button>
+                        </div>
                       ) : sub.autopayStatus === 'initialized' ? (
                         <button
                           type="button"
@@ -202,7 +215,7 @@ export default function SubscriptionsView() {
                             ? 'Opening…'
                             : sub.autopayStatus === 'failed'
                               ? 'Try again'
-                              : 'Enable auto-pay'}
+                              : 'Turn on auto-pay'}
                         </button>
                       )}
                     </div>

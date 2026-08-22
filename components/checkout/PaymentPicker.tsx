@@ -46,8 +46,9 @@ export default function PaymentPicker({
         <div className="border-t border-accent/30 px-5 pb-5 pt-4">
           <PaymentLogos />
           <p className="mt-3 font-pt text-caption text-fg-subtle">
-            You&rsquo;ll pick your exact method on the secure Cashfree window
-            after placing the order.
+            {isSubscription
+              ? 'You’ll approve auto-pay once on the secure Cashfree window — UPI Autopay, card or bank. That approval pays for this box and every box after it.'
+              : 'You’ll pick your exact method on the secure Cashfree window after placing the order.'}
           </p>
         </div>
       </Option>
@@ -61,7 +62,7 @@ export default function PaymentPicker({
           </svg>
           <span>
             {isSubscription
-              ? 'Subscriptions are online-only. We set up a secure mandate so each cycle is charged automatically — cash on delivery can’t do that.'
+              ? 'Subscriptions pay online so auto-pay is on from the first box — nothing to do at the door. You can switch it off any time from your account.'
               : 'Cash on delivery is paused right now. Paying online is the only option for this order.'}
           </span>
         </p>
